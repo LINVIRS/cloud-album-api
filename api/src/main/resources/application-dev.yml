@@ -1,0 +1,18 @@
+#项目服务器配置
+
+spring:
+    datasource:
+        druid:
+            url: jdbc:mysql://121.5.235.153:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+            username: root
+            password: 1qaz!QAZ
+    redis:
+        host: 121.5.235.153
+        password: ssy123456
+        jedis:
+          pool:
+            min-idle: 0
+            max-idle: 20
+#            max-wait: 5000
+            max-active: 100
+        port: 6379
