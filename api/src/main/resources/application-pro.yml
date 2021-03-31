@@ -3,11 +3,11 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://121.5.235.153:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+      url: jdbc:mysql://localhost:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
       username: root
       password: 1qaz!QAZ
   redis:
-    host: 121.5.235.153
+    host: localhost
     password: ssy123456
     jedis:
       pool:
