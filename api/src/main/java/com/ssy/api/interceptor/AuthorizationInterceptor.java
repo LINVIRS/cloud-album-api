@@ -5,7 +5,6 @@ import com.ssy.api.annotation.Authorization;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.exception.AccessDeniedException;
 import com.ssy.api.exception.TokenExpireException;
-import com.ssy.api.vo.UserTokenVO;
 import com.ssy.api.redis.TokenRedisDao;
 import com.ssy.api.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +55,10 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         //从Redis读取token
-        UserTokenVO userToken = new UserTokenVO().fromMap(map);
-        if (!tokenRedisDao.checkToken(ParameterConstant.WX_TOKEN_PREFIX,userToken.getId(), authorization)){
-            throw new TokenExpireException();
-        }
+//        UserTokenVO userToken = new UserTokenVO().fromMap(map);
+//        if (!tokenRedisDao.checkToken(ParameterConstant.WX_TOKEN_PREFIX,userToken.getId(), authorization)){
+//            throw new TokenExpireException();
+//        }
 
         return true;
     }

@@ -1,4 +1,3 @@
-com\ssy\api\vo\UserTokenVO.class
 com\ssy\api\exception\UserAccountExistException.class
 com\ssy\api\redis\RedisConfig.class
 com\ssy\api\redis\TokenRedisDao.class

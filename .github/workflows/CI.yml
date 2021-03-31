@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+name: could-album-api-CI
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ test ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Build
+        run: |
+          # 打包项目
+          mvn -B package --file pom.xml
+          # 登录阿里云仓库地址
+          sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com
+          # 以github运行编号为名构建镜像DDD
+          docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+          # 以github运行编号为名推送到仓库上
+          docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+          # 标记本地镜像，归入阿里云的私有仓库
+          docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
+          # push一版最新的
+          docker push ${{ secrets.REGISTRY }}:latest
+          echo "脚本运行成功"
+          # 设置环境变量，这里是CI为true，脚本自动运行
+        env:
+          CI: true
+
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        # 定义执行该uses脚本需要的参数以及运行命令
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER_NAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            # 检索该仓库的docker容器，停止然后删除容器删除镜像，再下拉镜像再打包
+            docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
+            docker rm -f $(docker ps -a --filter ancestor=${{ secrets.REGISTRY }}:latest -q)
+            docker rmi -f $(docker images  ${{ secrets.REGISTRY }}:latest -q)
+            sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com
+            docker pull ${{ secrets.REGISTRY }}:latest
+            docker run -d -p 8081:8081 ${{ secrets.REGISTRY }}:latest

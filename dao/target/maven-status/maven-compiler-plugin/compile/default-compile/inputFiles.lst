@@ -3,7 +3,7 @@ F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\exceptio
 F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\redis\RedisService.java
 F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\redis\RedisServiceImpl.java
 F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\redis\RedisConfig.java
-F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\vo\UserTokenVO.java
+F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\service\BaseService.java
 F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\exception\AccessDeniedException.java
 F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\exception\UserPasswordNotMatchException.java
 F:\cloud-album\cloud-album-api\client_api\dao\src\main\java\com\ssy\api\exception\ApiExceptionHandler.java
