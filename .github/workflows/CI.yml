@@ -16,6 +16,7 @@ jobs:
           # 打包项目
           mvn -B package --file pom.xml
           # 登录阿里云仓库地址
+
           sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com/cloud-album/cloud-album
           echo "111111111111111111111111"
           # 以github运行编号为名构建镜像DDD
