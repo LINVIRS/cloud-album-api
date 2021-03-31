@@ -1,5 +1,4 @@
 #项目服务器配置
-
 spring:
     datasource:
         druid:
