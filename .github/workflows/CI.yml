@@ -48,6 +48,6 @@ jobs:
             docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
             docker rm -f $(docker ps -a --filter ancestor=${{ secrets.REGISTRY }}:latest -q)
             docker rmi -f $(docker images  ${{ secrets.REGISTRY }}:latest -q)
-            sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com
+            sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com/cloud-album/cloud-album
             docker pull ${{ secrets.REGISTRY }}:latest
             docker run -d -p 8081:8081 ${{ secrets.REGISTRY }}:latest
