@@ -54,8 +54,7 @@
   server:
       port: 8081
       servlet:
-        context-path: /thp-api
-
+        context-path: /album-api
   logging:
       config: classpath:log/logback-spring.xml
 
