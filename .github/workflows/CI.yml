@@ -26,11 +26,10 @@ jobs:
           docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
           echo "333333333333333333333333333333333"
           # 标记本地镜像，归入阿里云的私有仓库
-          docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
+          sudo docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
           echo "444444444444444444444444444444"
-       
           # push一版最新的
-          docker push ${{ secrets.REGISTRY }}:latest
+          sudo docker push ${{ secrets.REGISTRY }}:latest
           echo "脚本运行成功"
           # 设置环境变量，这里是CI为true，脚本自动运行
         env:
