@@ -16,6 +16,7 @@ jobs:
           # 打包项目
           mvn -B package --file pom.xml
           # 登录阿里云仓库地址
+
           sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com/cloud-album/cloud-album
           echo "111111111111111111111111"
           # 以github运行编号为名构建镜像DDD
@@ -27,6 +28,7 @@ jobs:
           # 标记本地镜像，归入阿里云的私有仓库
           docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
           echo "444444444444444444444444444444"
+       
           # push一版最新的
           docker push ${{ secrets.REGISTRY }}:latest
           echo "脚本运行成功"
