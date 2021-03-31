@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@master
       - name: Build
         run: |
-          # 打包项目
+#           打包项目
           mvn -B package --file pom.xml
           # 登录阿里云仓库地址
 
