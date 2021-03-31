@@ -9,6 +9,7 @@ com\ssy\api\exception\UserPasswordNotMatchException.class
 com\ssy\api\redis\JWTRedisDAO.class
 com\ssy\api\redis\RedisServiceImpl.class
 com\ssy\api\exception\AccessDeniedException.class
+com\ssy\api\service\BaseService.class
 com\ssy\api\exception\IncompleteParamException.class
 com\ssy\api\handler\GlobalResponseHandler.class
 com\ssy\api\enums\CommonConstant.class
