@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@master
       - name: Build
         run: |
-#           打包项目
+          # 打包项目
           mvn -B package --file pom.xml
           # 登录阿里云仓库地址
 
@@ -21,7 +21,7 @@ jobs:
           # 以github运行编号为名构建镜像DDD
           docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
           # 以github运行编号为名推送到仓库上
-#          docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
+          # docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
           # 标记本地镜像，归入阿里云的私有仓库
           sudo docker tag $(docker images ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER -q) ${{ secrets.REGISTRY }}:latest
           # push一版最新的
