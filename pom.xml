@@ -42,7 +42,9 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-             <profiles>
+
+
+    <profiles>
         <!-- 测试环境 -->
         <profile>
             <id>test</id>
