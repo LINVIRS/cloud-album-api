@@ -43,6 +43,7 @@
         </dependency>
     </dependencies>
 
+
     <profiles>
         <!-- 测试环境 -->
         <profile>
@@ -75,6 +76,7 @@
             </properties>
         </profile>
     </profiles>
+
 
     <build>
         <plugins>
