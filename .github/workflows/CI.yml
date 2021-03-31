@@ -36,10 +36,10 @@ jobs:
         uses: appleboy/ssh-action@master
         # 定义执行该uses脚本需要的参数以及运行命令
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.SSH_USER_NAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
+          host: ${{secrets.SSH_HOST}}
+          username: ${{secrets.SSH_USER_NAME}}
+          password: ${{secrets.SSH_USER_PWD}}
+          port: ${{secrets.SSH_PORT}}
           script: |
             # 检索该仓库的docker容器，停止然后删除容器删除镜像，再下拉镜像再打包
             docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
