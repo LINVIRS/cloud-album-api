@@ -17,11 +17,11 @@ jobs:
           mvn -B package --file pom.xml
           # 登录阿里云仓库地址
 
-          sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com/cloud-album/cloud-album
+          sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com
           echo "111111111111111111111111"
           # 以github运行编号为名构建镜像DDD
           docker build . -t ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
-          echo "22222222222222222222222222"
+          echo "22222222ddd222222222222222222"
           # 以github运行编号为名推送到仓库上
           docker push ${{ secrets.REGISTRY }}:$GITHUB_RUN_NUMBER
           echo "333333333333333333333333333333333"
@@ -49,6 +49,6 @@ jobs:
             docker stop $(docker ps --filter ancestor=${{ secrets.REGISTRY }} -q)
             docker rm -f $(docker ps -a --filter ancestor=${{ secrets.REGISTRY }}:latest -q)
             docker rmi -f $(docker images  ${{ secrets.REGISTRY }}:latest -q)
-            sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com/cloud-album/cloud-album
+            sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} ccr.ccs.tencentyun.com
             docker pull ${{ secrets.REGISTRY }}:latest
             docker run -d -p 8081:8081 ${{ secrets.REGISTRY }}:latest
