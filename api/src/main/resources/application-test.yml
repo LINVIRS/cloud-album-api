@@ -3,7 +3,9 @@
 spring:
   datasource:
     druid:
+
       url: jdbc:mysql://localhost:3306/line?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false
+
       username:
       password:
   redis:

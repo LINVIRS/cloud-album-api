@@ -28,7 +28,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @ControllerAdvice(basePackages = "com.ssy.api.controller")
  */
 
-@ControllerAdvice(basePackages = "com.ssy.api.controller")
+@ControllerAdvice(basePackages = "com.ssy.api.contrller")
 @RestControllerAdvice(annotations = RestController.class)
 public class GlobalResponseHandler implements ResponseBodyAdvice {
 
