@@ -22,7 +22,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <skipTests>true</skipTests>
+
         <druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>
+
         <jackson-core.version>2.2.2</jackson-core.version>
         <jackson-databind.version>2.2.2</jackson-databind.version>
         <jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version>
@@ -38,7 +40,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+           <version>${mysql.version}</version>
         </dependency>
         <!--引入JPA的依赖关系-->
         <dependency>
