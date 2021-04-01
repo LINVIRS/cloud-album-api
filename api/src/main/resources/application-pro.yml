@@ -5,7 +5,7 @@ spring:
     druid:
       url: jdbc:mysql://127.0.0.1:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false
       username: root
-      password: 1qaz!QAZ
+      password: ssy123456
   redis:
     host: localhost
     password: ssy123456
