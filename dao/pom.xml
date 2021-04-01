@@ -39,7 +39,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+           <version>${mysql.version}</version>
         </dependency>
         <!--引入JPA的依赖关系-->
         <dependency>
