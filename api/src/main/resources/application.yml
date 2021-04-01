@@ -18,7 +18,7 @@
 
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
-        driverClassName: com.mysql.jdbc.Driver
+        driverClassName: com.mysql.cj.jdbc.Driver
         druid:
             initial-size: 10
             max-active: 100
@@ -30,7 +30,7 @@
             min-evictable-idle-time-millis: 300000
             validation-query: SELECT 1 FROM DUAL
             test-while-idle: true
-            test-on-borrow: true
+            test-on-borrow: false
             test-on-return: false
             stat-view-servlet:
                 enabled: true
