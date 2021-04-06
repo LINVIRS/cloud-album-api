@@ -25,7 +25,7 @@ public class CodeRedisDao {
     private final String USER_CODE_REDIS_PREFIX = "userCode:";
 
     public void saveUserCode(Integer type, String phone, String code) {
-        redisTemplate.opsForValue().set(getUserCodeKey(type, phone), code, 15, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(getUserCodeKey(type, phone), code, 5, TimeUnit.MINUTES);
     }
 
     public String getUserCode(Integer type, String phone) {

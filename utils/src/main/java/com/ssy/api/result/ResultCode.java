@@ -23,6 +23,7 @@ public enum ResultCode {
   USER_HAS_BEEN_DELETE(200008, "用户账户已被注销"),
   LOGIN_ELSEWHERE(200009, "账户已在别处登录"),
   USER_HAS_DELETED(200010, "用户已被删除"),
+  USER_REGISTER_SUCCESS(200011,"用户注册成功"),
 
   INVALID_PARAM(40002, "invalid param"),
   NULL_PARAM(40003, "null param"),
