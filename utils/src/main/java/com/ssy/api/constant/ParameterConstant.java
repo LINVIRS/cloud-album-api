@@ -5,9 +5,9 @@ package com.ssy.api.constant;
  */
 public class ParameterConstant {
 
-    public final static String AUTHORIZATION = "Authorization";
-    public static final String JWT_SECRET = "123thp123";
-    public static final String WX_TOKEN_PREFIX = "THP:api:";
+    public final static String AUTHORIZATION = "AUTHORIZATION";
+    public static final String JWT_SECRET = "ssyCloudAlbum";
+    public static final String WX_TOKEN_PREFIX = "cloud:album:api:";
 
     public final static String PARAMS = "params";
     public static final String BUCKET_URL_IMG = "";
@@ -30,6 +30,15 @@ public class ParameterConstant {
     public static final String SORT = "sort";
 
     // 用户
+
+    /**
+     * 注册用户
+     */
+    public static final Integer SMS_CODE_REGISTER_TYPE = 0;
+    /**
+     * 短信登录类型
+     */
+    public static final Integer SMS_CODE_USER_LOGIN_TYPE = 1;
     public final static String USER_ID = "userId";
     public static final String NAME = "name";
     public static final String NICK_NAME = "nickname";
@@ -38,6 +47,8 @@ public class ParameterConstant {
     public static final String PASSWORD = "password";
     public static final String SEX = "sex";
     public static final String AVATAR = "avatar";
+
+
 
     // 阿里大于短息平台
     public static final String VERIFICATION_CODE = "verificationCode";

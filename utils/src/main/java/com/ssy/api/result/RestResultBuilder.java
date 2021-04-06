@@ -63,4 +63,12 @@ public class RestResultBuilder<T> {
         return new RestResult<T>(resultCode.getCode(),resultCode.getMsg(),(T) new HashMap());
     }
 
+    /**
+     * 成功返回
+     * @param resultCode
+     * @return
+     */
+    public  RestResult<T> success(ResultCode resultCode){
+        return new RestResult<T>(resultCode.getCode(),resultCode.getMsg(),(T) new HashMap());
+    }
 }
