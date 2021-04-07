@@ -14,7 +14,6 @@ jobs:
       - name: Build
         run: |
           # 打包项目
-          mvn clean compile
           mvn -B package --file pom.xml
           # 登录阿里云仓库地址
           sudo  docker login --username=${{ secrets.USERNAME }} --password ${{ secrets.USERKEY }} registry.cn-hangzhou.aliyuncs.com
