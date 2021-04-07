@@ -47,20 +47,15 @@
         <dependency>
             <groupId>com.chinamobile.bcop</groupId>
             <artifactId>ecloud-java-sdk</artifactId>
-            <version>3.0.2-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../libs/ecloud-java-sdk-ai-3.0.2-jar-with-dependencies.jar
-            </systemPath>
-        </dependency>
+            <version>3.0.2</version>
 
+        </dependency>
         <dependency>
             <groupId>com.chinamobile.ecloud</groupId>
             <artifactId>ecloud-engine-sdk</artifactId>
             <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../libs/ecloud-engine-sdk-1.0.0-jar-with-dependencies.jar
-            </systemPath>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -69,9 +64,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <includeSystemScope>true</includeSystemScope>
-                </configuration>
+
             </plugin>
         </plugins>
 
