@@ -42,6 +42,7 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <!--外部sdk 引入-->
     </dependencies>
     <build>
         <finalName>cloud-album-api</finalName>

@@ -1,5 +1,6 @@
 package com.ssy.api.contrller;
 
+
 import com.ssy.api.SQLservice.entity.UserLike;
 import com.ssy.api.service.UserLikeService;
 import io.swagger.annotations.Api;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -36,4 +38,6 @@ public class TestController {
     System.out.println("执行成功");
     return userLikeService.findAll();
   }
+
+
 }
