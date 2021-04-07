@@ -18,10 +18,10 @@ import java.util.List;
 public class UserLikeEntityDaoImpl extends BaseService implements UserLikeEntityDao {
     @Override
     public List<UserLike> findAllUser() {
-        QUserLike qUserLike =QUserLike.userLike;
+        QUserLike qUserLike = QUserLike.userLike;
         JPAQuery<UserLike> userLikeJPAQuery = queryFactory.select(qUserLike).from(qUserLike);
         List<UserLike> fetch = userLikeJPAQuery.fetch();
-        return  fetch;
+        return fetch;
 
     }
 }
