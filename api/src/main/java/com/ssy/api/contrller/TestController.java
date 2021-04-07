@@ -3,7 +3,7 @@ package com.ssy.api.contrller;
 import com.chinamobile.cmss.sdk.response.bean.EngineClassify;
 import com.ssy.api.SQLservice.entity.UserLike;
 import com.ssy.api.service.UserLikeService;
-import com.ssy.api.utils.Base64ImageUtil;
+import com.ssy.api.util.Base64ImageUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +26,14 @@ public class TestController {
     @Resource
     private UserLikeService userLikeService;
 
+
+  @GetMapping("/test/sql")
+  public List<UserLike> testsql() {
+    System.out.println("执行成功");
+    return userLikeService.findAll();
+  }
+
+
     /**
      * 接口测试
      *
@@ -36,17 +44,11 @@ public class TestController {
         return "测试接口成功";
     }
 
-    @GetMapping("/test/sql")
-    public List<UserLike> testsql() {
-        System.out.println("执行成功");
-        return userLikeService.findAll();
-    }
-
     @GetMapping("/test/image")
     public List<EngineClassify> testAdmin() {
         String property = System.getProperty("user.dir");
         System.out.println("执行成功");
         return Base64ImageUtil.getImageClassify(
-                new File(property + "/api/src/main/resources/image/test.JPG"));
+                new File(property + "/classes/image/test.JPG"));
     }
 }

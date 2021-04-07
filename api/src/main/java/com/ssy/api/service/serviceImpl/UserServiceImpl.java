@@ -163,4 +163,9 @@ private CodeRedisDao codeRedisDao;
         }
         return new RestResultBuilder<>().success("账户可以使用");
     }
+
+    @Override
+    public UserVo findUserData(int userId) {
+      return  userRepository.findUserById(userId);
+    }
 }

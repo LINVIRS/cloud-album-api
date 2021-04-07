@@ -1,6 +1,7 @@
 package com.ssy.api.contrller;
 
 import com.ssy.api.SQLservice.dto.UserDto;
+import com.ssy.api.SQLservice.vo.UserVo;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.service.UserLikeService;
 import com.ssy.api.service.UserService;
@@ -49,7 +50,6 @@ public class UserContoller {
     @ApiOperation(value = "用户账户检查接口",httpMethod = "GET",notes = "用户账户检查接口")
     @GetMapping("/account/check")
     public RestResult userAccountCheck(@RequestParam String  account){
-
         return userService.UserAcountCheck(account);
     }
 
@@ -63,5 +63,17 @@ public class UserContoller {
     public RestResult userRegister( @RequestBody UserDto userDto){
         return userService.UseRegistered(userDto);
     }
+
+    /**
+     * 用户资料接口
+     * @param userId
+     * @return
+     */
+    @ApiOperation(value = "查找用户资料",httpMethod = "GET",notes = "查找用户资料")
+    @GetMapping("/user/{userId}")
+    public UserVo userRegister(@PathVariable int userId){
+        return userService.findUserData(userId);
+    }
+
 
 }
