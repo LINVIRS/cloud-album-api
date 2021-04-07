@@ -48,6 +48,9 @@ public class TestController {
     public List<EngineClassify> testAdmin() {
         String property = System.getProperty("user.dir");
         System.out.println("执行成功");
+        System.out.println("执行成功");
+        System.out.println("执行成功");
+
         return Base64ImageUtil.getImageClassify(
                 new File(property + "/classes/image/test.JPG"));
     }
