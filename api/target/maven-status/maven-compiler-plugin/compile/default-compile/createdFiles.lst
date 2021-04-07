@@ -4,10 +4,10 @@ com\ssy\api\config\WebMvcConfigurer.class
 com\ssy\api\aop\HttpAspect.class
 com\ssy\api\config\SwaggerProperties.class
 com\ssy\api\ApiApplication.class
-com\ssy\api\util\as.class
 com\ssy\api\service\UserService.class
 com\ssy\api\interceptor\AuthorizationInterceptor.class
 com\ssy\api\config\SwaggerConfiguration.class
+com\ssy\api\util\Base64ImageUtil.class
 com\ssy\api\util\CheckParamsUtil.class
 com\ssy\api\service\UserLikeService.class
 com\ssy\api\contrller\UserContoller.class

@@ -1,8 +1,9 @@
 package com.ssy.api.contrller;
 
-
+import com.chinamobile.cmss.sdk.response.bean.EngineClassify;
 import com.ssy.api.SQLservice.entity.UserLike;
 import com.ssy.api.service.UserLikeService;
+import com.ssy.api.util.Base64ImageUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,16 +23,9 @@ import java.util.List;
 @Slf4j
 @Api(tags = "用户 API 接口")
 public class TestController {
-  @Resource private UserLikeService userLikeService;
-  /**
-   * 接口测试
-   *
-   * @return
-   */
-  @GetMapping("/test")
-  public String test() {
-    return "测试接口成功";
-  }
+    @Resource
+    private UserLikeService userLikeService;
+
 
   @GetMapping("/test/sql")
   public List<UserLike> testsql() {
@@ -40,4 +34,21 @@ public class TestController {
   }
 
 
+    /**
+     * 接口测试
+     *
+     * @return
+     */
+    @GetMapping("/test")
+    public String test() {
+        return "测试接口成功";
+    }
+
+    @GetMapping("/test/image")
+    public List<EngineClassify> testAdmin() {
+        String property = System.getProperty("user.dir");
+        System.out.println("执行成功");
+        return Base64ImageUtil.getImageClassify(
+                new File(property + "/classes/image/test.JPG"));
+    }
 }
