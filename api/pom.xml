@@ -61,6 +61,7 @@
             <systemPath>${project.basedir}/../libs/ecloud-engine-sdk-1.0.0-jar-with-dependencies.jar
             </systemPath>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -69,19 +70,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <includeSystemScope>true</includeSystemScope>
-                </configuration>
+
             </plugin>
         </plugins>
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <directory>${project.basedir}/../libs</directory>-->
-<!--                <targetPath>BOOT-INF/lib/</targetPath>-->
-<!--                <includes>-->
-<!--                    <include>**/*.jar</include>-->
-<!--                </includes>-->
-<!--            </resource>-->
-<!--        </resources>-->
+
     </build>
 </project>
