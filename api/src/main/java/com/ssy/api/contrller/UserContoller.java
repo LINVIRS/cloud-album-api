@@ -69,11 +69,11 @@ public class UserContoller {
      * @param userId
      * @return
      */
-    @ApiOperation(value = "查找用户资料",httpMethod = "GET",notes = "查找用户资料")
-    @GetMapping("/user/{userId}")
-    public UserVo userRegister(@PathVariable int userId){
-        return userService.findUserData(userId);
-    }
+//    @ApiOperation(value = "查找用户资料",httpMethod = "GET",notes = "查找用户资料")
+//    @GetMapping("/user/{userId}")
+//    public UserVo userRegister(@PathVariable int userId){
+//        return userService.findUserData(userId);
+//    }
 
 
 }
