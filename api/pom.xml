@@ -49,7 +49,7 @@
             <artifactId>ecloud-java-sdk</artifactId>
             <version>3.0.2-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/ecloud-java-sdk-ai-3.0.2-jar-with-dependencies.jar
+            <systemPath>${project.basedir}/../libs/ecloud-java-sdk-ai-3.0.2-jar-with-dependencies.jar
             </systemPath>
         </dependency>
 
@@ -58,7 +58,7 @@
             <artifactId>ecloud-engine-sdk</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/ecloud-engine-sdk-1.0.0-jar-with-dependencies.jar
+            <systemPath>${project.basedir}/../libs/ecloud-engine-sdk-1.0.0-jar-with-dependencies.jar
             </systemPath>
         </dependency>
     </dependencies>
@@ -71,18 +71,17 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
-
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources/lib</directory>
-                <targetPath>BOOT-INF/lib/</targetPath>
-                <includes>
-                    <include>**/*.jar</include>
-                </includes>
-            </resource>
-        </resources>
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>${project.basedir}/../libs</directory>-->
+<!--                <targetPath>BOOT-INF/lib/</targetPath>-->
+<!--                <includes>-->
+<!--                    <include>**/*.jar</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
+<!--        </resources>-->
     </build>
 </project>
