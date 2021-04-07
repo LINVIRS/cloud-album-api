@@ -1,5 +1,6 @@
 package com.ssy.api.service.serviceImpl;
 
+import com.ssy.api.SQLservice.dto.UserDataDto;
 import com.ssy.api.SQLservice.dto.UserDto;
 import com.ssy.api.SQLservice.entity.User;
 import com.ssy.api.SQLservice.repository.UserRepository;
@@ -164,8 +165,22 @@ private CodeRedisDao codeRedisDao;
         return new RestResultBuilder<>().success("账户可以使用");
     }
 
-//    @Override
-//    public UserVo findUserData(int userId) {
-//      return  userRepository.findUserById(userId);
-//    }
+    @Override
+    public UserVo findUserData(int userId) {
+      return  userRepository.findUserData(userId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public int updateUserData(UserDataDto userDataDto) {
+        return userRepository.updateUserData(userDataDto);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public RestResult UserLogout(int userId) {
+        //暂时执行清空 用户token操操
+        tokenRedisDao.removeToken(ParameterConstant.WX_TOKEN_PREFIX,userId);
+        return new  RestResultBuilder<>().success();
+    }
 }
