@@ -1,19 +1,17 @@
 package com.ssy.api.contrller;
 
+import com.ssy.api.SQLservice.dto.UserDataDto;
 import com.ssy.api.SQLservice.dto.UserDto;
 import com.ssy.api.SQLservice.vo.UserVo;
 import com.ssy.api.result.RestResult;
-import com.ssy.api.service.UserLikeService;
 import com.ssy.api.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.sql.ResultSet;
+
 
 /**
  * @ClassName: UserContoller
@@ -69,11 +67,31 @@ public class UserContoller {
      * @param userId
      * @return
      */
-//    @ApiOperation(value = "查找用户资料",httpMethod = "GET",notes = "查找用户资料")
-//    @GetMapping("/user/{userId}")
-//    public UserVo userRegister(@PathVariable int userId){
-//        return userService.findUserData(userId);
-//    }
+    @ApiOperation(value = "查找用户资料",httpMethod = "GET",notes = "查找用户资料")
+    @GetMapping("/user/{userId}")
+    public UserVo userRegister(@PathVariable int userId){
+        return userService.findUserData(userId);
+    }
 
+    /**
+     * 修改用户资料接口
+     * @param userDataDto
+     * @return
+     */
+    @ApiOperation(value = "修改用户资料接口",httpMethod = "POST",notes = "修改用户资料接口")
+    @PostMapping("/update/userData")
+    public int userRegister(@RequestBody UserDataDto userDataDto){
+        return userService.updateUserData(userDataDto);
+    }
 
+    /**
+     * 退出用户登录
+     * @param userId
+     * @return
+     */
+    @ApiOperation(value = "退出用户登录",httpMethod = "GET",notes = "退出用户登录")
+    @GetMapping("/logout")
+    public RestResult UserLogout(@RequestParam int userId){
+        return userService.UserLogout(userId);
+    }
 }
