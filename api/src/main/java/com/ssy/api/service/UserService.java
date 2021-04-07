@@ -33,12 +33,12 @@ public interface UserService {
      * @return
      */
     RestResult UserAcountCheck(String  account);
-
-    /**
-     * 查询用户资料
-     * @param userId
-     * @return
-     */
-    UserVo findUserData(int userId);
+//
+//    /**
+//     * 查询用户资料
+//     * @param userId
+//     * @return
+//     */
+//    UserVo findUserData(int userId);
 
 }
