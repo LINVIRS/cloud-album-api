@@ -28,6 +28,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
+    <content url="file://$MODULE_DIR$/../lib">
+      <sourceFolder url="file://$MODULE_DIR$/../lib" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../libs">
+      <sourceFolder url="file://$MODULE_DIR$/../libs" type="java-resource" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="ecloud-engine-sdk-1.0.0-jar-with-dependencies" level="project" />
@@ -201,7 +207,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.chinamobile.bcop:ecloud-java-sdk:3.0.2-SNAPSHOT">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/resources/lib/ecloud-java-sdk-ai-3.0.2-jar-with-dependencies.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/ecloud-java-sdk-ai-3.0.2-jar-with-dependencies.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -210,7 +216,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.chinamobile.ecloud:ecloud-engine-sdk:1.0.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/main/resources/lib/ecloud-engine-sdk-1.0.0-jar-with-dependencies.jar!/" />
+          <root url="jar://$MODULE_DIR$/../libs/ecloud-engine-sdk-1.0.0-jar-with-dependencies.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

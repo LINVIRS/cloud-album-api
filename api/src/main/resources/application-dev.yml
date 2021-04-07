@@ -2,9 +2,9 @@
 spring:
     datasource:
         druid:
-            url: jdbc:mysql://121.5.235.153:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false
-            username: ssy
-            password: ssy123456
+          url: jdbc:mysql://121.5.235.153:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false
+          username: ssy
+          password: ssy123456
     redis:
         host: 121.5.235.153
         password: ssy123456
