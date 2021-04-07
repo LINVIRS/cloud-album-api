@@ -129,24 +129,7 @@
             <version>${lombok.version}</version>
         </dependency>
 
-        <!--移动云-->
-        <dependency>
-            <groupId>com.chinamobile.bcop</groupId>
-            <artifactId>ecloud-java-sdk</artifactId>
-            <version>3.0.2-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/ecloud-java-sdk-ai-3.0.2-jar-with-dependencies.jar
-            </systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>com.chinamobile.ecloud</groupId>
-            <artifactId>ecloud-engine-sdk</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/lib/ecloud-engine-sdk-1.0.0-jar-with-dependencies.jar
-            </systemPath>
-        </dependency>
+    
     </dependencies>
 
     <build>
