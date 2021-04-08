@@ -1,7 +1,9 @@
 package com.ssy.api.SQLservice.dao;
 
+import com.ssy.api.SQLservice.dto.UserDataDto;
 import com.ssy.api.SQLservice.dto.UserDto;
 import com.ssy.api.SQLservice.entity.User;
+import com.ssy.api.SQLservice.vo.UserVo;
 
 /**
  * @ClassName: UserDao
@@ -32,4 +34,18 @@ public interface UserDao {
      * @return
      */
     User findUserByAccount(String account);
+
+    /**
+     * 查找用户id
+     * @param userId
+     * @return
+     */
+    UserVo findUserData(int userId);
+
+    /**
+     * 修改用户资料
+     * @param userDataDto
+     * @return
+     */
+    int  updateUserData(UserDataDto userDataDto);
 }
