@@ -3,6 +3,7 @@ package com.ssy.api.filter;
 
 import com.ssy.api.util.RequestWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +24,21 @@ public class ReplaceStreamFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-      throws IOException, ServletException {
-    ServletRequest requestWrapper = new RequestWrapper((HttpServletRequest) request);
-    chain.doFilter(requestWrapper, response);
+          throws IOException, ServletException {
+    boolean isMultipart = false;
+    isMultipart = ServletFileUpload.isMultipartContent((HttpServletRequest)request);
+    if (isMultipart){
+      chain.doFilter(request, response);
+    } else {
+      ServletRequest requestWrapper = new RequestWrapper((HttpServletRequest) request);
+      // 获取请求中的流，将取出来的字符串，再次转换成流，然后把它放入到新request对象中。
+      // 在chain.doFiler方法中传递新的request对象
+      if (requestWrapper == null) {
+        chain.doFilter(request, response);
+      } else {
+        chain.doFilter(requestWrapper, response);
+      }
+    }
   }
 
   @Override
