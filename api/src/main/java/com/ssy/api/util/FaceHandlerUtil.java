@@ -22,9 +22,9 @@ public class FaceHandlerUtil {
         //人脸识别与人体识别
         AiFaceBody aiFaceBody = FaceHandlerUtil.getInstance();
         try {
-            CommonJsonObjectResponse response = aiFaceBody.faceDetect("/Users/yangyang/Pictures/篮子/篮子1.jpeg", null);
+            CommonJsonObjectResponse response = aiFaceBody.faceDetect("/Users/yy/Pictures/篮子/篮子9.jpeg", null);
             CommonJsonObjectResponse commonJsonObjectResponse =
-                    aiFaceBody.faceMatch("/Users/yangyang/Pictures/篮子/篮子4.jpeg", "/Users/yangyang/Pictures/篮子/篮子5.jpeg", null);
+                    aiFaceBody.faceMatch("/Users/yy/Pictures/篮子/篮子2.jpeg", "/Users/yy/Pictures/篮子/篮子9.jpeg", null);
 
             System.out.println(commonJsonObjectResponse);
             System.out.println(response.getCommonResult());
