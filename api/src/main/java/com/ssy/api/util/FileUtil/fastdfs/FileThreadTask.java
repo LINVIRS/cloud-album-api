@@ -4,7 +4,6 @@ import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import sun.reflect.misc.FieldUtil;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

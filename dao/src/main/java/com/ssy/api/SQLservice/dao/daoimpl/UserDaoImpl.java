@@ -10,7 +10,6 @@ import com.ssy.api.SQLservice.entity.User;
 import com.ssy.api.SQLservice.vo.UserVo;
 import com.ssy.api.enums.CommonConstant;
 import com.ssy.api.service.BaseService;
-import javafx.util.Builder;
 
 /**
  * @ClassName: UserDaoImpl
