@@ -16,6 +16,7 @@ import java.util.concurrent.Callable;
 @Component
 @Data
 public class FileThreadTask implements Callable<String> {
+
   private MultipartFile multipartFiles;
 
   @Resource private FileDfsUtil fileDfsUtil;
@@ -26,4 +27,5 @@ public class FileThreadTask implements Callable<String> {
     List<String> paths = new ArrayList<>();
     return fileDfsUtil.upload(multipartFiles);
   }
+
 }

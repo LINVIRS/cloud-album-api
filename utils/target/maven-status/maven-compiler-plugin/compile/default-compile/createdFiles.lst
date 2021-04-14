@@ -1,3 +1,4 @@
+
 com\ssy\api\utils\ParamCheckUtil.class
 com\ssy\api\utils\SnowflakeIdWorker.class
 com\ssy\api\result\ResultCode.class
@@ -12,3 +13,4 @@ com\ssy\api\constant\ParameterConstant.class
 com\ssy\api\utils\SignUtil.class
 com\ssy\api\result\RestResultBuilder.class
 com\ssy\api\utils\StringUtil.class
+

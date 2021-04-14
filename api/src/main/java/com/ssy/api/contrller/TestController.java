@@ -1,5 +1,6 @@
 package com.ssy.api.contrller;
 
+import com.alibaba.fastjson.JSON;
 import com.chinamobile.cmss.sdk.response.bean.EngineClassify;
 import com.ssy.api.SQLservice.entity.UserLike;
 import com.ssy.api.result.RestResult;
@@ -8,6 +9,7 @@ import com.ssy.api.service.UserLikeService;
 import com.ssy.api.util.Base64ImageUtil;
 import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
 import com.ssy.api.utils.MyQrCodeUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * @ClassName: TestController @Description: TODO @Author: WangLinLIN @Date:
@@ -30,6 +34,7 @@ import java.util.List;
 public class TestController {
   @Resource private UserLikeService userLikeService;
   @Resource private FileDfsUtil fileDfsUtil;
+
 
   @GetMapping("/test/sql")
   public List<UserLike> testsql() {
@@ -54,6 +59,7 @@ public class TestController {
     return "测试接口成功";
   }
 
+
   @GetMapping("/test/image")
   public List<EngineClassify> testAdmin() {
     String property = System.getProperty("user.dir");
@@ -63,6 +69,7 @@ public class TestController {
 
     return Base64ImageUtil.getImageClassify(new File(property + "/classes/image/test.JPG"));
   }
+
 
   /** 文件上传 */
   @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")

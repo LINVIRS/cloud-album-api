@@ -1,4 +1,5 @@
 package com.ssy.api.contrller;
+
 import com.ssy.api.SQLservice.dto.DownLoadFileDto;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
@@ -38,6 +39,7 @@ public class FileUploadController {
     //    String fullPath = "group1/M00/00/03/rBEAA2ByvtWAFCGMAAARyGTDfmA034.png";
     threakPoolFile.downloadFiles(
         downLoadFileDto.getUrl(), downLoadFileDto.getFullPath(), downLoadFileDto.getFileName());
+
     return new RestResultBuilder<>().success();
   }
 }
