@@ -7,10 +7,8 @@ import com.ssy.api.util.FileUtil.fastdfs.FileThreadTask;
 import com.ssy.api.util.FileUtil.fastdfs.ThreakPoolFile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -36,10 +34,11 @@ public class FileUploadController {
   @ApiOperation(value = "下载文件", notes = "测试FastDFS文件上传")
   @PostMapping("/downloadFile")
   public RestResult downloadFile(@RequestBody DownLoadFileDto downLoadFileDto) {
+    //    String url = "F:\\cloud-album\\cloud-album-api\\photo";
+    //    String fullPath = "group1/M00/00/03/rBEAA2ByvtWAFCGMAAARyGTDfmA034.png";
+    threakPoolFile.downloadFiles(
+        downLoadFileDto.getUrl(), downLoadFileDto.getFullPath(), downLoadFileDto.getFileName());
 
-//    String url = "F:\\cloud-album\\cloud-album-api\\photo";
-//    String fullPath = "group1/M00/00/03/rBEAA2ByvtWAFCGMAAARyGTDfmA034.png";
-    threakPoolFile.downloadFiles(downLoadFileDto.getUrl(), downLoadFileDto.getFullPath(),downLoadFileDto.getFileName());
     return new RestResultBuilder<>().success();
   }
 }

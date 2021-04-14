@@ -149,6 +149,7 @@ private CodeRedisDao codeRedisDao;
                            .build();
                    return new RestResultBuilder<>().success(userVo);
                }
+               return new RestResultBuilder<>().error("密码错误，请输入正确密码");
            }
        }
         return null;

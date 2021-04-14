@@ -1,20 +1,14 @@
 package com.ssy.api.util.FileUtil.fastdfs;
 
-import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
+
 import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
-import com.github.tobato.fastdfs.domain.proto.storage.DownloadByteArray;
-import com.github.tobato.fastdfs.domain.upload.FastFile;
 import com.github.tobato.fastdfs.domain.upload.FastImageFile;
-import com.github.tobato.fastdfs.service.DefaultFastFileStorageClient;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import com.mysql.cj.util.TestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,19 +25,25 @@ public class FileDfsUtil {
   @Resource private FastFileStorageClient storageClient;
 
   /** 上传文件 */
-  public String upload(MultipartFile multipartFile)  {
+
+  public String upload(MultipartFile multipartFile) {
+
     String originalFilename =
         multipartFile
             .getOriginalFilename()
             .substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-    StorePath storePath =
-            null;
+
+    StorePath storePath = null;
+
     try {
       InputStream inputStream = multipartFile.getInputStream();
       long size = multipartFile.getSize();
       String originalFilename1 = multipartFile.getOriginalFilename();
-      storePath = storageClient.uploadImageAndCrtThumbImage(
-          multipartFile.getInputStream(), multipartFile.getSize(), originalFilename, null);
+
+      storePath =
+          storageClient.uploadImageAndCrtThumbImage(
+              multipartFile.getInputStream(), multipartFile.getSize(), originalFilename, null);
+
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -130,8 +130,5 @@ public class FileDfsUtil {
     return metaDataSet;
   }
 
-
-
-
-
 }
+

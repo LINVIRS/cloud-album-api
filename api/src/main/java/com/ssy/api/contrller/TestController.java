@@ -7,9 +7,9 @@ import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.UserLikeService;
 import com.ssy.api.util.Base64ImageUtil;
-import com.ssy.api.util.FileUtil.fastdfs.FileThreadTask;
 import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
-import com.ssy.api.util.FileUtil.fastdfs.ThreakPoolFile;
+import com.ssy.api.utils.MyQrCodeUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +34,20 @@ import java.util.concurrent.*;
 public class TestController {
   @Resource private UserLikeService userLikeService;
 
+  @Resource private FileDfsUtil fileDfsUtil;
+
+
   @GetMapping("/test/sql")
   public List<UserLike> testsql() {
     System.out.println("执行成功");
     return userLikeService.findAll();
+  }
+
+
+  @GetMapping("/test/qr")
+  public String getQr(@RequestParam String text, int width, int height) {
+    System.out.println("执行成功");
+    return MyQrCodeUtil.generateQrCode("你好", 50, 50);
   }
 
   /**
@@ -60,7 +70,6 @@ public class TestController {
     return Base64ImageUtil.getImageClassify(new File(property + "/classes/image/test.JPG"));
   }
 
-  @Resource private FileDfsUtil fileDfsUtil;
   /** 文件上传 */
   @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")
   @PostMapping("/test/upload")
@@ -79,6 +88,4 @@ public class TestController {
     }
     return new RestResultBuilder<>().success(result);
   }
-
-
 }

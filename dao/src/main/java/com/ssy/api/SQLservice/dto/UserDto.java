@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserDto {
+    //手机号
     private String phoneNumber;
   //验证码
     private  String verificationCode;
