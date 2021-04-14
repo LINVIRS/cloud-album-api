@@ -1,5 +1,6 @@
 package com.ssy.api.util.FileUtil.fastdfs;
 
+
 import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.upload.FastImageFile;
@@ -8,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,19 +25,25 @@ public class FileDfsUtil {
   @Resource private FastFileStorageClient storageClient;
 
   /** 上传文件 */
+
   public String upload(MultipartFile multipartFile) {
+
     String originalFilename =
         multipartFile
             .getOriginalFilename()
             .substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
+
     StorePath storePath = null;
+
     try {
       InputStream inputStream = multipartFile.getInputStream();
       long size = multipartFile.getSize();
       String originalFilename1 = multipartFile.getOriginalFilename();
+
       storePath =
           storageClient.uploadImageAndCrtThumbImage(
               multipartFile.getInputStream(), multipartFile.getSize(), originalFilename, null);
+
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -123,4 +129,6 @@ public class FileDfsUtil {
     metaDataSet.add(new MetaData("CreateDate", "2016-01-05"));
     return metaDataSet;
   }
+
 }
+

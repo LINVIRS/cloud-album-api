@@ -19,6 +19,7 @@ import java.util.concurrent.*;
  */
 @Component
 public class ThreakPoolFile {
+
   /** 日志 */
   protected static Logger LOGGER = LoggerFactory.getLogger(ThreakPoolFile.class);
 
@@ -91,4 +92,5 @@ public class ThreakPoolFile {
       e.printStackTrace();
     }
   }
+
 }

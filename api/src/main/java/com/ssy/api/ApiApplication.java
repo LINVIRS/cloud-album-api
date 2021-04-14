@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 @SpringBootApplication
 public class ApiApplication {
 
+
   public static void main(String[] args) {
     SpringApplication.run(ApiApplication.class, args);
   }
@@ -19,4 +20,5 @@ public class ApiApplication {
   public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
     return new JPAQueryFactory(entityManager);
   }
+
 }
