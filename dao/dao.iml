@@ -10,19 +10,12 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping>
-          <factory-entry name="dao" />
-          <factory-entry name="entityManagerFactory" />
-        </datasource-mapping>
+        <datasource-mapping />
         <naming-strategy-map />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/com/ssy/api/redis/RedisConfig.java</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
