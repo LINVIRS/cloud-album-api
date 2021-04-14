@@ -40,6 +40,7 @@ public class TestController {
   @GetMapping("/test/qr")
   public String getQr(@RequestParam String text, int width, int height) {
     System.out.println("执行成功");
+    System.out.println("修改测试");
     return MyQrCodeUtil.generateQrCode("你好", 50, 50);
   }
   /**
