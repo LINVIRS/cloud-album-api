@@ -26,10 +26,9 @@
 *.ipr
 .DS_Store
 /target
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 api/target
-web/target
-utils/target
+util/target
 dao/target
-
