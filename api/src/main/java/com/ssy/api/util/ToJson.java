@@ -1,15 +1,15 @@
-//package com.ssy.api.util;
+// package com.ssy.api.util;
 //
 //
-//import net.sf.json.JSONObject;
+// import net.sf.json.JSONObject;
 //
-///**
+/// **
 // * @program: client_api
 // * @description: string 转成 json串
 // * @author: wl
 // * @created: 2020/07/09 16:51
 // */
-//public class ToJson {
+// public class ToJson {
 //  public static <T> PublicDto getPublicDto(ParamsDto params, Class Tdto) {
 //    // json字符串转为JSONObject 对象
 //    JSONObject jsonObject = JSONObject.fromObject(params.getParams());
@@ -36,4 +36,4 @@
 //
 //    return publicDto;
 //  }
-//}
+// }

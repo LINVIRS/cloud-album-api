@@ -1,15 +1,13 @@
 package com.ssy.api.util.FileUtil.fastdfs;
 
-import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import sun.reflect.misc.FieldUtil;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
 
 /**
  * @ClassName: FileThreadPool @Description: 文件线程池 @Author: WangLinLIN @Date:
@@ -27,6 +25,5 @@ public class FileThreadTask implements Callable<String> {
     // 上传图片
     List<String> paths = new ArrayList<>();
     return fileDfsUtil.upload(multipartFiles);
-
   }
 }

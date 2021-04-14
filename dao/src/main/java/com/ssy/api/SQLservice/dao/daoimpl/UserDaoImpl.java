@@ -25,10 +25,13 @@ public class UserDaoImpl extends BaseService implements UserDao {
     @Override
     public User userLogin(UserDto userDto) {
         QUser qUser =QUser.user;
+        BooleanBuilder booleanBuilder =new BooleanBuilder();
+        if (userDto.getAccount()!=null){
+            booleanBuilder.and(qUser.account.eq(userDto.getAccount())
+                    .or(qUser.phone.eq(userDto.getAccount())));
+        }
         return queryFactory.select(qUser).from(qUser)
-                .where(qUser.phone.eq(userDto.getPhoneNumber())
-                .or(qUser.account.eq(userDto.getAccount())
-                        .and(qUser.isDelete.eq(CommonConstant.DELFlag))))
+                .where(booleanBuilder.and(qUser.isDelete.eq(CommonConstant.DELFlag)))
                 .fetchOne();
 
     }

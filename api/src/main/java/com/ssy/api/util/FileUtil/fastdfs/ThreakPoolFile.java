@@ -1,16 +1,12 @@
 package com.ssy.api.util.FileUtil.fastdfs;
 
-import com.github.tobato.fastdfs.domain.fdfs.FileInfo;
 import com.github.tobato.fastdfs.domain.proto.storage.DownloadByteArray;
 import com.github.tobato.fastdfs.service.AppendFileStorageClient;
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import sun.net.www.content.image.png;
-
 import javax.annotation.Resource;
 import java.io.*;
 import java.util.ArrayList;
@@ -23,11 +19,29 @@ import java.util.concurrent.*;
  */
 @Component
 public class ThreakPoolFile {
-  @Resource private FileThreadTask fileThreadTask;
-  @Autowired protected AppendFileStorageClient storageClient;
-
   /** 日志 */
   protected static Logger LOGGER = LoggerFactory.getLogger(ThreakPoolFile.class);
+
+  @Autowired protected AppendFileStorageClient storageClient;
+  @Resource private FileThreadTask fileThreadTask;
+
+  private static void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
+
+    try (FileOutputStream outputStream = new FileOutputStream(file)) {
+
+      int read;
+      byte[] bytes = new byte[1024];
+
+      while ((read = inputStream.read(bytes)) != -1) {
+        outputStream.write(bytes, 0, read);
+      }
+
+      // commons-io
+      // IOUtils.copy(inputStream, outputStream);
+
+    }
+  }
+
   /**
    * 创建线程池
    *
@@ -60,42 +74,21 @@ public class ThreakPoolFile {
     return returnValue;
   }
 
-
-
-  public void downloadFiles(String url,String fullPath,String filename) {
+  public void downloadFiles(String url, String fullPath, String filename) {
     InputStream ins = null;
     DownloadByteArray callback = new DownloadByteArray();
-    String group = fullPath.substring(0,fullPath.indexOf("/"));
-    String path= fullPath.substring(fullPath.indexOf("/")+1);
+    String group = fullPath.substring(0, fullPath.indexOf("/"));
+    String path = fullPath.substring(fullPath.indexOf("/") + 1);
     if (filename.isEmpty()) {
-       filename = fullPath.substring(fullPath.lastIndexOf("/") + 1);
+      filename = fullPath.substring(fullPath.lastIndexOf("/") + 1);
     }
-    byte[] content =
-        storageClient.downloadFile(
-                group,path , callback);
+    byte[] content = storageClient.downloadFile(group, path, callback);
     ins = new ByteArrayInputStream(content);
-    File file = new File(url+"/"+filename);
+    File file = new File(url + "/" + filename);
     try {
       copyInputStreamToFile(ins, file);
     } catch (IOException e) {
       e.printStackTrace();
-    }
-  }
-
-  private static void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
-
-    try (FileOutputStream outputStream = new FileOutputStream(file)) {
-
-      int read;
-      byte[] bytes = new byte[1024];
-
-      while ((read = inputStream.read(bytes)) != -1) {
-        outputStream.write(bytes, 0, read);
-      }
-
-      // commons-io
-      // IOUtils.copy(inputStream, outputStream);
-
     }
   }
 }

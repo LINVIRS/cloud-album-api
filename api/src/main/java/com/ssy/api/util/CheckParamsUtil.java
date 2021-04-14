@@ -1,14 +1,11 @@
 package com.ssy.api.util;
 
-
 import com.ssy.api.exception.ApiException;
 import com.ssy.api.exception.IncompleteParamException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
-/**
- *
- */
+/** */
 @Slf4j
 public class CheckParamsUtil {
 
