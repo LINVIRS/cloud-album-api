@@ -60,8 +60,8 @@ server:
   servlet:
     context-path: /album-api
 
-logging:
-  config: classpath:log/logback-spring.xml
+#logging:
+#  config: classpath:log/logback-spring.xml
 # 订时任务
 
 swagger:
