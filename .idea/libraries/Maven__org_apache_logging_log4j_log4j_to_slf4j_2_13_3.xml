@@ -1,13 +1,13 @@
 <component name="libraryTable">
-  <library name="Maven: org.apache.logging.log4j:log4j-to-slf4j:2.13.3">
+  <library name="Maven: org.apache.commons:commons-lang3:3.11">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Tool/jar/org/apache/logging/log4j/log4j-to-slf4j/2.13.3/log4j-to-slf4j-2.13.3.jar!/" />
+      <root url="jar://$USER_HOME$/Tool/jar/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$USER_HOME$/Tool/jar/org/apache/logging/log4j/log4j-to-slf4j/2.13.3/log4j-to-slf4j-2.13.3-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/Tool/jar/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$USER_HOME$/Tool/jar/org/apache/logging/log4j/log4j-to-slf4j/2.13.3/log4j-to-slf4j-2.13.3-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Tool/jar/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -20,6 +20,7 @@
 /Users/yy/Project/Java/cloud-album-api/dao/target/generated-sources/java/com/ssy/api/SQLservice/entity/QAlbums.java
 /Users/yy/Project/Java/cloud-album-api/dao/src/main/java/com/ssy/api/SQLservice/dao/daoimpl/UserLikeEntityDaoImpl.java
 /Users/yy/Project/Java/cloud-album-api/dao/src/main/java/com/ssy/api/exception/TokenExpireException.java
+/Users/yy/Project/Java/cloud-album-api/dao/src/main/java/com/ssy/api/SQLservice/dto/DownLoadFileDto.java
 /Users/yy/Project/Java/cloud-album-api/dao/src/main/java/com/ssy/api/exception/UserAccountExistException.java
 /Users/yy/Project/Java/cloud-album-api/dao/src/main/java/com/ssy/api/redis/TokenRedisDao.java
 /Users/yy/Project/Java/cloud-album-api/dao/src/main/java/com/ssy/api/exception/UserNotFoundException.java
