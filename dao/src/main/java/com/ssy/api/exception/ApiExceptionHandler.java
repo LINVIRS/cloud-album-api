@@ -22,13 +22,12 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.nio.file.AccessDeniedException;
 
-
 /**
  * 异常处理器
  */
 @RestControllerAdvice
 @ResponseBody
-public class ApiExceptionHandler{
+public class ApiExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -60,6 +59,7 @@ public class ApiExceptionHandler{
 
     /**
      * 运行时异常
+     *
      * @param e
      * @param <T>
      * @return
@@ -107,7 +107,7 @@ public class ApiExceptionHandler{
     public <T> RestResult<T> handleException(Exception e) {
         logger.info("------->未知错误 !", e.getMessage());
         String message = e.getMessage();
-        if(message.contains(":")){
+        if (message.contains(":")) {
             message = message.substring(0, message.lastIndexOf(":"));
         }
         return new RestResultBuilder<T>()

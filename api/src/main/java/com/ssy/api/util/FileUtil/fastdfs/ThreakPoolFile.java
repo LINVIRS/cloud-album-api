@@ -15,15 +15,17 @@ import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * @ClassName: ThreakPoolFile @Description: TODO @Author: WangLinLIN @Date:
- * 2021/04/10 22:30:04  @Version: V1.0
+ * @ClassName: ThreakPoolFile @Description: TODO @Author: WangLinLIN @Date: 2021/04/10
+ * 22:30:04 @Version: V1.0
  */
 @Component
 public class ThreakPoolFile {
+
     /**
      * 日志
      */
     protected static Logger LOGGER = LoggerFactory.getLogger(ThreakPoolFile.class);
+
     @Autowired
     protected AppendFileStorageClient storageClient;
     @Resource
@@ -86,9 +88,7 @@ public class ThreakPoolFile {
         if (filename.isEmpty()) {
             filename = fullPath.substring(fullPath.lastIndexOf("/") + 1);
         }
-        byte[] content =
-                storageClient.downloadFile(
-                        group, path, callback);
+        byte[] content = storageClient.downloadFile(group, path, callback);
         ins = new ByteArrayInputStream(content);
         File file = new File(url + "/" + filename);
         try {

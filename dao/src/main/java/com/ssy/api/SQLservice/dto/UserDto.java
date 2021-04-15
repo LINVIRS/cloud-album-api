@@ -17,13 +17,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserDto {
+    //手机号
     private String phoneNumber;
-  //验证码
-    private  String verificationCode;
+    //验证码
+    private String verificationCode;
     //账户
     private String account;
-   //密码
+    //密码
     private String password;
     //状态 0为手机验证码登录 1为账号密码登录
-  private  int status;
+    private int status;
 }

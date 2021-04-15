@@ -56,4 +56,5 @@ public interface UserService {
      * @return
      */
     RestResult UserLogout(int userId);
+
 }

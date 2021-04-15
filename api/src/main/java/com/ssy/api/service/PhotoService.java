@@ -1,6 +1,7 @@
 package com.ssy.api.service;
 
 import com.ssy.api.SQLservice.dto.PhotoDto;
+
 import com.ssy.api.result.RestResult;
 
 import java.util.List;
@@ -30,4 +31,5 @@ public interface PhotoService {
      * @return
      */
     RestResult saveAll(List<PhotoDto> photoDtos);
+
 }

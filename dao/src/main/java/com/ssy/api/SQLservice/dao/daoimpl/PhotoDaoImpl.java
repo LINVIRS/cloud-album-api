@@ -17,6 +17,7 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
                 .offset((long) photoDto.getPage() * photoDto.getPageSize())
                 .limit(photoDto.getPageSize())
                 .orderBy(qPhoto.createTime.desc());
+
         return photoJPAQuery.fetch();
     }
 }

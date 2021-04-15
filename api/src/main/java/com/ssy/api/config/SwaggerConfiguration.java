@@ -1,25 +1,5 @@
 package com.ssy.api.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.Collections;
-
-/**
- * @ClassName: sad
- * @Description: TODO
- * @Author: WangLinLIN
- * @Date: 2021/03/30 15:16:54 
- * @Version: V1.0
- **/
-
 import io.swagger.models.auth.In;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.boot.SpringBootVersion;
@@ -50,10 +30,10 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
         this.swaggerProperties = swaggerProperties;
     }
 
-
     @Bean
     public Docket createRestApi() {
-        return new Docket(DocumentationType.OAS_30).pathMapping("/")
+        return new Docket(DocumentationType.OAS_30)
+                .pathMapping("/")
 
                 // 定义是否开启swagger，false为关闭，可以通过变量控制
                 .enable(swaggerProperties.getEnable())
@@ -84,10 +64,15 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
      * API 页面上半部分展示信息
      */
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title(swaggerProperties.getApplicationName() + " Api Doc")
+        return new ApiInfoBuilder()
+                .title(swaggerProperties.getApplicationName() + " Api Doc")
                 .description(swaggerProperties.getApplicationDescription())
                 .contact(new Contact("lighter", null, "123456@gmail.com"))
-                .version("Application Version: " + swaggerProperties.getApplicationVersion() + ", Spring Boot Version: " + SpringBootVersion.getVersion())
+                .version(
+                        "Application Version: "
+                                + swaggerProperties.getApplicationVersion()
+                                + ", Spring Boot Version: "
+                                + SpringBootVersion.getVersion())
                 .build();
     }
 
@@ -105,9 +90,12 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     private List<SecurityContext> securityContexts() {
         return Collections.singletonList(
                 SecurityContext.builder()
-                        .securityReferences(Collections.singletonList(new SecurityReference("BASE_TOKEN", new AuthorizationScope[]{new AuthorizationScope("global", "")})))
-                        .build()
-        );
+                        .securityReferences(
+                                Collections.singletonList(
+                                        new SecurityReference(
+                                                "BASE_TOKEN",
+                                                new AuthorizationScope[]{new AuthorizationScope("global", "")})))
+                        .build());
     }
 
     @SafeVarargs
@@ -125,8 +113,10 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         try {
-            Field registrationsField = FieldUtils.getField(InterceptorRegistry.class, "registrations", true);
-            List<InterceptorRegistration> registrations = (List<InterceptorRegistration>) ReflectionUtils.getField(registrationsField, registry);
+            Field registrationsField =
+                    FieldUtils.getField(InterceptorRegistry.class, "registrations", true);
+            List<InterceptorRegistration> registrations =
+                    (List<InterceptorRegistration>) ReflectionUtils.getField(registrationsField, registry);
             if (registrations != null) {
                 for (InterceptorRegistration interceptorRegistration : registrations) {
                     interceptorRegistration
@@ -140,5 +130,4 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
             e.printStackTrace();
         }
     }
-
 }

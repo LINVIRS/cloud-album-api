@@ -26,7 +26,9 @@ public class Photo {
     private int id;
     private String url;
     private Integer isUpload;
+
     private String tagId;
+
     private String longitude;
     private String latitude;
     private Integer userId;
@@ -66,11 +68,13 @@ public class Photo {
 
     @Basic
     @Column(name = "tag_id", nullable = true)
+
     public String getTagId() {
         return tagId;
     }
 
     public void setTagId(String tagId) {
+
         this.tagId = tagId;
     }
 

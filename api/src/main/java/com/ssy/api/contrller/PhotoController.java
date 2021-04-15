@@ -2,7 +2,6 @@ package com.ssy.api.contrller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.mysql.cj.log.Log;
 import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.service.PhotoService;
@@ -41,4 +40,5 @@ public class PhotoController {
         List<PhotoDto> photoDtos = JSON.parseArray(jsonObject.getString("str"), PhotoDto.class);
         return photoService.saveAll(photoDtos);
     }
+
 }

@@ -16,16 +16,14 @@ import java.util.concurrent.Callable;
 @Component
 @Data
 public class FileThreadTask implements Callable<String> {
-    private MultipartFile multipartFiles;
+  private MultipartFile multipartFiles;
 
-    @Resource
-    private FileDfsUtil fileDfsUtil;
+  @Resource private FileDfsUtil fileDfsUtil;
 
-    @Override
-    public String call() throws Exception {
-        // 上传图片
-        List<String> paths = new ArrayList<>();
-        return fileDfsUtil.upload(multipartFiles);
-
-    }
+  @Override
+  public String call() throws Exception {
+    // 上传图片
+    List<String> paths = new ArrayList<>();
+    return fileDfsUtil.upload(multipartFiles);
+  }
 }

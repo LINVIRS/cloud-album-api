@@ -15,16 +15,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class PhotoServiceImpl implements PhotoService {
     @Resource
     private PhotoRepository photoRepository;
-
-    @Override
-    @Transactional
-    public RestResult findAll(PhotoDto photoDto) {
-        return new RestResultBuilder<>().success(photoRepository.findAllPhoto(photoDto));
-    }
 
     @Override
     @Transactional
@@ -53,5 +48,9 @@ public class PhotoServiceImpl implements PhotoService {
         });
         photoRepository.saveAll(collect);
         return new RestResultBuilder<>().success("成功");
+    }
+
+    public RestResult findAll(PhotoDto photoDto) {
+        return new RestResultBuilder<>().success(photoRepository.findAllPhoto(photoDto));
     }
 }
