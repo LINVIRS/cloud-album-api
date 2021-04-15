@@ -87,3 +87,4 @@ public class AlbumServiceImpl implements AlbumService {
         return new RestResultBuilder<>().success(albumRepository.getAlbumDetailById(albumId));
     }
 }
+

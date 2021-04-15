@@ -1,8 +1,11 @@
 package com.ssy.api.interceptor;
 
+
 import com.ssy.api.annotation.Authorization;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.exception.AccessDeniedException;
+import com.ssy.api.exception.TokenExpireException;
+
 import com.ssy.api.redis.TokenRedisDao;
 import com.ssy.api.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.Map;
+
 
 /** Created by D丶Cheng on 2017/5/25. */
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {

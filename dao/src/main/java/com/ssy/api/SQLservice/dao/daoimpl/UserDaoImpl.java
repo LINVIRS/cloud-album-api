@@ -1,5 +1,6 @@
 package com.ssy.api.SQLservice.dao.daoimpl;
 
+
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.ssy.api.SQLservice.dao.UserDao;
@@ -86,4 +87,5 @@ public class UserDaoImpl extends BaseService implements UserDao {
             .where(qUser.id.eq(userDataDto.getId()))
             .execute());
   }
+
 }

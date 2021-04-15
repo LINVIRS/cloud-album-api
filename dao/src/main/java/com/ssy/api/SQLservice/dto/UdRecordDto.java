@@ -1,6 +1,5 @@
 package com.ssy.api.SQLservice.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,12 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PhotoDto extends BaseDto {
-    // 插入属性
+public class UdRecordDto {
+    private Integer type;
+    private Integer status;
+    private String photoId;
     private Integer userId;
-    private String url;
-    private String tag_id;
-    private String longitude;
-    private String latitude;
-    private Integer isUpload;
 }

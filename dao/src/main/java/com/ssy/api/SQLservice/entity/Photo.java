@@ -1,5 +1,9 @@
 package com.ssy.api.SQLservice.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,11 +19,16 @@ import java.util.Objects;
  * @Version: V1.0
  **/
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Photo {
     private int id;
     private String url;
     private Integer isUpload;
-    private Integer tagId;
+
+    private String tagId;
+
     private String longitude;
     private String latitude;
     private Integer userId;
@@ -59,11 +68,13 @@ public class Photo {
 
     @Basic
     @Column(name = "tag_id", nullable = true)
-    public Integer getTagId() {
+
+    public String getTagId() {
         return tagId;
     }
 
-    public void setTagId(Integer tagId) {
+    public void setTagId(String tagId) {
+
         this.tagId = tagId;
     }
 

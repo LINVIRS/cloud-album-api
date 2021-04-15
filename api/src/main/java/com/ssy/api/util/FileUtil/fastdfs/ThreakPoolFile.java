@@ -21,76 +21,80 @@ import java.util.concurrent.*;
 @Component
 public class ThreakPoolFile {
 
-  /** 日志 */
-  protected static Logger LOGGER = LoggerFactory.getLogger(ThreakPoolFile.class);
+    /**
+     * 日志
+     */
+    protected static Logger LOGGER = LoggerFactory.getLogger(ThreakPoolFile.class);
 
-  @Autowired protected AppendFileStorageClient storageClient;
-  @Resource private FileThreadTask fileThreadTask;
+    @Autowired
+    protected AppendFileStorageClient storageClient;
+    @Resource
+    private FileThreadTask fileThreadTask;
 
-  private static void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
+    private static void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
 
-    try (FileOutputStream outputStream = new FileOutputStream(file)) {
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
 
-      int read;
-      byte[] bytes = new byte[1024];
+            int read;
+            byte[] bytes = new byte[1024];
 
-      while ((read = inputStream.read(bytes)) != -1) {
-        outputStream.write(bytes, 0, read);
-      }
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
 
-      // commons-io
-      // IOUtils.copy(inputStream, outputStream);
+            // commons-io
+            // IOUtils.copy(inputStream, outputStream);
 
+        }
     }
-  }
 
-  /**
-   * 创建线程池
-   *
-   * @return
-   */
-  public List<String> getResultUpload(MultipartFile[] multipartFiles) {
-    int maxPoolSize = Runtime.getRuntime().availableProcessors();
-    List<String> returnValue = new ArrayList<>();
-    ThreadPoolExecutor threadPoolExecutor =
-        new ThreadPoolExecutor(6, maxPoolSize, 3, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
-    for (MultipartFile multipartFile : multipartFiles) {
-      fileThreadTask.setMultipartFiles(multipartFile);
-      Future<String> paths = threadPoolExecutor.submit(fileThreadTask);
+    /**
+     * 创建线程池
+     *
+     * @return
+     */
+    public List<String> getResultUpload(MultipartFile[] multipartFiles) {
+        int maxPoolSize = Runtime.getRuntime().availableProcessors();
+        List<String> returnValue = new ArrayList<>();
+        ThreadPoolExecutor threadPoolExecutor =
+                new ThreadPoolExecutor(6, maxPoolSize, 3, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+        for (MultipartFile multipartFile : multipartFiles) {
+            fileThreadTask.setMultipartFiles(multipartFile);
+            Future<String> paths = threadPoolExecutor.submit(fileThreadTask);
 
-      try {
-        returnValue.add(paths.get());
+            try {
+                returnValue.add(paths.get());
 
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      } catch (ExecutionException e) {
-        e.printStackTrace();
-      }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        while (true) {
+            if (threadPoolExecutor.getTaskCount() == multipartFiles.length) {
+                threadPoolExecutor.shutdown();
+            }
+            break;
+        }
+        return returnValue;
     }
-    while (true) {
-      if (threadPoolExecutor.getTaskCount() == multipartFiles.length) {
-        threadPoolExecutor.shutdown();
-      }
-      break;
-    }
-    return returnValue;
-  }
 
-  public void downloadFiles(String url, String fullPath, String filename) {
-    InputStream ins = null;
-    DownloadByteArray callback = new DownloadByteArray();
-    String group = fullPath.substring(0, fullPath.indexOf("/"));
-    String path = fullPath.substring(fullPath.indexOf("/") + 1);
-    if (filename.isEmpty()) {
-      filename = fullPath.substring(fullPath.lastIndexOf("/") + 1);
+    public void downloadFiles(String url, String fullPath, String filename) {
+        InputStream ins = null;
+        DownloadByteArray callback = new DownloadByteArray();
+        String group = fullPath.substring(0, fullPath.indexOf("/"));
+        String path = fullPath.substring(fullPath.indexOf("/") + 1);
+        if (filename.isEmpty()) {
+            filename = fullPath.substring(fullPath.lastIndexOf("/") + 1);
+        }
+        byte[] content = storageClient.downloadFile(group, path, callback);
+        ins = new ByteArrayInputStream(content);
+        File file = new File(url + "/" + filename);
+        try {
+            copyInputStreamToFile(ins, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    byte[] content = storageClient.downloadFile(group, path, callback);
-    ins = new ByteArrayInputStream(content);
-    File file = new File(url + "/" + filename);
-    try {
-      copyInputStreamToFile(ins, file);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 }

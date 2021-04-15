@@ -10,13 +10,12 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * @ClassName: FileThreadPool @Description: 文件线程池 @Author: WangLinLIN @Date: 2021/04/10
- * 14:46:39 @Version: V1.0
+ * @ClassName: FileThreadPool @Description: 文件线程池 @Author: WangLinLIN @Date:
+ * 2021/04/10 14:46:39  @Version: V1.0
  */
 @Component
 @Data
 public class FileThreadTask implements Callable<String> {
-
   private MultipartFile multipartFiles;
 
   @Resource private FileDfsUtil fileDfsUtil;
