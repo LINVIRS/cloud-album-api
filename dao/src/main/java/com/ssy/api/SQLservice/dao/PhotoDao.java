@@ -12,6 +12,4 @@ public interface PhotoDao {
      * @return
      */
     List<Photo> findAllPhoto(PhotoDto photoDto);
-
-
 }

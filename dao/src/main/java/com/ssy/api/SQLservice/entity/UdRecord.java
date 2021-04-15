@@ -1,5 +1,9 @@
 package com.ssy.api.SQLservice.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -13,6 +17,9 @@ import java.util.Objects;
  **/
 @Entity
 @Table(name = "ud_record", schema = "cloud-album", catalog = "")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UdRecord {
     private int id;
     private Integer type;
