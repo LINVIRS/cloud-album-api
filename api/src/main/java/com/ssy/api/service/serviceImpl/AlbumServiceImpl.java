@@ -1,20 +1,24 @@
 package com.ssy.api.service.serviceImpl;
 
 import com.ssy.api.SQLservice.dto.AlbumDto;
+import com.ssy.api.SQLservice.dto.AlbumQueryDto;
 import com.ssy.api.SQLservice.dto.PageDto;
-import com.ssy.api.SQLservice.dto.QueryDto;
 import com.ssy.api.SQLservice.entity.Albums;
+import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.repository.AlbumRepository;
+import com.ssy.api.SQLservice.repository.PhotoRepository;
 import com.ssy.api.SQLservice.vo.AlbumVo;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.AlbumService;
+import org.hibernate.criterion.Example;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * AlbumServiceImpl
@@ -28,6 +32,8 @@ import java.time.LocalDateTime;
 public class AlbumServiceImpl implements AlbumService {
     @Resource
     private AlbumRepository albumRepository;
+    @Resource
+    private PhotoRepository photoRepository;
 
     @Override
     public RestResult createAlbumByUserId(AlbumDto albumDto) {
@@ -78,13 +84,56 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public RestResult getAllAlbumsByUserId(QueryDto queryDto, int userId, String sortStr, PageDto pageDto) {
-        return new RestResultBuilder<>().success(albumRepository.getAllAlbumsByUserId(queryDto, userId, sortStr, pageDto));
+    public RestResult getAllAlbumsByUserId(AlbumQueryDto dto) {
+        List<Albums> albums = albumRepository.getAllAlbumsByUserId(dto);
+        System.out.println(albums.get(0));
+        return new RestResultBuilder<>().success(albums);
     }
 
     @Override
     public RestResult getAlbumDetailById(int albumId) {
-        return new RestResultBuilder<>().success(albumRepository.getAlbumDetailById(albumId));
+        Albums albums = albumRepository.getAlbumDetailById(albumId);
+        if(albums == null) {
+            return new RestResultBuilder<>().success("数据不存在");
+        }
+        Map<String, Object> albumInfo = new HashMap<>();
+        String[] photoIds = albums.getPhotoId().split(",");
+        List<Photo> photoList = new ArrayList<>();
+        for(String id : photoIds) {
+            Photo photo = photoRepository.findDetailById(Integer.parseInt(id));
+            photoList.add(photo);
+        }
+        Map<String, List<Photo>> resultMap = new HashMap<>();
+        for (Photo photo : photoList) {
+            String time = photo.getCreateTime().toString().substring(0, 11);
+            if(resultMap.containsKey(time)) {
+                resultMap.get(time).add(photo);
+            } else {
+                List<Photo> photoList1 = new ArrayList<Photo>();
+                photoList1.add(photo);
+                resultMap.put(time, photoList1);
+            }
+        }
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        for (Photo photo : photoList) {
+            String time = photo.getCreateTime().toString().substring(0, 11);
+            List<Photo> photoList1 = new ArrayList<>();
+            Map<String, Object> map = new HashMap<>();
+            if(resultMap.containsKey(time)) {
+                map.put("date", time);
+                photoList1.addAll(resultMap.get(time));
+                if(photoList1.get(0).getUrl() != null) {
+                    map.put("list", photoList1);
+                    resultList.add(map);
+                }
+            }
+        }
+        albumInfo.put("photoList", resultList);
+        albumInfo.put("photoNumber", resultMap.size());
+        albumInfo.put("createTime", albums.getCreateTime());
+        albumInfo.put("name", albums.getName());
+        albumInfo.put("albumId", albums.getId());
+        albumInfo.put("photoId", albums.getPhotoId());
+        return new RestResultBuilder<>().success(albumInfo);
     }
 }
-
