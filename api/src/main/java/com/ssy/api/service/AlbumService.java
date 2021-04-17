@@ -1,8 +1,8 @@
 package com.ssy.api.service;
 
 import com.ssy.api.SQLservice.dto.AlbumDto;
+import com.ssy.api.SQLservice.dto.AlbumQueryDto;
 import com.ssy.api.SQLservice.dto.PageDto;
-import com.ssy.api.SQLservice.dto.QueryDto;
 import com.ssy.api.result.RestResult;
 
 public interface AlbumService {
@@ -31,7 +31,7 @@ public interface AlbumService {
      * 获取所有的相册信息，默认时间排序
      * @return
      */
-    RestResult getAllAlbumsByUserId(QueryDto queryDto, int userId, String sortStr, PageDto pageDto);
+    RestResult getAllAlbumsByUserId(AlbumQueryDto dto);
 
     /**
      * 通过相册id获取相册详情
@@ -42,4 +42,3 @@ public interface AlbumService {
 
 
 }
-

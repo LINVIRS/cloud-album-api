@@ -12,4 +12,12 @@ public interface PhotoDao {
      * @return
      */
     List<Photo> findAllPhoto(PhotoDto photoDto);
+
+    /**
+     * 查找图片详情
+     *
+     * @param id 图片id
+     * @return photo
+     */
+    Photo findDetailById(Integer id);
 }

@@ -39,4 +39,3 @@ public class AlbumDto {
      */
     private Integer isDelete;
 }
-
