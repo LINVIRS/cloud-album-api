@@ -23,6 +23,7 @@ public class Albums {
     private String photoId;
     private String name;
     private String photoNumber;
+    private String cover;
     private Integer totalCapacity;
     private Integer tagId;
     private Timestamp createTime;
@@ -57,6 +58,16 @@ public class Albums {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    @Basic
+    @Column(name = "cover", nullable = true)
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     @Basic
