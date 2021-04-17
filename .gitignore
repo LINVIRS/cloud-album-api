@@ -23,6 +23,10 @@
 .idea
 *.iws
 *.iml
+cloud-album.iml
+api/api.iml
+dao/dao.iml
+utils/utils.iml
 *.ipr
 .DS_Store
 /target

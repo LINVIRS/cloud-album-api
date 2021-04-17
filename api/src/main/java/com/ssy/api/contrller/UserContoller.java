@@ -48,9 +48,19 @@ public class UserContoller {
     @ApiOperation(value = "用户账户检查接口",httpMethod = "GET",notes = "用户账户检查接口")
     @GetMapping("/account/check")
     public RestResult userAccountCheck(@RequestParam String  account){
-        return userService.UserAcountCheck(account);
+        return userService.UserAccountCheck(account);
     }
 
+    /**
+     * 手机号检查接口
+     * @param phone
+     * @return
+     */
+    @ApiOperation(value = "手机号检查接口",httpMethod = "GET",notes = "手机号检查接口")
+    @GetMapping("/phone/check")
+    public RestResult userPhoneCheck(@RequestParam String  phone){
+        return userService.UserPhoneCheck(phone);
+    }
     /**
      * 注册接口
      * @param userDto
