@@ -33,7 +33,14 @@ public interface UserService {
      * @param account
      * @return
      */
-    RestResult UserAcountCheck(String  account);
+    RestResult UserAccountCheck(String  account);
+
+    /**
+     * 手机号检测
+     * @param PhoneNumber
+     * @return
+     */
+    RestResult UserPhoneCheck(String  PhoneNumber);
 
     /**
      * 查询用户资料
