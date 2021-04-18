@@ -40,4 +40,11 @@ public interface PhotoService {
      */
     RestResult delete(List<Integer> ids);
 
+    /**
+     * 批量上传文件
+     * @param photos 图片
+     * @return Result
+     */
+    RestResult batchUploadPicture(List<PhotoDto> photos);
+
 }

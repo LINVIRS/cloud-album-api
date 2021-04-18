@@ -31,6 +31,10 @@ public class AlbumDto {
      */
     private String name;
     /**
+     * 封面
+     */
+    private String cover;
+    /**
      * 照片id
      */
     private String photoId;
@@ -38,5 +42,9 @@ public class AlbumDto {
      * 是否删除
      */
     private Integer isDelete;
-}
 
+    /**
+     * 图片数量
+     */
+    private String photoNumber;
+}

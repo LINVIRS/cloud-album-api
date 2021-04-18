@@ -48,4 +48,12 @@ public class PhotoController {
         return photoService.delete(Arrays.asList(ids));
     }
 
+    @ApiOperation(value = "批量上传图片", httpMethod = "POST", notes = "批量上传图片")
+    @PostMapping("/batch")
+    public RestResult batchUpload(@RequestBody String photoDtosStr) {
+        String s = photoDtosStr.replaceAll("\\\\", "");
+        JSONObject jsonObject = JSON.parseObject(s);
+        List<PhotoDto> photoDtos = JSON.parseArray(jsonObject.getString("str"), PhotoDto.class);
+        return photoService.batchUploadPicture(photoDtos);
+    }
 }
