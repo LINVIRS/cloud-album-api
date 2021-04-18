@@ -6,6 +6,7 @@ import com.ssy.api.SQLservice.repository.PhotoRepository;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.PhotoService;
+import com.ssy.api.utils.SnowflakeIdWorker;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

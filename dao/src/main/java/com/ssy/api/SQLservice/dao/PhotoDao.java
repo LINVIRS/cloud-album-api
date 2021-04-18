@@ -13,7 +13,6 @@ public interface PhotoDao {
      */
     List<Photo> findAllPhoto(PhotoDto photoDto);
 
-
     /**
      * 查找图片详情
      *
@@ -21,4 +20,5 @@ public interface PhotoDao {
      * @return photo
      */
     Photo findDetailById(Integer id);
+
 }
