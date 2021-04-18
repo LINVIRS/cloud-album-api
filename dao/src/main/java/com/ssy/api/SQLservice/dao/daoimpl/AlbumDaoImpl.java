@@ -21,6 +21,7 @@ public class AlbumDaoImpl extends BaseService implements AlbumDao {
     @Override
     public List<Albums> getAllAlbumsByUserId(AlbumQueryDto queryDto) {
         QAlbums qAlbums = QAlbums.albums;
+        System.out.println("排序字段是: " + queryDto.getSortStr());
         //查询条件暂留保存
         switch (queryDto.getSortStr()) {
             case "name" :
@@ -71,7 +72,8 @@ public class AlbumDaoImpl extends BaseService implements AlbumDao {
                 .set(qAlbums.isDelete, albumDto.getIsDelete())
                 .set(qAlbums.photoId, albumDto.getPhotoId())
                 .set(qAlbums.type, albumDto.getType())
-                .where(qAlbums.id.eq(albumId).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
+                .set(qAlbums.photoNumber, albumDto.getPhotoNumber())
+                .where(qAlbums.id.eq(albumId))
                 .execute());
     }
 }

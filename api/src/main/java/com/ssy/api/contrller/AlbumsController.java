@@ -41,6 +41,8 @@ public class AlbumsController {
     @ApiOperation(value = "根据相册id修改相册信息")
     @PostMapping("/update")
     public RestResult modifyAlbumById(@RequestBody AlbumDto albumDto) {
+        System.out.println("获取到的值是: ");
+        System.out.println(albumDto);
         return albumService.modifyAlbumById(albumDto);
     }
 

@@ -63,6 +63,7 @@ public class AlbumServiceImpl implements AlbumService {
         albums.setTagId(0);
         albums.setIsDelete(0);
         albums.setType(0);
+        albums.setCover(albumDto.getCover());
         albums.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
         albums.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
         Albums save = albumRepository.save(albums);
@@ -70,6 +71,7 @@ public class AlbumServiceImpl implements AlbumService {
                 .id(save.getId())
                 .name(albums.getName())
                 .userId(albums.getUserId())
+                .cover(albums.getCover())
                 .photoId(albums.getPhotoId())
                 .photoNumber(albums.getPhotoNumber())
                 .createType(albums.getCreateType())
@@ -90,7 +92,7 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public RestResult deleteAlbumById(int albumId) {
         Albums albums = albumRepository.getOne(albumId);
-        System.out.println("传递过来的id是: " + albumId);
+        System.out.println(albums);
         AlbumDto albumDto = AlbumDto.builder()
                 .name(albums.getName())
                 .photoId(albums.getPhotoId())
@@ -113,14 +115,23 @@ public class AlbumServiceImpl implements AlbumService {
             return new RestResultBuilder<>().success("数据不存在");
         }
         Map<String, Object> albumInfo = new HashMap<>();
+        int photoNumber = 0;
         String[] photoIds = albums.getPhotoId().split(",");
         List<Photo> photoList = new ArrayList<>();
-        for (String id : photoIds) {
-            Photo photo = photoRepository.findDetailById(Integer.parseInt(id));
-            photoList.add(photo);
+
+        if(albums.getPhotoId().length() > 0 && albums.getPhotoId() != null) {
+            System.out.println("获取到的图片id是: " + albums.getPhotoId());
+            for(String id : photoIds) {
+                Photo photo = photoRepository.findDetailById(Integer.parseInt(id));
+                photoList.add(photo);
+            }
+            photoNumber = photoIds.length;
         }
         Map<String, List<Photo>> resultMap = new HashMap<>();
         for (Photo photo : photoList) {
+            if(photo == null) {
+                continue;
+            }
             String time = photo.getCreateTime().toString().substring(0, 11);
             if (resultMap.containsKey(time)) {
                 resultMap.get(time).add(photo);
@@ -132,6 +143,9 @@ public class AlbumServiceImpl implements AlbumService {
         }
         List<Map<String, Object>> resultList = new ArrayList<>();
         for (Photo photo : photoList) {
+            if(photo == null) {
+                continue;
+            }
             String time = photo.getCreateTime().toString().substring(0, 11);
             List<Photo> photoList1 = new ArrayList<>();
             Map<String, Object> map = new HashMap<>();
@@ -145,7 +159,7 @@ public class AlbumServiceImpl implements AlbumService {
             }
         }
         albumInfo.put("photoList", resultList);
-        albumInfo.put("photoNumber", resultMap.size());
+        albumInfo.put("photoNumber", photoNumber);
         albumInfo.put("createTime", albums.getCreateTime());
         albumInfo.put("name", albums.getName());
         albumInfo.put("albumId", albums.getId());

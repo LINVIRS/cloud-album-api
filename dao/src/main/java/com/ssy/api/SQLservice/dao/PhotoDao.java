@@ -28,5 +28,4 @@ public interface PhotoDao {
      */
     Photo findDetailById(Integer id);
 
-
 }
