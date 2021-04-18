@@ -6,7 +6,6 @@ import com.ssy.api.SQLservice.repository.PhotoRepository;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.PhotoService;
-import com.ssy.api.utils.SnowflakeIdWorker;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -54,8 +53,16 @@ public class PhotoServiceImpl implements PhotoService {
         photoRepository.saveAll(ids.stream().map(i -> {
             Photo photo = photoRepository.findById(i).get();
             photo.setIsDelete(1);
+            photo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             return photo;
         }).collect(Collectors.toList()));
         return new RestResultBuilder<>().success("成功");
+    }
+
+    @Override
+    @Transactional
+    public RestResult findInTrashcan(PhotoDto photoDto) {
+
+        return null;
     }
 }
