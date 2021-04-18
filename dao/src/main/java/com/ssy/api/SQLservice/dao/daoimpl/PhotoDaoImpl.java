@@ -17,8 +17,8 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
         JPAQuery<Photo> photoJPAQuery = queryFactory.select(qPhoto).from(qPhoto)
                 .offset((long) photoDto.getPage() * photoDto.getPageSize())
                 .limit(photoDto.getPageSize())
+                .where(qPhoto.isDelete.eq(0))
                 .orderBy(qPhoto.createTime.desc());
-
         return photoJPAQuery.fetch();
     }
 

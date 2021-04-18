@@ -20,4 +20,5 @@ public interface PhotoDao {
      * @return photo
      */
     Photo findDetailById(Integer id);
+
 }
