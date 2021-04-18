@@ -42,6 +42,7 @@ public interface UserService {
      */
     RestResult UserPhoneCheck(String  PhoneNumber);
 
+
     /**
      * 查询用户资料
      * @param userId

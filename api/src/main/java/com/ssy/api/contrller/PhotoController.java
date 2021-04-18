@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -39,6 +40,12 @@ public class PhotoController {
         JSONObject jsonObject = JSON.parseObject(s);
         List<PhotoDto> photoDtos = JSON.parseArray(jsonObject.getString("str"), PhotoDto.class);
         return photoService.saveAll(photoDtos);
+    }
+
+    @ApiOperation(value = "删除照片", httpMethod = "POST", notes = "删除照片")
+    @PostMapping("/delete")
+    public RestResult delete(@RequestBody Integer[] ids) {
+        return photoService.delete(Arrays.asList(ids));
     }
 
 }
