@@ -85,7 +85,6 @@
     </profiles>
 
 
-
     <build>
         <plugins>
             <plugin>
@@ -95,11 +94,7 @@
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>
-
         </plugins>
-
-
     </build>
-
 
 </project>

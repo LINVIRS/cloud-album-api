@@ -14,6 +14,13 @@ public interface PhotoDao {
     List<Photo> findAllPhoto(PhotoDto photoDto);
 
     /**
+     * 在回收站查找照片
+     *
+     * @return
+     */
+    List<Photo> findInTrashcan(PhotoDto photoDto);
+
+    /**
      * 查找图片详情
      *
      * @param id 图片id

@@ -24,6 +24,14 @@ public interface PhotoService {
     RestResult findById(Integer id);
 
     /**
+     * 在回收站里查找照片
+     *
+     * @param photoDto
+     * @return
+     */
+    RestResult findInTrashcan(PhotoDto photoDto);
+
+    /**
      * 分页查询所有照片
      *
      * @param photoDtos
@@ -42,6 +50,7 @@ public interface PhotoService {
 
     /**
      * 批量上传文件
+     *
      * @param photos 图片
      * @return Result
      */
