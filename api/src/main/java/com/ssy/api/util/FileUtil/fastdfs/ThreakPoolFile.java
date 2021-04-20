@@ -64,7 +64,6 @@ public class ThreakPoolFile {
 
             try {
                 returnValue.add(paths.get());
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
