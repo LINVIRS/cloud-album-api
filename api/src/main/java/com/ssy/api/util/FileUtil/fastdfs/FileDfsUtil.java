@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -51,6 +52,21 @@ public class FileDfsUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return storePath.getFullPath();
+    }
+
+    /**
+     * 上传字节数组
+     *
+     * @param photo
+     * @return
+     */
+    public String upload(byte[] photo) {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(photo);
+        StorePath storePath;
+        storePath =
+                storageClient.uploadImageAndCrtThumbImage(
+                        byteArrayInputStream, photo.length, "jpg", null);
         return storePath.getFullPath();
     }
 

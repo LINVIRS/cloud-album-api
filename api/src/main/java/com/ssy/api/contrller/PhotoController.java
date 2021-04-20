@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.result.RestResult;
+import com.ssy.api.service.AlbumService;
 import com.ssy.api.service.PhotoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Future;
 
 @RestController
 @RequestMapping("/photo")
@@ -19,6 +21,9 @@ import java.util.List;
 public class PhotoController {
     @Resource
     private PhotoService photoService;
+
+    @Resource
+    private AlbumService albumService;
 
 
     @ApiOperation(value = "查询所有图片", httpMethod = "POST", notes = "查询所有图片")
@@ -35,7 +40,7 @@ public class PhotoController {
 
     @ApiOperation(value = "保存图片", httpMethod = "POST", notes = "保存图片")
     @PostMapping("/saveall")
-    public RestResult save(@RequestBody String photoDtosStr) {
+    public Future<RestResult> save(@RequestBody String photoDtosStr) {
         String s = photoDtosStr.replaceAll("\\\\", "");
         JSONObject jsonObject = JSON.parseObject(s);
         List<PhotoDto> photoDtos = JSON.parseArray(jsonObject.getString("str"), PhotoDto.class);
@@ -48,4 +53,20 @@ public class PhotoController {
         return photoService.delete(Arrays.asList(ids));
     }
 
+    @ApiOperation(value = "照片添加到相册", httpMethod = "POST", notes = "照片添加到相册")
+    @PostMapping("/addtoalbum")
+    public RestResult addPhotoTOAlbum(@RequestBody Integer[] ids) {
+        System.out.println(ids);
+        return albumService.addPhotoTOAlbum(Arrays.asList(ids), ids[0]);
+    }
+
+
+    @ApiOperation(value = "批量上传图片", httpMethod = "POST", notes = "批量上传图片")
+    @PostMapping("/batch")
+    public RestResult batchUpload(@RequestBody String photoDtosStr) {
+        String s = photoDtosStr.replaceAll("\\\\", "");
+        JSONObject jsonObject = JSON.parseObject(s);
+        List<PhotoDto> photoDtos = JSON.parseArray(jsonObject.getString("str"), PhotoDto.class);
+        return photoService.batchUploadPicture(photoDtos);
+    }
 }

@@ -24,6 +24,7 @@ public class AlbumVo {
     private Integer type;
     private Integer createType;
     private String photoId;
+    private String cover;
     private String name;
     private String photoNumber;
     private Integer totalCapacity;

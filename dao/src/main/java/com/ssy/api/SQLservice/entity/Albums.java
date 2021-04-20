@@ -1,5 +1,9 @@
 package com.ssy.api.SQLservice.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +19,9 @@ import java.util.Objects;
  * @Version: V1.0
  **/
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Albums {
     private int id;
     private Integer userId;
@@ -182,5 +189,24 @@ public class Albums {
     @Override
     public int hashCode() {
         return Objects.hash(id, userId, type, createType, photoId, name, photoNumber, totalCapacity, tagId, createTime, updateTime, isDelete);
+    }
+
+    @Override
+    public String toString() {
+        return "Albums{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", type=" + type +
+                ", createType=" + createType +
+                ", photoId='" + photoId + '\'' +
+                ", name='" + name + '\'' +
+                ", photoNumber='" + photoNumber + '\'' +
+                ", cover='" + cover + '\'' +
+                ", totalCapacity=" + totalCapacity +
+                ", tagId=" + tagId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", isDelete=" + isDelete +
+                '}';
     }
 }

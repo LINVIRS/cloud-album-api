@@ -4,6 +4,7 @@ import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.result.RestResult;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 public interface PhotoService {
     /**
@@ -24,12 +25,20 @@ public interface PhotoService {
     RestResult findById(Integer id);
 
     /**
+     * 在回收站里查找照片
+     *
+     * @param photoDto
+     * @return
+     */
+    RestResult findInTrashcan(PhotoDto photoDto);
+
+    /**
      * 分页查询所有照片
      *
      * @param photoDtos
      * @return
      */
-    RestResult saveAll(List<PhotoDto> photoDtos);
+    Future<RestResult> saveAll(List<PhotoDto> photoDtos);
 
 
     /**
@@ -39,5 +48,13 @@ public interface PhotoService {
      * @return
      */
     RestResult delete(List<Integer> ids);
+
+    /**
+     * 批量上传文件
+     *
+     * @param photos 图片
+     * @return Result
+     */
+    RestResult batchUploadPicture(List<PhotoDto> photos);
 
 }
