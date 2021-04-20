@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.ssy.api.SQLservice.dto.DownLoadFileDto;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
+import com.ssy.api.util.FaceHandlerUtil;
 import com.ssy.api.util.FileUtil.fastdfs.FileThreadTask;
 import com.ssy.api.util.FileUtil.fastdfs.ThreakPoolFile;
 import io.swagger.annotations.Api;
