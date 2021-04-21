@@ -1,11 +1,18 @@
 package com.ssy.api.SQLservice.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "face_store", schema = "cloud-album", catalog = "")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class FaceStore {
     private int faceStoreId;
     private Integer albumId;

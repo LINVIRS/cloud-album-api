@@ -10,6 +10,7 @@ import com.ssy.api.SQLservice.vo.AlbumVo;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.AlbumService;
+import com.ssy.api.service.FaceService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,6 +36,8 @@ public class AlbumServiceImpl implements AlbumService {
     private AlbumRepository albumRepository;
     @Resource
     private PhotoRepository photoRepository;
+    @Resource
+    private FaceService faceService;
 
     @Override
     @Transactional

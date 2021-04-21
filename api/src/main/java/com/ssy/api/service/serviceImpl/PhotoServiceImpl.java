@@ -1,7 +1,9 @@
 package com.ssy.api.service.serviceImpl;
 
 import com.ssy.api.SQLservice.dto.PhotoDto;
+import com.ssy.api.SQLservice.dto.face.AddFaceDto;
 import com.ssy.api.SQLservice.dto.face.FaceDetectResult;
+import com.ssy.api.SQLservice.dto.face.FaceRectangle;
 import com.ssy.api.SQLservice.entity.Face;
 import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.repository.FaceRepository;
@@ -11,8 +13,7 @@ import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.FaceService;
 import com.ssy.api.service.PhotoService;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
+import com.ssy.api.util.FaceHandlerUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,7 +21,7 @@ import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 
@@ -43,8 +44,7 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     @Transactional
-    @Async
-    public Future<RestResult> saveAll(List<PhotoDto> photoDtos) {
+    public RestResult saveAll(List<PhotoDto> photoDtos) {
         List<Photo> photos = photoRepository.saveAll(photoDtos.stream().map(photo ->
                 Photo.builder()
                         .userId(photo.getUserId())
@@ -59,19 +59,36 @@ public class PhotoServiceImpl implements PhotoService {
                         .build()
         ).collect(Collectors.toList()));
         photos.forEach(photo -> {
-            List<FaceDetectResult> faceDetectResults = faceService.faceDetect(photo.getUrl());
-            if (faceDetectResults != null) {
-                faceRepository.saveAll(faceDetectResults.stream().map(face -> Face.builder()
-                        .faceId(face.getFaceId())
-                        .photoId(photo.getId())
-                        .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
-                        .confidence((double) face.getFaceScore())
-                        .createTime(new Timestamp(System.currentTimeMillis()))
-                        .updateTime(new Timestamp(System.currentTimeMillis()))
-                        .build()).collect(Collectors.toList()));
+            List<FaceDetectResult> faceDetectResults;
+            try {
+                faceDetectResults = faceService.faceDetect(photo.getUrl()).get();
+                if (faceDetectResults != null) {
+                    faceRepository.saveAll(faceDetectResults.stream().map(face -> {
+                        FaceRectangle faceRectangle = face.getFaceRectangle();
+                        String s = faceRectangle.getUpperLeftX() + "," +
+                                faceRectangle.getUpperLeftY() + "," +
+                                faceRectangle.getLowerRightX() + "," +
+                                faceRectangle.getLowerRightY();
+                        // faceId设置有问题，需要探测到人脸之后，先添加到人脸大库，在拿返回id设置成faceId 目前名称是默认
+                        AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
+                                ParameterConstant.FastDFSPrefix + face.getSubImage()
+                                , "image");
+                        return Face.builder()
+                                .faceId(addFaceDto.getFaceId())
+                                .photoId(photo.getId())
+                                .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
+                                .faceRectangle(s)
+                                .confidence((double) face.getFaceScore())
+                                .createTime(new Timestamp(System.currentTimeMillis()))
+                                .updateTime(new Timestamp(System.currentTimeMillis()))
+                                .build();
+                    }).collect(Collectors.toList()));
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
         });
-        return new AsyncResult<>(new RestResultBuilder<>().success("成功"));
+        return new RestResultBuilder<>().success("成功");
     }
 
 

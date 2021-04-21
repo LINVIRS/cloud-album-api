@@ -4,7 +4,6 @@ import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.result.RestResult;
 
 import java.util.List;
-import java.util.concurrent.Future;
 
 public interface PhotoService {
     /**
@@ -38,7 +37,7 @@ public interface PhotoService {
      * @param photoDtos
      * @return
      */
-    Future<RestResult> saveAll(List<PhotoDto> photoDtos);
+    RestResult saveAll(List<PhotoDto> photoDtos);
 
 
     /**
