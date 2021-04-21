@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Future;
 
 @RestController
 @RequestMapping("/photo")
@@ -40,7 +39,7 @@ public class PhotoController {
 
     @ApiOperation(value = "保存图片", httpMethod = "POST", notes = "保存图片")
     @PostMapping("/saveall")
-    public Future<RestResult> save(@RequestBody String photoDtosStr) {
+    public RestResult save(@RequestBody String photoDtosStr) {
         String s = photoDtosStr.replaceAll("\\\\", "");
         JSONObject jsonObject = JSON.parseObject(s);
         List<PhotoDto> photoDtos = JSON.parseArray(jsonObject.getString("str"), PhotoDto.class);

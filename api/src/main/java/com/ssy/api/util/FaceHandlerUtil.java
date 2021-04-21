@@ -18,6 +18,7 @@ import java.net.URL;
 
 @Component
 public class FaceHandlerUtil {
+    public static final Integer FACE_STORE_ALL = 116171;
     private static final String accessKey = ParameterConstant.FACEAK;
     private static final String secretKey = ParameterConstant.FACESK;
     private static AiFaceBody aiFaceBody = new AiFaceBody(Region.POOL_CS, accessKey, secretKey);
@@ -26,19 +27,19 @@ public class FaceHandlerUtil {
 
         byte[] imageFromNetByUrl = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/09/rBEAA2B9I-KAKMbjAAAZVV6nqVM34.jpeg");
         byte[] imageFromNetByUrl1 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/09/rBEAA2B9JDmAabs8AAAVgUJknQI85.jpeg");
-        //人脸识别与人体识别
-//        AiFaceBody aiFaceBody = FaceHandlerUtil.getInstance();
+        byte[] imageFromNetByUrl2 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0A/rBEAA2B_wpGAd5-MAAAbaEHTwU461.jpeg");
         try {
-//            CommonJsonObjectResponse response = aiFaceBody.faceDetect("/Users/yy/Pictures/篮子/篮子9.jpeg", null);
-            CommonJsonObjectResponse response = aiFaceBody.faceDetect("/Users/yy/Pictures/7.JPG", null);
-//            CommonJsonObjectResponse commonJsonObjectResponse =
-//                    aiFaceBody.faceMatch(imageFromNetByUrl, imageFromNetByUrl1, null);
-//            CommonJsonObjectResponse faceSet = aiFaceBody.createFaceSet("篮子", "抽象", accessKey, null);
+//            CommonJsonObjectResponse faceSet = aiFaceBody.createFaceSet("人脸大库", "储存所有人脸信息", accessKey, null);
+//            CommonJsonObjectResponse lanzi = aiFaceBody.createFaceToFile(FACE_STORE_ALL, imageFromNetByUrl, "篮子", "jsp", accessKey, null);
+//            System.out.println(lanzi);
+//            CommonJsonObjectResponse commonJsonObjectResponse = aiFaceBody.deleteFace(FACE_STORE_ALL, 62220, accessKey, null);
+//            CommonJsonObjectResponse commonJsonObjectResponse = aiFaceBody.queryFace(62226, 62225, accessKey, null);
 //            System.out.println(commonJsonObjectResponse);
-            System.out.println(response);
+//            CommonJsonObjectResponse 篮子 = aiFaceBody.queryFaceSet("篮子", 0, 100, accessKey, null);
+//            CommonJsonObjectResponse faceToFile = aiFaceBody.createFaceToFile(FaceHandlerUtil.FACE_STORE_ALL,
+//                    imageFromNetByUrl, "123", null, accessKey, null);
+//            System.out.println(faceToFile);
 //            System.out.println(faceSet);
-//            MultipartFile multipartFile = subImage(imageFromNetByUrl, (int) 60.18886058032513, (int) 28.9283454567194, (int) 87.51813979446887, (int) 123.607926171273);
-//            System.out.println(multipartFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,11 +65,96 @@ public class FaceHandlerUtil {
     }
 
     /**
+     * 人脸匹配
+     *
      * @param url1
      * @param url2
      * @return
      */
     public JSONObject match(String url1, String url2) {
+        JSONObject commonResult = null;
+        try {
+            CommonJsonObjectResponse commonJsonObjectResponse = aiFaceBody.faceMatch(getImageFromNetByUrl(url1), getImageFromNetByUrl(url2), null);
+            if (commonJsonObjectResponse.getHttpCode() == 200) {
+                commonResult = commonJsonObjectResponse.getCommonResult();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commonResult;
+    }
+
+    /**
+     * 添加人脸
+     *
+     * @param faceStoreId 人脸库id
+     * @param url         人脸照片地址
+     * @param faceName    照片名称
+     * @return
+     */
+    public JSONObject faceAdd(Integer faceStoreId, String url, String faceName) {
+        JSONObject commonResult = null;
+        try {
+            CommonJsonObjectResponse commonJsonObjectResponse =
+                    aiFaceBody.createFaceToFile(faceStoreId, getImageFromNetByUrl(url), faceName, null, accessKey, null);
+            if (commonJsonObjectResponse.getHttpCode() == 200) {
+                commonResult = commonJsonObjectResponse.getCommonResult();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commonResult;
+    }
+
+    /**
+     * 查询人脸
+     *
+     * @param faceStoreId
+     * @param faceId
+     * @return
+     */
+    public JSONObject queryFace(Integer faceStoreId, Integer faceId) {
+        JSONObject commonResult = null;
+        try {
+            CommonJsonObjectResponse commonJsonObjectResponse =
+                    aiFaceBody.queryFace(faceStoreId, faceId, accessKey, null);
+            if (commonJsonObjectResponse.getHttpCode() == 200) {
+                commonResult = commonJsonObjectResponse.getCommonResult();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commonResult;
+    }
+
+
+    /**
+     * 创建人脸库
+     *
+     * @param name
+     * @param description
+     * @return
+     */
+    public JSONObject createFaceSet(String name, String description) {
+        JSONObject commonResult = null;
+        try {
+            CommonJsonObjectResponse commonJsonObjectResponse = aiFaceBody.createFaceSet(name, description, accessKey, null);
+            if (commonJsonObjectResponse.getHttpCode() == 200) {
+                commonResult = commonJsonObjectResponse.getCommonResult();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return commonResult;
+    }
+
+
+    /**
+     * @param url1
+     * @param url2
+     * @return
+     */
+    public JSONObject search(String url1, String url2) {
         JSONObject commonResult = null;
         try {
             CommonJsonObjectResponse commonJsonObjectResponse = aiFaceBody.faceMatch(getImageFromNetByUrl(url1), getImageFromNetByUrl(url2), null);

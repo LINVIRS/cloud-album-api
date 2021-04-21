@@ -1,6 +1,7 @@
 package com.ssy.api.contrller;
 
 import com.ssy.api.result.RestResult;
+import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.FaceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,10 +19,12 @@ public class FaceController {
     @Resource
     private FaceService faceService;
 
-    @ApiOperation(value = "人像探测", notes = "人像探测")
-    @PostMapping("/facedetect")
-    public RestResult uploadFile(@RequestParam("photo") String photo) {
-//        return faceService.faceDetect(photo);
-        return null;
+    @ApiOperation(value = "人脸测试", notes = "人脸测试")
+    @PostMapping("/test")
+    public RestResult test(@RequestParam("photo") String photo) {
+        Float v = faceService.faceMatch("http://36.137.109.33:8888/group1/M00/00/0A/rBEAA2B_veuANmAAAAAMfLlfZJE653.jpg",
+                "http://36.137.109.33:8888/group1/M00/00/0A/rBEAA2B_u7mAA00jAAAMUPqty58836.jpg");
+
+        return new RestResultBuilder<>().success(v);
     }
 }

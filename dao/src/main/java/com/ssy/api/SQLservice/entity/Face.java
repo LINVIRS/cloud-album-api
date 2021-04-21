@@ -13,9 +13,10 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 public class Face {
-    private String faceId;
+    private int faceId;
     private String url;
     private String name;
+    private String faceRectangle;
     private Integer photoId;
     private Double confidence;
     private String extraInfo;
@@ -25,11 +26,11 @@ public class Face {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "face_id")
-    public String getFaceId() {
+    public int getFaceId() {
         return faceId;
     }
 
-    public void setFaceId(String faceId) {
+    public void setFaceId(int faceId) {
         this.faceId = faceId;
     }
 
@@ -51,6 +52,16 @@ public class Face {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Basic
+    @Column(name = "face_rectangle")
+    public String getFaceRectangle() {
+        return faceRectangle;
+    }
+
+    public void setFaceRectangle(String faceRectangle) {
+        this.faceRectangle = faceRectangle;
     }
 
     @Basic

@@ -18,4 +18,6 @@ public class FaceDetectResult {
     private String subImage;
     // 识别得分
     private int faceScore;
+    // 人像矩形区域
+    private FaceRectangle faceRectangle;
 }
