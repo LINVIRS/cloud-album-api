@@ -5,6 +5,9 @@ import com.ssy.api.SQLservice.entity.Photo;
 
 import java.util.List;
 
+/**
+ * @author wanglin
+ */
 public interface PhotoDao {
     /**
      * 分页查找所有照片
