@@ -19,16 +19,18 @@ import java.net.URL;
 @Component
 public class FaceHandlerUtil {
     public static final Integer FACE_STORE_ALL = 116171;
+
     private static final String accessKey = ParameterConstant.FACEAK;
     private static final String secretKey = ParameterConstant.FACESK;
     private static AiFaceBody aiFaceBody = new AiFaceBody(Region.POOL_CS, accessKey, secretKey);
 
     public static void main(String[] args) {
-
         byte[] imageFromNetByUrl = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/09/rBEAA2B9I-KAKMbjAAAZVV6nqVM34.jpeg");
         byte[] imageFromNetByUrl1 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/09/rBEAA2B9JDmAabs8AAAVgUJknQI85.jpeg");
         byte[] imageFromNetByUrl2 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0A/rBEAA2B_wpGAd5-MAAAbaEHTwU461.jpeg");
+        byte[] imageFromNetByUrl3 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0C/rBEAA2B_7peARXwEAAAWhMiH-e096.jpeg");
         try {
+            System.out.println(aiFaceBody.faceDetect(imageFromNetByUrl3, null).getCommonResult());
 //            CommonJsonObjectResponse faceSet = aiFaceBody.createFaceSet("人脸大库", "储存所有人脸信息", accessKey, null);
 //            CommonJsonObjectResponse lanzi = aiFaceBody.createFaceToFile(FACE_STORE_ALL, imageFromNetByUrl, "篮子", "jsp", accessKey, null);
 //            System.out.println(lanzi);
@@ -188,7 +190,6 @@ public class FaceHandlerUtil {
             // 图片主转为字节数组
             outStream = new ByteArrayOutputStream();
             ImageIO.write(subImage, "jpg", outStream);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

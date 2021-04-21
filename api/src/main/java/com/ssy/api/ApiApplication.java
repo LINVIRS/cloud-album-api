@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
  */
 @SpringBootApplication
 //开启异步调用
-@EnableAsync
+//@EnableAsync
 public class ApiApplication {
 
     public static void main(String[] args) {

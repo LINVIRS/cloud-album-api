@@ -7,6 +7,7 @@ import com.ssy.api.SQLservice.dto.face.FaceStoreDto;
 import java.util.List;
 import java.util.concurrent.Future;
 
+
 public interface FaceService {
     /**
      * 人脸检测
