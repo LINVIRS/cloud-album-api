@@ -92,6 +92,7 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
 
+
     public RestResult findAll(PhotoDto photoDto) {
         return new RestResultBuilder<>().success(photoRepository.findAllPhoto(photoDto));
 

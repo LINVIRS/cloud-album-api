@@ -1,4 +1,4 @@
-package com.ssy.api.contrller;
+package com.ssy.api.controller;
 
 import com.chinamobile.cmss.sdk.response.bean.EngineClassify;
 import com.ssy.api.SQLservice.entity.UserLike;
@@ -8,6 +8,7 @@ import com.ssy.api.service.UserLikeService;
 import com.ssy.api.util.Base64ImageUtil;
 import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
 import com.ssy.api.utils.MyQrCodeUtil;
+import com.ssy.api.utils.photoExifUtil.PhotoExifVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -83,9 +84,9 @@ public class TestController {
     public RestResult uploadFile(@RequestParam("file") MultipartFile file) {
         String result;
         try {
-            String path = fileDfsUtil.upload(file);
-            if (!StringUtils.isEmpty(path)) {
-                result = path;
+            PhotoExifVo upload = fileDfsUtil.upload(file);
+            if (!StringUtils.isEmpty(upload.getFullPath())) {
+                result = upload.getFullPath();
             } else {
                 result = "上传失败";
             }
@@ -96,4 +97,15 @@ public class TestController {
         return new RestResultBuilder<>().success(result);
     }
 
+
+
+    /**
+     * 文件删除
+     */
+    @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")
+    @PostMapping("/test/delete")
+    public RestResult DeleteImgFile(@RequestBody List<String> fullPaths) {
+          fileDfsUtil.delete(fullPaths);
+        return new RestResultBuilder<>().success();
+    }
 }

@@ -1,6 +1,4 @@
 package com.ssy.api.SQLservice.dao.daoimpl;
-
-
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.ssy.api.SQLservice.dao.UserDao;

@@ -1,5 +1,6 @@
 package com.ssy.api.util.FileUtil.fastdfs;
 
+import com.ssy.api.utils.photoExifUtil.PhotoExifVo;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,15 +16,16 @@ import java.util.concurrent.Callable;
  */
 @Component
 @Data
-public class FileThreadTask implements Callable<String> {
+public class FileThreadTask implements Callable<PhotoExifVo> {
   private MultipartFile multipartFiles;
 
   @Resource private FileDfsUtil fileDfsUtil;
 
   @Override
-  public String call() throws Exception {
+  public PhotoExifVo call() throws Exception {
     // 上传图片
     List<String> paths = new ArrayList<>();
-    return fileDfsUtil.upload(multipartFiles);
+    return  fileDfsUtil.upload(multipartFiles);
+
   }
 }
