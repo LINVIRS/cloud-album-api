@@ -5,6 +5,8 @@ import com.ssy.api.SQLservice.dto.AlbumQueryDto;
 import com.ssy.api.SQLservice.dto.PageDto;
 import com.ssy.api.result.RestResult;
 
+import java.util.List;
+
 public interface AlbumService {
 
     /**
@@ -40,6 +42,6 @@ public interface AlbumService {
      */
     RestResult getAlbumDetailById(int albumId);
 
-
+    RestResult addPhotoTOAlbum(List<Integer> ids, Integer AlbumId);
 }
 

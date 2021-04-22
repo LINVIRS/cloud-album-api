@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.result.RestResult;
+import com.ssy.api.service.AlbumService;
 import com.ssy.api.service.PhotoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,8 @@ import java.util.List;
 public class PhotoController {
     @Resource
     private PhotoService photoService;
+    @Resource
+    private AlbumService albumService;
 
 
     @ApiOperation(value = "查询所有图片", httpMethod = "POST", notes = "查询所有图片")
@@ -55,5 +58,15 @@ public class PhotoController {
         JSONObject jsonObject = JSON.parseObject(s);
         List<PhotoDto> photoDtos = JSON.parseArray(jsonObject.getString("str"), PhotoDto.class);
         return photoService.batchUploadPicture(photoDtos);
+    }
+
+    @ApiOperation(value = "照片添加到相册", httpMethod = "POST", notes = "照片添加到相册")
+    @PostMapping("/addtoalbum")
+    public RestResult addPhotoTOAlbum(@RequestBody Integer[] ids) {
+        System.out.println("获取到的id是: ");
+        for (int id : ids) {
+            System.out.println(id);
+        }
+        return albumService.addPhotoTOAlbum(Arrays.asList(ids), ids[0]);
     }
 }
