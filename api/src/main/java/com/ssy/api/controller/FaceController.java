@@ -1,4 +1,4 @@
-package com.ssy.api.contrller;
+package com.ssy.api.controller;
 
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;

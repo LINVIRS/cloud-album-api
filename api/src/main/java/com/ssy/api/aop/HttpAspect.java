@@ -24,7 +24,7 @@ public class HttpAspect {
     private final static Logger logger = LoggerFactory.getLogger(HttpAspect.class);
 
     //切入点
-    @Pointcut("execution(public * com.thp.api.controller.*.*(..))")
+    @Pointcut("execution(public * com.ssy.api.controller.*.*(..))")
     private void auth() {
 
     }

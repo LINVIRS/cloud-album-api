@@ -11,6 +11,9 @@ import com.ssy.api.service.BaseService;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * @author wanglin
+ */
 public class PhotoDaoImpl extends BaseService implements PhotoDao {
     @Override
     public List<Photo> findAllPhoto(PhotoDto photoDto) {
