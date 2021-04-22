@@ -68,4 +68,10 @@ public class PhotoController {
         List<PhotoDto> photoDtos = JSON.parseArray(jsonObject.getString("str"), PhotoDto.class);
         return photoService.batchUploadPicture(photoDtos);
     }
+
+    @ApiOperation(value = "给图片添加标签", httpMethod = "POST", notes = "给图片添加标签")
+    @PostMapping("/tag")
+    public RestResult addPhotoTag(@RequestParam Integer photoId, @RequestParam String tagName, @RequestParam String description) {
+        return photoService.addPhotoTag(photoId, tagName, description);
+    }
 }

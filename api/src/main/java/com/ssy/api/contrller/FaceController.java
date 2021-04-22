@@ -19,9 +19,9 @@ public class FaceController {
     @Resource
     private FaceService faceService;
 
-    @ApiOperation(value = "人脸测试", notes = "人脸测试")
-    @PostMapping("/test")
-    public RestResult test(@RequestParam("photo") String photo) {
+    @ApiOperation(value = "人脸相册推送", notes = "人脸相册推送")
+    @PostMapping("/recommend")
+    public RestResult recommend(@RequestParam("photo") String photo) {
         Float v = faceService.faceMatch("http://36.137.109.33:8888/group1/M00/00/0A/rBEAA2B_veuANmAAAAAMfLlfZJE653.jpg",
                 "http://36.137.109.33:8888/group1/M00/00/0A/rBEAA2B_u7mAA00jAAAMUPqty58836.jpg");
 

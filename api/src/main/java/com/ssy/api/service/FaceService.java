@@ -1,8 +1,6 @@
 package com.ssy.api.service;
 
-import com.ssy.api.SQLservice.dto.face.AddFaceDto;
-import com.ssy.api.SQLservice.dto.face.FaceDetectResult;
-import com.ssy.api.SQLservice.dto.face.FaceStoreDto;
+import com.ssy.api.SQLservice.dto.face.*;
 
 import java.util.List;
 import java.util.concurrent.Future;
@@ -46,4 +44,23 @@ public interface FaceService {
      * @return
      */
     AddFaceDto faceAdd(Integer faceStoreId, String url, String faceName);
+
+    /**
+     * 查询人脸
+     *
+     * @param faceStoreId
+     * @param faceId
+     * @return
+     */
+    QueryFaceDto queryFace(Integer faceStoreId, Integer faceId);
+
+    /**
+     * 搜索人脸
+     *
+     * @param url
+     * @param faceSetId
+     * @param faceNumber
+     * @return
+     */
+    List<SearchFaceDto>  searchFace(String url, Integer faceSetId, Integer faceNumber);
 }

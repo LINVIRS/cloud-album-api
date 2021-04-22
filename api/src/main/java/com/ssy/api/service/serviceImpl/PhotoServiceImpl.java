@@ -6,8 +6,10 @@ import com.ssy.api.SQLservice.dto.face.FaceDetectResult;
 import com.ssy.api.SQLservice.dto.face.FaceRectangle;
 import com.ssy.api.SQLservice.entity.Face;
 import com.ssy.api.SQLservice.entity.Photo;
+import com.ssy.api.SQLservice.entity.Tag;
 import com.ssy.api.SQLservice.repository.FaceRepository;
 import com.ssy.api.SQLservice.repository.PhotoRepository;
+import com.ssy.api.SQLservice.repository.TagRepository;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
@@ -35,6 +37,9 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Resource
     private FaceRepository faceRepository;
+
+    @Resource
+    private TagRepository tagRepository;
 
     @Override
     @Transactional
@@ -146,5 +151,20 @@ public class PhotoServiceImpl implements PhotoService {
     public RestResult findInTrashcan(PhotoDto photoDto) {
 
         return null;
+    }
+
+    @Override
+    @Transactional
+    public RestResult addPhotoTag(Integer photoId, String tagName, String description) {
+        Tag save = tagRepository.save(Tag.builder()
+                .name(tagName)
+                .description(description)
+                .createTime(new Timestamp(System.currentTimeMillis()))
+                .updateTime(new Timestamp(System.currentTimeMillis()))
+                .isDelete(0)
+                .build());
+        Photo photo = photoRepository.findById(photoId).get();
+        photo.setTagId(Integer.toString(save.getId()));
+        return new RestResultBuilder<>().success(photoRepository.saveAndFlush(photo));
     }
 }

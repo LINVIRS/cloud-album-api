@@ -1,9 +1,10 @@
 package com.ssy.api.SQLservice.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -15,6 +16,9 @@ import java.util.Objects;
  * @Version: V1.0
  **/
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Tag {
     private int id;
     private String name;
@@ -24,6 +28,7 @@ public class Tag {
     private Integer isDelete;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;
