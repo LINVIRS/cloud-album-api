@@ -56,4 +56,15 @@ public interface PhotoService {
      */
     RestResult batchUploadPicture(List<PhotoDto> photos);
 
+    /**
+     * 添加照片标签
+     *
+     * @param photoId
+     * @param tagName
+     * @return
+     */
+    RestResult addPhotoTag(Integer photoId, String tagName,String description);
+
+
+
 }
