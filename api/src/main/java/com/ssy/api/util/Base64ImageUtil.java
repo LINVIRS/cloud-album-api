@@ -9,6 +9,7 @@ import com.chinamobile.cmss.sdk.request.EngineImageClassifyDetectPostRequest;
 import com.chinamobile.cmss.sdk.response.EngineImageClassifyDetectResponse;
 import com.chinamobile.cmss.sdk.response.bean.EngineClassify;
 import com.chinamobile.cmss.sdk.util.JacksonUtil;
+import com.ssy.api.constant.ParameterConstant;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,17 +22,12 @@ import java.util.List;
  * 通用图像识别
  */
 public class Base64ImageUtil {
-    private static String accessKey = "9102f303a29f42d39df26f8c8ecc6c5c";
-    private static String secretKey = "a49bbd02b9d2488fb022606794eaaa3a";
-
-    //    public static void main(String[] args) {
-    //        Base64ImageUtil.getImageClassify(new
-    // File("/Users/yangyang/Pictures/智能云相册/E1C3FAE6-A0CB-46A9-88F2-D9C635770806_1_105_c.jpeg"));
-    //    }
+    private static String accessKey = ParameterConstant.PHOTOAK;
+    private static String secretKey = ParameterConstant.PHOTOSK;
 
     // 照片分类
     public static List<EngineClassify> getImageClassify(File file) {
-        // 企业云账户：请申请
+        // 初始化
         Credential credential = new Credential(accessKey, secretKey);
         // 初始化 ECloud client,Region 为部署资源池 OP 网关地址枚举类，可自行扩展
         ECloudDefaultClient ecloudClient = new ECloudDefaultClient(credential, Region.POOL_SZ);

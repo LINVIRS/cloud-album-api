@@ -24,21 +24,22 @@ public class AlbumDaoImpl extends BaseService implements AlbumDao {
         System.out.println("排序字段是: " + queryDto.getSortStr());
         //查询条件暂留保存
         switch (queryDto.getSortStr()) {
-            case "name" :
+            case "name":
                 //根据名称排序
                 return queryFactory.select(qAlbums).from(qAlbums)
                         .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
                         .limit(queryDto.getPageSize()).offset((long) queryDto.getPageSize() * queryDto.getPageIndex())
                         .orderBy(qAlbums.name.desc())
+
                         .fetch();
-            case "createTime" :
+            case "createTime":
                 //根据创建时间排序
                 return queryFactory.select(qAlbums).from(qAlbums)
                         .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
                         .limit(queryDto.getPageSize()).offset((long) queryDto.getPageSize() * queryDto.getPageIndex())
                         .orderBy(qAlbums.createTime.desc())
                         .fetch();
-            case "updateTime" :
+            case "updateTime":
                 return queryFactory.select(qAlbums).from(qAlbums)
                         .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
                         .limit(queryDto.getPageSize()).offset((long) queryDto.getPageSize() * queryDto.getPageIndex())

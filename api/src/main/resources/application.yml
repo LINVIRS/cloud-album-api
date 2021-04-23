@@ -7,7 +7,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 20MB
   profiles:
-    active: @spring.profiles.active@
+    active: dev
   jpa:
     properties:
       hibernate:
@@ -54,7 +54,13 @@ spring:
     throw-exception-if-no-handler-found: true
   resources:
     add-mappings: false
-
+  data:
+    mongodb:
+      host: 36.137.109.33
+      port: 27017
+      database: cloud-album
+      username: ssyuser
+      password: ssy123456
 server:
   port: 8081
   servlet:

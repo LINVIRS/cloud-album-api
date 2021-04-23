@@ -4,15 +4,20 @@ import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.upload.FastImageFile;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import com.ssy.api.utils.photoExifUtil.ExifOfImage;
+import com.ssy.api.utils.photoExifUtil.PhotoExifVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,21 +34,18 @@ public class FileDfsUtil {
      * 上传文件
      */
 
-    public String upload(MultipartFile multipartFile) {
-
+    public PhotoExifVo upload(MultipartFile multipartFile) {
+        PhotoExifVo metadata =new PhotoExifVo();
+             metadata = ExifOfImage.getMetadata(multipartFile);
         String originalFilename =
                 multipartFile
                         .getOriginalFilename()
                         .substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-
         StorePath storePath = null;
-
         try {
             InputStream inputStream = multipartFile.getInputStream();
             long size = multipartFile.getSize();
             String originalFilename1 = multipartFile.getOriginalFilename();
-
-
             storePath =
                     storageClient.uploadImageAndCrtThumbImage(
                             multipartFile.getInputStream(), multipartFile.getSize(), originalFilename, null);
@@ -51,7 +53,38 @@ public class FileDfsUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        metadata.setFullPath(storePath.getFullPath());
+        return metadata;
+    }
+
+    /**
+     * 上传字节数组
+     *
+     * @param photo
+     * @return
+     */
+    public String upload(byte[] photo) {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(photo);
+        StorePath storePath;
+        storePath =
+                storageClient.uploadImageAndCrtThumbImage(
+                        byteArrayInputStream, photo.length, "jpg", null);
         return storePath.getFullPath();
+    }
+
+
+    /**
+     *
+     * @param fullPathList
+     */
+    @Transactional(rollbackOn = Exception.class)
+    public void delete(List<String> fullPathList) {
+       //删除文件
+       fullPathList.stream().forEach(
+               (i)->{
+                   storageClient.deleteFile(i);
+               }
+       );
     }
 
     /**

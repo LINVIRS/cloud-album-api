@@ -2,6 +2,7 @@ package com.ssy.api.util.FileUtil.fastdfs;
 
 import com.github.tobato.fastdfs.domain.proto.storage.DownloadByteArray;
 import com.github.tobato.fastdfs.service.AppendFileStorageClient;
+import com.ssy.api.utils.photoExifUtil.PhotoExifVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,18 +54,17 @@ public class ThreakPoolFile {
      *
      * @return
      */
-    public List<String> getResultUpload(MultipartFile[] multipartFiles) {
+    public List<PhotoExifVo> getResultUpload(MultipartFile[] multipartFiles) {
         int maxPoolSize = Runtime.getRuntime().availableProcessors();
-        List<String> returnValue = new ArrayList<>();
+        List<PhotoExifVo> returnValue = new ArrayList<>();
         ThreadPoolExecutor threadPoolExecutor =
                 new ThreadPoolExecutor(6, maxPoolSize, 3, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
         for (MultipartFile multipartFile : multipartFiles) {
             fileThreadTask.setMultipartFiles(multipartFile);
-            Future<String> paths = threadPoolExecutor.submit(fileThreadTask);
+            Future<PhotoExifVo> paths = threadPoolExecutor.submit(fileThreadTask);
 
             try {
                 returnValue.add(paths.get());
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {

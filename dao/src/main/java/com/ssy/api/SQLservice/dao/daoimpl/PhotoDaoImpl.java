@@ -8,8 +8,12 @@ import com.ssy.api.SQLservice.entity.QPhoto;
 import com.ssy.api.enums.CommonConstant;
 import com.ssy.api.service.BaseService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * @author wanglin
+ */
 public class PhotoDaoImpl extends BaseService implements PhotoDao {
     @Override
     public List<Photo> findAllPhoto(PhotoDto photoDto) {
@@ -22,6 +26,19 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
         return photoJPAQuery.fetch();
     }
 
+    @Override
+    @Transactional
+    public List<Photo> findInTrashcan(PhotoDto photoDto) {
+        QPhoto qPhoto = QPhoto.photo;
+        JPAQuery<Photo> photoJPAQuery = queryFactory.select(qPhoto).from(qPhoto)
+                .offset((long) photoDto.getPage() * photoDto.getPageSize())
+                .limit(photoDto.getPageSize())
+                // 标记删除
+                .where(qPhoto.isDelete.eq(1))
+                // 按照修改时间排序
+                .orderBy(qPhoto.updateTime.desc());
+        return photoJPAQuery.fetch();
+    }
 
     @Override
     public Photo findDetailById(Integer id) {

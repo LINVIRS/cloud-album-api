@@ -3,7 +3,6 @@ package com.ssy.api.service.serviceImpl;
 import cn.hutool.core.bean.BeanUtil;
 import com.ssy.api.SQLservice.dto.AlbumDto;
 import com.ssy.api.SQLservice.dto.AlbumQueryDto;
-import com.ssy.api.SQLservice.dto.PageDto;
 import com.ssy.api.SQLservice.entity.Albums;
 import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.repository.AlbumRepository;
@@ -12,14 +11,17 @@ import com.ssy.api.SQLservice.vo.AlbumVo;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.AlbumService;
-import org.hibernate.criterion.Example;
+import com.ssy.api.service.FaceService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * AlbumServiceImpl
@@ -35,6 +37,8 @@ public class AlbumServiceImpl implements AlbumService {
     private AlbumRepository albumRepository;
     @Resource
     private PhotoRepository photoRepository;
+    @Resource
+    private FaceService faceService;
 
     @Override
     public RestResult createAlbumByUserId(AlbumDto albumDto) {
@@ -99,6 +103,7 @@ public class AlbumServiceImpl implements AlbumService {
         //存放返回数据的list
         List<Map<String, Object>> resultList = new ArrayList<>();
         if(albums == null) {
+
             return new RestResultBuilder<>().success("数据不存在");
         }
         Map<String, Object> albumInfo = new HashMap<>();
@@ -128,6 +133,10 @@ public class AlbumServiceImpl implements AlbumService {
                     .url(photo.getUrl())
                     .isUpload(photo.getIsUpload())
                     .tagId(photo.getTagId())
+                    .photoName(photo.getPhotoName())
+                    .photoSize(photo.getPhotoSize())
+                    .width(photo.getWidth())
+                    .height(photo.getHeight())
                     .longitude(photo.getLongitude())
                     .latitude(photo.getLatitude())
                     .userId(photo.getUserId())

@@ -1,5 +1,7 @@
 package com.ssy.api.constant;
 
+import java.sql.Time;
+
 /**
  * Created by CANONYANG on 2018/6/11.
  */
@@ -63,4 +65,33 @@ public class ParameterConstant {
     public static final String ACCESS_KEY = "";
     public static final String SECRET_KEY = "";
 
+    // FASTDFS
+    public static final String FastDFSPrefix = "http://36.137.109.33:8888/";
+
+    // 移动云
+    public static final String PHOTOAK = "9102f303a29f42d39df26f8c8ecc6c5c";
+    public static final String PHOTOSK = "a49bbd02b9d2488fb022606794eaaa3a";
+    public static final String FACEAK = "CIDC-AK-ed527649-69c4-4297-93ff-bc8fb34201ee";
+    public static final String FACESK = "CIDC-SK-c4b503bb-5cce-45a8-9019-cd3c7694e960";
+
+
+    //照片信息
+    //南北纬
+    public static  final  String GPSLatitudeRef="GPS Latitude Ref";
+    //纬度
+    public static  final  String GPSLatitude="GPS Latitude";
+    //东西经
+    public static  final  String GPSLongitudeRef="GPS Longitude Ref";
+    //经度
+    public static  final  String GPSLongitude="GPS Longitude";
+    //日期
+    public static  final  String PhotoDate="Date/Time";
+    //照片大小
+    public static  final  String FileSize="File Size";
+    //宽度
+    public static  final  String ImageWidth	="Image Width";
+    //高度
+    public static  final  String ImageHeight	="Image Height";
+    //文件名
+    public static  final  String FileName	="File Name";
 }

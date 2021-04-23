@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.ssy.api.SQLservice.dto.DownLoadFileDto;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
+import com.ssy.api.util.FaceHandlerUtil;
 import com.ssy.api.util.FileUtil.fastdfs.FileThreadTask;
 import com.ssy.api.util.FileUtil.fastdfs.ThreakPoolFile;
+import com.ssy.api.utils.photoExifUtil.PhotoExifVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,7 @@ public class FileUploadController {
     @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")
     @PostMapping("/uploadFile")
     public RestResult uploadFile(@RequestParam("files") MultipartFile[] multipartFiles) {
-        List<String> result = threakPoolFile.getResultUpload(multipartFiles);
+        List<PhotoExifVo> result = threakPoolFile.getResultUpload(multipartFiles);
         return new RestResultBuilder<>().success(result);
     }
 
