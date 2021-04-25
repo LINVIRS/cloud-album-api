@@ -113,6 +113,22 @@
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.chinamobile.ecloud</groupId>
+            <artifactId>ecloud-engine-sdk</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.chinamobile.bcop</groupId>
+            <artifactId>ecloud-java-sdk</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.chinamobile.ecloud</groupId>
+            <artifactId>ecloud-engine-sdk</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

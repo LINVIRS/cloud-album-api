@@ -1,4 +1,4 @@
-package com.ssy.api.contrller;
+package com.ssy.api.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.ssy.api.SQLservice.dto.DownLoadFileDto;

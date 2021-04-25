@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddFaceDto {
-    Integer faceId;
-    String faceName;
-    Integer faceSetId;
-    String faceSetName;
+public class SearchFaceDto {
+    private String faceName;
+    private Integer faceId;
+    private Float confidence;
 }
