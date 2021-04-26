@@ -31,13 +31,15 @@ public class FaceHandlerUtil {
         byte[] imageFromNetByUrl5 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0C/rBEAA2CA6liAC31_AAAfOkec7vI84.jpeg");
         byte[] imageFromNetByUrl2 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0A/rBEAA2B_wpGAd5-MAAAbaEHTwU461.jpeg");
         byte[] imageFromNetByUrl3 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0C/rBEAA2B_7peARXwEAAAWhMiH-e096.jpeg");
+        byte[] imageFromNetByUrl10 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0F/rBEAA2CGfRyAU71rAABpAUdghn8075.jpg");
         try {
 //            System.out.println(aiFaceBody.queryFace(116171, 62251, accessKey, null));
 //            System.out.println(aiFaceBody.createFaceToFile(FACE_STORE_ALL, imageFromNetByUrl5, "篮子哥2", null, accessKey, null));
 //            System.out.println(aiFaceBody.queryFace(FACE_STORE_ALL, 62257, accessKey, null).getCommonResult());
 //            System.out.println(aiFaceBody.queryFaceSet("人脸大库", 0, 100, accessKey, null));
-            System.out.println(aiFaceBody.faceSearch(imageFromNetByUrl, FACE_STORE_ALL.toString(), 10, accessKey, null).getCommonResult());
+//            System.out.println(aiFaceBody.faceSearch(imageFromNetByUrl, FACE_STORE_ALL.toString(), 10, accessKey, null).getCommonResult());
 //            System.out.println(faceSet);
+            System.out.println(aiFaceBody.faceDetect(imageFromNetByUrl10, null));
         } catch (Exception e) {
             e.printStackTrace();
         }

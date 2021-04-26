@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class SearchFaceDto {
     private String faceName;
     private Integer faceId;
+    private String url;
     private Float confidence;
 }

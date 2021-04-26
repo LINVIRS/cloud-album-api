@@ -3,7 +3,8 @@ package com.ssy.api.service.serviceImpl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ssy.api.SQLservice.dto.face.*;
-import com.ssy.api.SQLservice.repository.FaceStoreRepository;
+import com.ssy.api.SQLservice.entity.Face;
+import com.ssy.api.SQLservice.repository.FaceRepository;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.service.FaceService;
 import com.ssy.api.util.FaceHandlerUtil;
@@ -24,7 +25,7 @@ public class FaceServiceImpl implements FaceService {
     @Resource
     private FaceHandlerUtil faceHandlerUtil;
     @Resource
-    private FaceStoreRepository faceStoreRepository;
+    private FaceRepository faceRepository;
 
     @Override
     @Async
@@ -44,7 +45,7 @@ public class FaceServiceImpl implements FaceService {
                 // 截取人像
                 byte[] bytes = faceHandlerUtil.subImage(imageFromNetByUrl,
                         faceDectectRectangleArea.getUpperLeftX(),
-                        faceDectectRectangleArea.getUpperLeftY(),
+                        Math.abs(faceDectectRectangleArea.getUpperLeftY()),
                         faceDectectRectangleArea.getLowerRightX() - faceDectectRectangleArea.getUpperLeftX(),
                         faceDectectRectangleArea.getLowerRightY() - faceDectectRectangleArea.getUpperLeftY()
                 );
@@ -116,9 +117,11 @@ public class FaceServiceImpl implements FaceService {
             JSONArray results = search.getJSONArray("results");
             for (Object result : results) {
                 JSONObject jsonObject = ((JSONObject) result);
+                Face face = faceRepository.findById(jsonObject.getInteger("faceId")).get();
                 searchFaceDtos.add(
                         SearchFaceDto.builder()
                                 .faceId(jsonObject.getInteger("faceId"))
+                                .url(face.getUrl())
                                 .faceName(jsonObject.getString("faceName"))
                                 .confidence(jsonObject.getFloat("confidence"))
                                 .build()
