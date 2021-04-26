@@ -58,9 +58,10 @@ public interface PhotoService {
      * 添加照片标签
      *
      * @param photoId
-     * @param tagName
+     * @param tagId
      * @return
      */
+<<<<<<< Updated upstream
     RestResult addPhotoTag(Integer photoId, String tagName,String description);
 
     /**
@@ -77,6 +78,17 @@ public interface PhotoService {
      * @return
      */
     RestResult deleteThorough(List<Integer> ids);
+=======
+    RestResult addPhotoTag(Integer photoId, Integer tagId);
+
+    /**
+     * 修改照片
+     * @param photoId
+     * @param tagId
+     * @return
+     */
+    RestResult deletePhotoTag(Integer photoId, Integer tagId);
+>>>>>>> Stashed changes
 
     /**
      * 恢复照片

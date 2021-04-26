@@ -2,9 +2,14 @@ package com.ssy.api.SQLservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.annotation.Nonnull;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -12,13 +17,14 @@ import java.util.Objects;
  * @ClassName: Tag
  * @Description: TODO
  * @Author: WangLinLIN
- * @Date: 2021/04/06 17:32:18 
+ * @Date: 2021/04/26 12:38:05 
  * @Version: V1.0
  **/
 @Entity
-@Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Tag {
     private int id;
     private String name;
@@ -26,9 +32,9 @@ public class Tag {
     private Timestamp createTime;
     private Timestamp updateTime;
     private Integer isDelete;
+    private Integer userId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;
@@ -88,21 +94,26 @@ public class Tag {
         this.isDelete = isDelete;
     }
 
+    @Basic
+    @Column(name = "user_id", nullable = true)
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tag tag = (Tag) o;
-        return id == tag.id &&
-                Objects.equals(name, tag.name) &&
-                Objects.equals(description, tag.description) &&
-                Objects.equals(createTime, tag.createTime) &&
-                Objects.equals(updateTime, tag.updateTime) &&
-                Objects.equals(isDelete, tag.isDelete);
+        return id == tag.id && Objects.equals(name, tag.name) && Objects.equals(description, tag.description) && Objects.equals(createTime, tag.createTime) && Objects.equals(updateTime, tag.updateTime) && Objects.equals(isDelete, tag.isDelete) && Objects.equals(userId, tag.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, createTime, updateTime, isDelete);
+        return Objects.hash(id, name, description, createTime, updateTime, isDelete, userId);
     }
 }
