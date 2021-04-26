@@ -39,6 +39,8 @@ public class AlbumServiceImpl implements AlbumService {
     private PhotoRepository photoRepository;
     @Resource
     private FaceService faceService;
+    @Resource
+    private TagServiceImpl tagService;
 
     @Override
     public RestResult createAlbumByUserId(AlbumDto albumDto) {
@@ -93,7 +95,6 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public RestResult getAllAlbumsByUserId(AlbumQueryDto dto) {
         List<Albums> albums = albumRepository.getAllAlbumsByUserId(dto);
-        System.out.println(albums.get(0));
         return new RestResultBuilder<>().success(albums);
     }
 

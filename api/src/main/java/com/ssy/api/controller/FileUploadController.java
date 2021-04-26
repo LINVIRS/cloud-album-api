@@ -1,4 +1,4 @@
-package com.ssy.api.contrller;
+package com.ssy.api.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.ssy.api.SQLservice.dto.DownLoadFileDto;
@@ -33,6 +33,8 @@ public class FileUploadController {
     @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")
     @PostMapping("/uploadFile")
     public RestResult uploadFile(@RequestParam("files") MultipartFile[] multipartFiles) {
+        System.out.println("文件是");
+        System.out.println(multipartFiles[0]);
         List<PhotoExifVo> result = threakPoolFile.getResultUpload(multipartFiles);
         return new RestResultBuilder<>().success(result);
     }
