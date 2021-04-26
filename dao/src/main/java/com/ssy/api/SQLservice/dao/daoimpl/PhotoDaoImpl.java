@@ -9,6 +9,8 @@ import com.ssy.api.enums.CommonConstant;
 import com.ssy.api.service.BaseService;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -46,5 +48,15 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
         JPAQuery<Photo> photoJPAQuery = queryFactory.select(qPhoto).from(qPhoto)
                 .where(qPhoto.id.eq(id).and(qPhoto.isDelete.eq(CommonConstant.DELFlag)));
         return photoJPAQuery.fetchOne();
+    }
+
+    @Override
+    public List<Photo> findRecentDelPhoto(int userId) {
+        QPhoto qPhoto = QPhoto.photo;
+        JPAQuery<Photo> photoJPAQuery = queryFactory.select(qPhoto).from(qPhoto)
+                .where(qPhoto.isDelete.eq(CommonConstant.DELETE_DELFlag).and(qPhoto.userId.eq(userId))
+                        .and(qPhoto.updateTime.between(Timestamp.valueOf(LocalDateTime.now().plusDays(-7)), Timestamp.valueOf(LocalDateTime.now()))))
+                        .groupBy(qPhoto.updateTime);
+        return photoJPAQuery.fetch();
     }
 }

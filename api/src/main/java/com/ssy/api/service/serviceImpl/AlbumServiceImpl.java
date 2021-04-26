@@ -1,5 +1,6 @@
 package com.ssy.api.service.serviceImpl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.ssy.api.SQLservice.dto.AlbumDto;
 import com.ssy.api.SQLservice.dto.AlbumQueryDto;
 import com.ssy.api.SQLservice.entity.Albums;
@@ -38,21 +39,8 @@ public class AlbumServiceImpl implements AlbumService {
     private PhotoRepository photoRepository;
     @Resource
     private FaceService faceService;
-
-    @Override
-    @Transactional
-    public RestResult addPhotoTOAlbum(List<Integer> ids, Integer AlbumId) {
-        Albums albums = albumRepository.findById(AlbumId).get();
-        StringBuilder stringBuilder = new StringBuilder();
-        List<Integer> integers = ids.subList(1, ids.size());
-        for (Integer id : integers) {
-            stringBuilder.append(id).append(",");
-        }
-        String s = albums.getPhotoId() + "," + stringBuilder.substring(0, stringBuilder.length() - 1);
-        albums.setPhotoId(s);
-        albumRepository.saveAndFlush(albums);
-        return new RestResultBuilder<>().success("成功");
-    }
+    @Resource
+    private TagServiceImpl tagService;
 
     @Override
     public RestResult createAlbumByUserId(AlbumDto albumDto) {
@@ -107,59 +95,58 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public RestResult getAllAlbumsByUserId(AlbumQueryDto dto) {
         List<Albums> albums = albumRepository.getAllAlbumsByUserId(dto);
-        System.out.println(albums.get(0));
         return new RestResultBuilder<>().success(albums);
     }
 
     @Override
     public RestResult getAlbumDetailById(int albumId) {
         Albums albums = albumRepository.getAlbumDetailById(albumId);
-        if (albums == null) {
+        //存放返回数据的list
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        if(albums == null) {
+
             return new RestResultBuilder<>().success("数据不存在");
         }
         Map<String, Object> albumInfo = new HashMap<>();
         int photoNumber = 0;
         String[] photoIds = albums.getPhotoId().split(",");
         List<Photo> photoList = new ArrayList<>();
-
         if(albums.getPhotoId().length() > 0 && albums.getPhotoId() != null) {
-            System.out.println("获取到的图片id是: " + albums.getPhotoId());
             for(String id : photoIds) {
                 Photo photo = photoRepository.findDetailById(Integer.parseInt(id));
-                photoList.add(photo);
+                if(photo != null) {
+                    photoList.add(photo);
+                }
             }
-            photoNumber = photoIds.length;
         }
         Map<String, List<Photo>> resultMap = new HashMap<>();
         for (Photo photo : photoList) {
-            if(photo == null) {
-                continue;
-            }
-            String time = photo.getCreateTime().toString().substring(0, 11);
-            if (resultMap.containsKey(time)) {
-                resultMap.get(time).add(photo);
-            } else {
-                List<Photo> photoList1 = new ArrayList<Photo>();
-                photoList1.add(photo);
-                resultMap.put(time, photoList1);
-            }
+            resultMap.computeIfAbsent(photo.getCreateTime().toString().substring(0, 11), k -> new ArrayList<>()).add(photo);
         }
-        List<Map<String, Object>> resultList = new ArrayList<>();
-        for (Photo photo : photoList) {
-            if(photo == null) {
-                continue;
-            }
-            String time = photo.getCreateTime().toString().substring(0, 11);
-            List<Photo> photoList1 = new ArrayList<>();
+        for (Map.Entry<String, List<Photo>> entry : resultMap.entrySet()) {
+            String key = entry.getKey();
+            List<Photo> list = entry.getValue();
+            List<Photo> list1 = new ArrayList<>();
             Map<String, Object> map = new HashMap<>();
-            if (resultMap.containsKey(time)) {
-                map.put("date", time);
-                photoList1.addAll(resultMap.get(time));
-                if (photoList1.get(0).getUrl() != null) {
-                    map.put("list", photoList1);
-                    resultList.add(map);
-                }
+            for (Photo photo : list) {
+                photoNumber += 1;
+                list1.add(Photo.builder().id(photo.getId())
+                    .url(photo.getUrl())
+                    .isUpload(photo.getIsUpload())
+                    .tagId(photo.getTagId())
+                    .photoName(photo.getPhotoName())
+                    .photoSize(photo.getPhotoSize())
+                    .width(photo.getWidth())
+                    .height(photo.getHeight())
+                    .longitude(photo.getLongitude())
+                    .latitude(photo.getLatitude())
+                    .userId(photo.getUserId())
+                    .createTime(photo.getCreateTime())
+                    .updateTime(photo.getUpdateTime()).build());
             }
+            map.put("date", key);
+            map.put("list", list1);
+            resultList.add(map);
         }
         albumInfo.put("photoList", resultList);
         albumInfo.put("photoNumber", photoNumber);
@@ -169,5 +156,33 @@ public class AlbumServiceImpl implements AlbumService {
         albumInfo.put("photoId", albums.getPhotoId());
         return new RestResultBuilder<>().success(albumInfo);
     }
-}
 
+    @Override
+    @Transactional
+    public RestResult addPhotoTOAlbum(List<Integer> ids, Integer AlbumId) {
+        Albums albums = albumRepository.findById(AlbumId).get();
+        StringBuilder stringBuilder = new StringBuilder();
+        List<Integer> integers = ids.subList(1, ids.size());
+        for (Integer id : integers) {
+            stringBuilder.append(id).append(",");
+        }
+        String s = "";
+        if(albums.getPhotoId().length() > 0) {
+            String id = "";
+            if(stringBuilder.length() > 0) {
+                id = stringBuilder.substring(0, stringBuilder.length() - 1);
+            }
+            s = albums.getPhotoId() + "," + id;
+        } else {
+            String id = "";
+            if(stringBuilder.length() > 0) {
+                id = stringBuilder.substring(0, stringBuilder.length() - 1);
+            }
+            s = id;
+        }
+        albums.setPhotoId(s);
+        System.out.println("相册的id是: ---------------" + albums.getPhotoId() );
+        albumRepository.saveAndFlush(albums);
+        return new RestResultBuilder<>().success("成功");
+    }
+}

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.result.RestResult;
+import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.AlbumService;
 import com.ssy.api.service.PhotoService;
 import io.swagger.annotations.Api;
@@ -20,10 +21,8 @@ import java.util.List;
 public class PhotoController {
     @Resource
     private PhotoService photoService;
-
     @Resource
     private AlbumService albumService;
-
 
     @ApiOperation(value = "查询所有图片", httpMethod = "POST", notes = "查询所有图片")
     @PostMapping("/all")
@@ -53,15 +52,6 @@ public class PhotoController {
         return photoService.delete(Arrays.asList(ids));
     }
 
-
-    @ApiOperation(value = "照片添加到相册", httpMethod = "POST", notes = "照片添加到相册")
-    @PostMapping("/addtoalbum")
-    public RestResult addPhotoTOAlbum(@RequestBody Integer[] ids) {
-        System.out.println(ids);
-        return albumService.addPhotoTOAlbum(Arrays.asList(ids), ids[0]);
-    }
-
-
     @ApiOperation(value = "批量上传图片", httpMethod = "POST", notes = "批量上传图片")
     @PostMapping("/batch")
     public RestResult batchUpload(@RequestBody String photoDtosStr) {
@@ -71,9 +61,33 @@ public class PhotoController {
         return photoService.batchUploadPicture(photoDtos);
     }
 
+    @ApiOperation(value = "照片添加到相册", httpMethod = "POST", notes = "照片添加到相册")
+    @PostMapping("/addtoalbum")
+    public RestResult addPhotoTOAlbum(@RequestBody Integer[] ids) {
+        return albumService.addPhotoTOAlbum(Arrays.asList(ids), ids[0]);
+    }
+
     @ApiOperation(value = "给图片添加标签", httpMethod = "POST", notes = "给图片添加标签")
-    @PostMapping("/tag")
+    @GetMapping("/tag")
     public RestResult addPhotoTag(@RequestParam Integer photoId, @RequestParam String tagName, @RequestParam String description) {
         return photoService.addPhotoTag(photoId, tagName, description);
+    }
+
+    @ApiOperation(value = "获取最近删除的图片", httpMethod = "GET", notes = "获取最近删除的图片")
+    @GetMapping("/bin/{userId}")
+    public RestResult getRecentDelPhoto(@PathVariable int userId) {
+        return new RestResultBuilder<>().success(photoService.getRecentDelPhoto(userId));
+    }
+
+    @ApiOperation(value = "彻底删除图片", httpMethod = "POST", notes = "删除照片")
+    @PostMapping("/deleteThorough")
+    public RestResult deleteThorough(@RequestBody Integer[] ids) {
+        return photoService.deleteThorough(Arrays.asList(ids));
+    }
+
+    @ApiOperation(value = "回收站恢复图片", httpMethod = "POST", notes = "回收站恢复图片")
+    @PostMapping("/recover")
+    public RestResult recoverPhoto(@RequestBody Integer[] ids) {
+        return photoService.recoverPhoto(Arrays.asList(ids));
     }
 }

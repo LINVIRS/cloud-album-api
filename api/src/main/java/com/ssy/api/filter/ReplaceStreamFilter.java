@@ -8,6 +8,7 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Enumeration;
 
 /**
  * @program: client_api
@@ -27,7 +28,10 @@ public class ReplaceStreamFilter implements Filter {
           throws IOException, ServletException {
     boolean isMultipart = false;
     isMultipart = ServletFileUpload.isMultipartContent((HttpServletRequest)request);
-    if (isMultipart){
+   //face查询接口 解决文件流关闭问题
+    HttpServletRequest httpServletRequest=(HttpServletRequest) request;
+    String servletPath = httpServletRequest.getServletPath();
+    if (isMultipart||servletPath.equals("/face/search")){
       chain.doFilter(request, response);
     } else {
       ServletRequest requestWrapper = new RequestWrapper((HttpServletRequest) request);
