@@ -6,13 +6,11 @@ import com.ssy.api.SQLservice.dto.face.*;
 import com.ssy.api.SQLservice.entity.Face;
 import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.repository.FaceRepository;
-import com.ssy.api.SQLservice.repository.FaceStoreRepository;
 import com.ssy.api.SQLservice.repository.PhotoRepository;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.service.FaceService;
 import com.ssy.api.util.FaceHandlerUtil;
 import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
-import org.hibernate.criterion.Example;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -51,11 +49,11 @@ public class FaceServiceImpl implements FaceService {
                 // 截取人像
                 float upperLeftX = faceDectectRectangleArea.getUpperLeftX();
                 float upperLeftY = faceDectectRectangleArea.getUpperLeftY();
-               if( upperLeftY<0) {
-                   upperLeftY =0;
-               }
-                if( upperLeftX<0) {
-                    upperLeftX =0;
+                if (upperLeftY < 0) {
+                    upperLeftY = 0;
+                }
+                if (upperLeftX < 0) {
+                    upperLeftX = 0;
                 }
                 byte[] bytes = faceHandlerUtil.subImage(imageFromNetByUrl,
                         upperLeftX,
@@ -135,7 +133,7 @@ public class FaceServiceImpl implements FaceService {
                 int id = jsonObject.getInteger("faceId");
                 Face face = faceRepository.findById(id).get();
                 Photo photo = photoRepository.findDetailById(face.getPhotoId());
-                if(photo != null) {
+                if (photo != null) {
                     searchFaceDtos.add(
                             SearchFaceDto.builder()
                                     .faceId(jsonObject.getInteger("faceId"))

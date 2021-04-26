@@ -7,14 +7,15 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class SearchFaceDto {
     private String faceName;
-    private String url;
     private Integer faceId;
+    private String url;
     private Float confidence;
     private String photoName;
     private String width;

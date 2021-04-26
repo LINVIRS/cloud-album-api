@@ -1,17 +1,17 @@
 package com.ssy.api.service.serviceImpl;
 
 import com.ssy.api.SQLservice.dto.PhotoDto;
-import com.ssy.api.SQLservice.entity.Photo;
-import com.ssy.api.SQLservice.entity.Tag;
-import com.ssy.api.SQLservice.entity.UdRecord;
-import com.ssy.api.SQLservice.repository.PhotoRepository;
-import com.ssy.api.SQLservice.repository.UdRecordRepository;
 import com.ssy.api.SQLservice.dto.face.AddFaceDto;
 import com.ssy.api.SQLservice.dto.face.FaceDetectResult;
 import com.ssy.api.SQLservice.dto.face.FaceRectangle;
 import com.ssy.api.SQLservice.entity.Face;
+import com.ssy.api.SQLservice.entity.Photo;
+import com.ssy.api.SQLservice.entity.Tag;
+import com.ssy.api.SQLservice.entity.UdRecord;
 import com.ssy.api.SQLservice.repository.FaceRepository;
+import com.ssy.api.SQLservice.repository.PhotoRepository;
 import com.ssy.api.SQLservice.repository.TagRepository;
+import com.ssy.api.SQLservice.repository.UdRecordRepository;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -49,6 +48,7 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Resource
     private TagRepository tagRepository;
+
     @Resource
     private FileDfsUtil fileDfsUtil;
 
@@ -98,9 +98,9 @@ public class PhotoServiceImpl implements PhotoService {
             List<FaceDetectResult> faceDetectResults;
             try {
                 Future<List<FaceDetectResult>> listFuture = faceService.faceDetect(photo.getUrl());
-                if (listFuture != null){
+                if (listFuture != null) {
                     System.out.println("检测到人脸");
-                    faceDetectResults =  listFuture.get();
+                    faceDetectResults = listFuture.get();
                     if (faceDetectResults != null) {
                         faceRepository.saveAll(faceDetectResults.stream().map(face -> {
                             FaceRectangle faceRectangle = face.getFaceRectangle();
@@ -131,7 +131,6 @@ public class PhotoServiceImpl implements PhotoService {
         System.out.println("保存全部saveall回调");
         return new RestResultBuilder<>().success("成功");
     }
-
 
 
     public RestResult findAll(PhotoDto photoDto) {
@@ -181,8 +180,8 @@ public class PhotoServiceImpl implements PhotoService {
             List<FaceDetectResult> faceDetectResults;
             try {
                 Future<List<FaceDetectResult>> listFuture = faceService.faceDetect(photo.getUrl());
-                if (listFuture != null){
-                    faceDetectResults =  listFuture.get();
+                if (listFuture != null) {
+                    faceDetectResults = listFuture.get();
                     if (faceDetectResults != null) {
                         faceRepository.saveAll(faceDetectResults.stream().map(face -> {
                             FaceRectangle faceRectangle = face.getFaceRectangle();
@@ -224,9 +223,9 @@ public class PhotoServiceImpl implements PhotoService {
         recordRepository.saveAll(records);
         StringBuilder ids = new StringBuilder();
         for (int i = 0; i < photoList.size(); i++) {
-            if(i == 0 && i != photoList.size() - 1) {
+            if (i == 0 && i != photoList.size() - 1) {
                 ids = new StringBuilder(photoList.get(i).getId() + ",");
-            } else if( i == photoList.size() - 1) {
+            } else if (i == photoList.size() - 1) {
                 ids.append(photoList.get(i).getId());
             } else {
                 ids.append(photoList.get(i).getId()).append(",");
