@@ -20,6 +20,7 @@ public class FaceStore {
     private String description;
     private Timestamp createTime;
     private Timestamp updateTime;
+    private String faceId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +41,16 @@ public class FaceStore {
 
     public void setAlbumId(Integer albumId) {
         this.albumId = albumId;
+    }
+
+    @Basic
+    @Column(name = "face_id")
+    public String getFaceId() {
+        return faceId;
+    }
+
+    public void setFaceId(String faceId) {
+        this.faceId = faceId;
     }
 
     @Basic

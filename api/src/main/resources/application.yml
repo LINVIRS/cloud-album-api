@@ -7,7 +7,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 20MB
   profiles:
-    active: @spring.profiles.active@
+    active: dev
   jpa:
     properties:
       hibernate:

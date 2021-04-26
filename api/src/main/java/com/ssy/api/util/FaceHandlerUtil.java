@@ -18,7 +18,7 @@ import java.net.URL;
 
 @Component
 public class FaceHandlerUtil {
-    public static final Integer FACE_STORE_ALL = 116171;
+    public static final Integer FACE_STORE_ALL = 116192;
 
     private static final String accessKey = ParameterConstant.FACEAK;
     private static final String secretKey = ParameterConstant.FACESK;
@@ -32,7 +32,11 @@ public class FaceHandlerUtil {
         byte[] imageFromNetByUrl2 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0A/rBEAA2B_wpGAd5-MAAAbaEHTwU461.jpeg");
         byte[] imageFromNetByUrl3 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0C/rBEAA2B_7peARXwEAAAWhMiH-e096.jpeg");
         byte[] imageFromNetByUrl10 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0F/rBEAA2CGfRyAU71rAABpAUdghn8075.jpg");
+        byte[] imageFromNetByUrl6 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0D/rBEAA2CD03OAXUu9AADi6rB8uto752.jpg");
         try {
+            String url = "https://image.ijq.tv/201911/28/11-35-47-21-46.jpg";
+//            System.out.println(new FaceHandlerUtil().faceAdd(116191, url, "测试"));
+            System.out.println(aiFaceBody.createFaceSet("人脸大库", "自定义", accessKey, null).getCommonResult());
 //            System.out.println(aiFaceBody.queryFace(116171, 62251, accessKey, null));
 //            System.out.println(aiFaceBody.createFaceToFile(FACE_STORE_ALL, imageFromNetByUrl5, "篮子哥2", null, accessKey, null));
 //            System.out.println(aiFaceBody.queryFace(FACE_STORE_ALL, 62257, accessKey, null).getCommonResult());
@@ -240,6 +244,9 @@ public class FaceHandlerUtil {
             // 读取字节数组
             InputStream is = new ByteArrayInputStream(bytes);
             BufferedImage image = ImageIO.read(is);
+            System.out.println("图片大小");
+            System.out.println(image.getWidth());
+            System.out.println(image.getHeight());
             BufferedImage subImage = image.getSubimage((int) x, (int) y, (int) width, (int) height);
             // 图片主转为字节数组
             outStream = new ByteArrayOutputStream();

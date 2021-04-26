@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ssy.api.SQLservice.dto.face.*;
 import com.ssy.api.SQLservice.entity.Face;
+import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.repository.FaceRepository;
+import com.ssy.api.SQLservice.repository.PhotoRepository;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.service.FaceService;
 import com.ssy.api.util.FaceHandlerUtil;
@@ -26,6 +28,8 @@ public class FaceServiceImpl implements FaceService {
     private FaceHandlerUtil faceHandlerUtil;
     @Resource
     private FaceRepository faceRepository;
+    @Resource
+    private PhotoRepository photoRepository;
 
     @Override
     @Async
@@ -43,10 +47,18 @@ public class FaceServiceImpl implements FaceService {
                 String facejosnId = jsonObject.getString("faceId");
                 Integer faceScore = jsonObject.getInteger("faceScore");
                 // 截取人像
+                float upperLeftX = faceDectectRectangleArea.getUpperLeftX();
+                float upperLeftY = faceDectectRectangleArea.getUpperLeftY();
+                if (upperLeftY < 0) {
+                    upperLeftY = 0;
+                }
+                if (upperLeftX < 0) {
+                    upperLeftX = 0;
+                }
                 byte[] bytes = faceHandlerUtil.subImage(imageFromNetByUrl,
-                        faceDectectRectangleArea.getUpperLeftX(),
-                        Math.abs(faceDectectRectangleArea.getUpperLeftY()),
-                        faceDectectRectangleArea.getLowerRightX() - faceDectectRectangleArea.getUpperLeftX(),
+                        upperLeftX,
+                        upperLeftY,
+                        faceDectectRectangleArea.getLowerRightX() - upperLeftX,
                         faceDectectRectangleArea.getLowerRightY() - faceDectectRectangleArea.getUpperLeftY()
                 );
                 // 将人像上传fastdfs
@@ -117,15 +129,24 @@ public class FaceServiceImpl implements FaceService {
             JSONArray results = search.getJSONArray("results");
             for (Object result : results) {
                 JSONObject jsonObject = ((JSONObject) result);
-                Face face = faceRepository.findById(jsonObject.getInteger("faceId")).get();
-                searchFaceDtos.add(
-                        SearchFaceDto.builder()
-                                .faceId(jsonObject.getInteger("faceId"))
-                                .url(face.getUrl())
-                                .faceName(jsonObject.getString("faceName"))
-                                .confidence(jsonObject.getFloat("confidence"))
-                                .build()
-                );
+                System.out.println("faceId是: " + jsonObject.getInteger("faceId"));
+                int id = jsonObject.getInteger("faceId");
+                Face face = faceRepository.findById(id).get();
+                Photo photo = photoRepository.findDetailById(face.getPhotoId());
+                if (photo != null) {
+                    searchFaceDtos.add(
+                            SearchFaceDto.builder()
+                                    .faceId(jsonObject.getInteger("faceId"))
+                                    .url(photo.getUrl())
+                                    .faceName(jsonObject.getString("faceName"))
+                                    .confidence(jsonObject.getFloat("confidence"))
+                                    .photoName(photo.getPhotoName())
+                                    .width(photo.getWidth())
+                                    .height(photo.getHeight())
+                                    .createTime(photo.getCreateTime())
+                                    .build()
+                    );
+                }
             }
             return searchFaceDtos;
         }

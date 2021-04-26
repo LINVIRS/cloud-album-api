@@ -21,7 +21,6 @@ public class ApiApplication {
         SpringApplication.run(ApiApplication.class, args);
     }
 
-
     @Bean
     public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
         return new JPAQueryFactory(entityManager);

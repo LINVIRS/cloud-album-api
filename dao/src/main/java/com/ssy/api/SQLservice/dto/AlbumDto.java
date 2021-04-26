@@ -48,4 +48,3 @@ public class AlbumDto {
      */
     private String photoNumber;
 }
-
