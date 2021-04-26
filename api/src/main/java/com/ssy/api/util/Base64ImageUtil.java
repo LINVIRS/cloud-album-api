@@ -25,6 +25,11 @@ public class Base64ImageUtil {
     private static String accessKey = ParameterConstant.PHOTOAK;
     private static String secretKey = ParameterConstant.PHOTOSK;
 
+    public static void main(String[] args) {
+        File file =new File("C:\\Users\\wanglin\\Desktop\\15.jpg");
+        List<EngineClassify> imageClassify = getImageClassify(file);
+        System.out.println(imageClassify);
+    }
     // 照片分类
     public static List<EngineClassify> getImageClassify(File file) {
         // 初始化
@@ -48,9 +53,7 @@ public class Base64ImageUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         String base64Content = Base64Util.encode(data);
-
         // 执行请求，response 类型支持泛型,state != OK 的已经抛出异常
         // 通用物品检测
         List<EngineClassify> body = null;
