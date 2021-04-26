@@ -23,15 +23,19 @@ public class Photo {
     private int id;
     private String url;
     private Integer isUpload;
-
     private String tagId;
-
     private String longitude;
     private String latitude;
     private Integer userId;
     private Timestamp createTime;
     private Timestamp updateTime;
     private Integer isDelete;
+    private String photoName;
+    private String photoSize;
+    private String latitudeRef;
+    private String longitudeRef;
+    private String height;
+    private String width;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -156,5 +160,65 @@ public class Photo {
     @Override
     public int hashCode() {
         return Objects.hash(id, url, isUpload, tagId, longitude, latitude, userId, createTime, updateTime, isDelete);
+    }
+
+    @Basic
+    @Column(name = "photo_name")
+    public String getPhotoName() {
+        return photoName;
+    }
+
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
+    }
+
+    @Basic
+    @Column(name = "photo_size")
+    public String getPhotoSize() {
+        return photoSize;
+    }
+
+    public void setPhotoSize(String photoSize) {
+        this.photoSize = photoSize;
+    }
+
+    @Basic
+    @Column(name = "latitude_ref")
+    public String getLatitudeRef() {
+        return latitudeRef;
+    }
+
+    public void setLatitudeRef(String latitudeRef) {
+        this.latitudeRef = latitudeRef;
+    }
+
+    @Basic
+    @Column(name = "longitude_ref")
+    public String getLongitudeRef() {
+        return longitudeRef;
+    }
+
+    public void setLongitudeRef(String longitudeRef) {
+        this.longitudeRef = longitudeRef;
+    }
+
+    @Basic
+    @Column(name = "height")
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    @Basic
+    @Column(name = "width")
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
     }
 }

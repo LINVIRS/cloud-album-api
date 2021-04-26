@@ -31,4 +31,8 @@ public interface PhotoDao {
      */
     Photo findDetailById(Integer id);
 
+    /**
+     * 查找出最近删除的图片
+     */
+    List<Photo> findRecentDelPhoto(int userId);
 }

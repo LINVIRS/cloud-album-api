@@ -145,6 +145,13 @@
             <artifactId>metadata-extractor</artifactId>
             <version>2.10.1</version>
         </dependency>
+        <!-- ffmpeg视频剪辑 -->
+        <dependency>
+            <groupId>com.github.chenliang15405</groupId>
+            <artifactId>ffmpeg-common</artifactId>
+            <version>3.2</version>
+        </dependency>
+
 
     </dependencies>
 
