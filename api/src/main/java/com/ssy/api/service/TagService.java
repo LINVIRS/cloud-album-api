@@ -1,18 +1,20 @@
 package com.ssy.api.service;
 
 
-<<<<<<< Updated upstream
 import com.ssy.api.SQLservice.entity.Tag;
+import com.ssy.api.result.RestResult;
 
 import java.util.List;
+
+
+
+
 
 public interface TagService {
 
     List<Tag> selectTagsById(int[] ids);
-=======
-import com.ssy.api.result.RestResult;
 
-public interface TagService {
+
     /**
      * 新增标签
      * @param tagName
@@ -20,7 +22,7 @@ public interface TagService {
      * @param userId
      * @return
      */
-    RestResult addPhotoTag( String tagName, String description,Integer userId);
+    RestResult addPhotoTag(String tagName, String description, Integer userId);
 
 
     /**
@@ -37,5 +39,5 @@ public interface TagService {
      */
     RestResult findUserTags(int userId);
 
->>>>>>> Stashed changes
+
 }

@@ -1,6 +1,7 @@
 package com.ssy.api.utils;
 
 
+import com.ffmpeg.common.audio.AudioOperation;
 import com.ffmpeg.common.response.Result;
 import com.ffmpeg.common.video.VideoOperation;
 
@@ -15,6 +16,8 @@ public class VideoUtil {
 
     // 创建VideoOperation对象
     private static final VideoOperation ffmpeg = VideoOperation.builder(ffmpegPath);
+    // 创建AudioOperation对象
+    private static final AudioOperation ffmpegAudio = AudioOperation.builder(ffmpegPath);
 
     public static void main(String[] args) {
         long begin = System.currentTimeMillis();
@@ -27,6 +30,10 @@ public class VideoUtil {
 //        mergeVideo(videoPathList);
 
         try {
+//            convertorWithBgmNoOriginCommon("/Users/yy/Movies/IMG_1340222.mp4", "/Users/yy/Movies/111.mp4"
+//                    , "/Users/yy/Movies/2222.mp4", "/Users/yy/Movies/xinsu.mp3", getVideoTime("/Users/yy/Movies/IMG_1340222.mp4"));
+            System.out.println(transFormatAudio("/Users/yy/Music/Music/Media.localized/Apple Music/橘子海/浪潮上岸/01 夏日漱石.m4p",
+                    "/Users/yy/Music/Music/Media.localized/Apple Music/橘子海/浪潮上岸/01 夏日漱石.mp3").getCode());
             convertorWithBgmNoOriginCommon("/Users/yy/Movies/IMG_1340222.mp4", "/Users/yy/Movies/111.mp4"
                     , "/Users/yy/Movies/2222.mp4", "/Users/yy/Movies/xinsu.mp3", getVideoTime("/Users/yy/Movies/IMG_1340222.mp4"));
         } catch (Exception e) {
@@ -148,6 +155,10 @@ public class VideoUtil {
      */
     public static Result wipeAudio(String inputVideo, String outputVideo) {
         return ffmpeg.wipeAudio(inputVideo, outputVideo);
+    }
+
+    public static Result transFormatAudio(String inputAudio, String outAudio) {
+        return ffmpegAudio.transFormatAudio(inputAudio, outAudio);
     }
 
 

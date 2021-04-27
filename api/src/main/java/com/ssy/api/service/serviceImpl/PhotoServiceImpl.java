@@ -1,47 +1,26 @@
 package com.ssy.api.service.serviceImpl;
 
-import cn.hutool.core.util.StrUtil;
 import com.drew.lang.StringUtil;
 import com.ssy.api.SQLservice.dto.PhotoDto;
-import com.ssy.api.SQLservice.dto.face.AddFaceDto;
-import com.ssy.api.SQLservice.dto.face.FaceDetectResult;
-import com.ssy.api.SQLservice.dto.face.FaceRectangle;
-import com.ssy.api.SQLservice.entity.Face;
-import com.ssy.api.SQLservice.entity.Photo;
-import com.ssy.api.SQLservice.entity.Tag;
-import com.ssy.api.SQLservice.entity.UdRecord;
-import com.ssy.api.SQLservice.repository.FaceRepository;
-import com.ssy.api.SQLservice.repository.PhotoRepository;
-import com.ssy.api.SQLservice.repository.TagRepository;
-import com.ssy.api.SQLservice.repository.UdRecordRepository;
+import com.ssy.api.SQLservice.dto.face.*;
+import com.ssy.api.SQLservice.entity.*;
+import com.ssy.api.SQLservice.repository.*;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.FaceService;
 import com.ssy.api.service.PhotoService;
 import com.ssy.api.util.FaceHandlerUtil;
-<<<<<<< Updated upstream
 import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
-=======
-import org.apache.logging.log4j.util.StringBuilders;
->>>>>>> Stashed changes
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-<<<<<<< Updated upstream
-import java.util.HashMap;
-=======
-import java.util.Arrays;
->>>>>>> Stashed changes
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Service
@@ -63,6 +42,12 @@ public class PhotoServiceImpl implements PhotoService {
     @Resource
     private FileDfsUtil fileDfsUtil;
 
+    @Resource
+    private AlbumRepository albumRepository;
+
+    @Resource
+    private FaceStoreRepository faceStoreRepository;
+
     @Override
     @Transactional
     public RestResult findById(Integer id) {
@@ -73,6 +58,7 @@ public class PhotoServiceImpl implements PhotoService {
     @Transactional
     public RestResult saveAll(List<PhotoDto> photoDtos) {
         List<UdRecord> records = new ArrayList<>();
+        // 添加上传的照片
         List<Photo> photos = photoRepository.saveAll(photoDtos.stream().map(photo ->
                 Photo.builder()
                         .userId(photo.getUserId())
@@ -103,26 +89,56 @@ public class PhotoServiceImpl implements PhotoService {
                     .isDelete(0).build();
             records.add(udRecord);
         });
+        // 添加到最近上传记录
         recordRepository.saveAll(records);
+        // 人脸探测
         photos.forEach(photo -> {
-            System.out.println("进入循环");
             List<FaceDetectResult> faceDetectResults;
             try {
                 Future<List<FaceDetectResult>> listFuture = faceService.faceDetect(photo.getUrl());
                 if (listFuture != null) {
-                    System.out.println("检测到人脸");
                     faceDetectResults = listFuture.get();
                     if (faceDetectResults != null) {
+                        // 添加到人脸
                         faceRepository.saveAll(faceDetectResults.stream().map(face -> {
                             FaceRectangle faceRectangle = face.getFaceRectangle();
                             String s = faceRectangle.getUpperLeftX() + "," +
                                     faceRectangle.getUpperLeftY() + "," +
                                     faceRectangle.getLowerRightX() + "," +
                                     faceRectangle.getLowerRightY();
-                            // faceId设置有问题，需要探测到人脸之后，先添加到人脸大库，在拿返回id设置成faceId 目前名称是默认
+                            // 添加到人脸大库
                             AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
                                     ParameterConstant.FastDFSPrefix + face.getSubImage()
                                     , "image");
+                            // 搜索是否有相同的人脸
+                            List<SearchFaceDto> searchFaceDtos = faceService.searchFace(ParameterConstant.FastDFSPrefix + face.getSubImage(),
+                                    FaceHandlerUtil.FACE_STORE_ALL, 10);
+                            List<SearchFaceDto> sameFace = new ArrayList<>();
+                            searchFaceDtos.forEach(i -> {
+                                if (i.getConfidence() > 0.75) {
+                                    sameFace.add(i);
+                                }
+                            });
+                            if (sameFace.size() == 0) {
+                                FaceStoreDto faceSet = faceService.createFaceSet("new", "新的人脸库");
+                                // 创建相册
+                                Albums save = albumRepository.save(Albums.builder()
+                                        .id(faceSet.getFaceStoreId())
+                                        .createType(1)
+                                        .createTime(new Timestamp(System.currentTimeMillis()))
+                                        .updateTime(new Timestamp(System.currentTimeMillis()))
+                                        .build());
+                                // 创建人脸库
+                                faceStoreRepository.save(FaceStore.builder()
+                                        .albumId(save.getId())
+                                        .faceStoreId(faceSet.getFaceStoreId())
+                                        .description(faceSet.getDescription())
+                                        .createTime(new Timestamp(System.currentTimeMillis()))
+                                        .updateTime(new Timestamp(System.currentTimeMillis()))
+                                        .build());
+                                // 保存人脸到新的人脸库
+                                faceService.faceAdd(faceSet.getFaceStoreId(), ParameterConstant.FastDFSPrefix + face.getSubImage(), "image");
+                            }
                             return Face.builder()
                                     .faceId(addFaceDto.getFaceId())
                                     .photoId(photo.getId())
@@ -139,7 +155,6 @@ public class PhotoServiceImpl implements PhotoService {
                 e.printStackTrace();
             }
         });
-        System.out.println("保存全部saveall回调");
         return new RestResultBuilder<>().success("成功");
     }
 
@@ -147,18 +162,6 @@ public class PhotoServiceImpl implements PhotoService {
     public RestResult findAll(PhotoDto photoDto) {
         return new RestResultBuilder<>().success(photoRepository.findAllPhoto(photoDto));
 
-    }
-
-    @Override
-    @Transactional
-    public RestResult delete(List<Integer> ids) {
-        photoRepository.saveAll(ids.stream().map(i -> {
-            Photo photo = photoRepository.findById(i).get();
-            photo.setIsDelete(1);
-            photo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-            return photo;
-        }).collect(Collectors.toList()));
-        return new RestResultBuilder<>().success("成功");
     }
 
     @Transactional
@@ -245,20 +248,18 @@ public class PhotoServiceImpl implements PhotoService {
         return new RestResultBuilder<>().success(ids);
     }
 
-<<<<<<< Updated upstream
-=======
     @Override
     @Transactional(rollbackOn = Exception.class)
     public RestResult addPhotoTag(Integer photoId, Integer tagId) {
         //查询photo
         Photo photo = photoRepository.findById(photoId).get();
-        if (photo.getTagId().isEmpty()){
+        if (photo.getTagId().isEmpty()) {
             photo.setTagId(String.valueOf(tagId));
-        }else {
+        } else {
             //判断是否存在
             List<String> collect = Arrays.stream(photo.getTagId().split(",")).filter(i ->
                     i.equals(String.valueOf(tagId))).collect(Collectors.toList());
-            if (collect.size()!=0){
+            if (collect.size() != 0) {
                 return new RestResultBuilder<>().success("标签已经存在");
             }
             String tagIds = photo.getTagId();
@@ -267,24 +268,24 @@ public class PhotoServiceImpl implements PhotoService {
             photo.setTagId(append.toString());
         }
         photoRepository.save(photo);
-         return new RestResultBuilder<>().success("更新成功");
+        return new RestResultBuilder<>().success("更新成功");
     }
 
     @Override
     public RestResult deletePhotoTag(Integer photoId, Integer tagId) {
         //查询photo
         Photo photo = photoRepository.findById(photoId).get();
-        if (photo.getTagId().isEmpty()){
+        if (photo.getTagId().isEmpty()) {
             return new RestResultBuilder<>().success("暂无标签");
-        }else if (photo.getTagId().contains(",")){
+        } else if (photo.getTagId().contains(",")) {
             //判断是否存在
             List<String> tagIds = new ArrayList<>(Arrays.asList(photo.getTagId().split(",")));
             List<String> collect = tagIds.stream().filter(i ->
                     !i.equals(String.valueOf(tagId))
             ).collect(Collectors.toList());
-            photo.setTagId(StringUtil.join(collect,","));
+            photo.setTagId(StringUtil.join(collect, ","));
         } else {
-            if (String.valueOf(tagId).equals(photo.getTagId())){
+            if (String.valueOf(tagId).equals(photo.getTagId())) {
                 photo.setTagId("");
             }
         }
@@ -303,29 +304,12 @@ public class PhotoServiceImpl implements PhotoService {
         }).collect(Collectors.toList()));
         return new RestResultBuilder<>().success("成功");
     }
->>>>>>> Stashed changes
 
     @Override
     @Transactional
     public RestResult findInTrashcan(PhotoDto photoDto) {
 
         return null;
-    }
-
-<<<<<<< Updated upstream
-    @Override
-    @Transactional
-    public RestResult addPhotoTag(Integer photoId, String tagName, String description) {
-        Tag save = tagRepository.save(Tag.builder()
-                .name(tagName)
-                .description(description)
-                .createTime(new Timestamp(System.currentTimeMillis()))
-                .updateTime(new Timestamp(System.currentTimeMillis()))
-                .isDelete(0)
-                .build());
-        Photo photo = photoRepository.findById(photoId).get();
-        photo.setTagId(Integer.toString(save.getId()));
-        return new RestResultBuilder<>().success("成功");
     }
 
     @Override
@@ -372,13 +356,9 @@ public class PhotoServiceImpl implements PhotoService {
             photo.setIsDelete(2);
             photo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             photo.setUrl("");
-            System.out.println("id是: " + photo.getId());
             Photo photo1 = photoRepository.saveAndFlush(photo);
-            System.out.println(photo1.getUrl());
-            System.out.println(photo1.getIsDelete());
             return null;
         }).collect(Collectors.toList());
-        System.out.println(urlList.size());
         fileDfsUtil.delete(urlList);
         return new RestResultBuilder<>().success("成功");
     }
@@ -390,12 +370,9 @@ public class PhotoServiceImpl implements PhotoService {
             photo.setIsDelete(0);
             photo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
             Photo photo1 = photoRepository.saveAndFlush(photo);
-            System.out.println(photo1.getIsDelete());
             return null;
         }).collect(Collectors.toList());
         return new RestResultBuilder<>().success("成功");
     }
-=======
 
->>>>>>> Stashed changes
 }
