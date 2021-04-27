@@ -1,5 +1,6 @@
 package com.ssy.api.service.serviceImpl;
 
+import com.drew.lang.StringUtil;
 import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.SQLservice.dto.face.*;
 import com.ssy.api.SQLservice.entity.*;
@@ -17,10 +18,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
@@ -166,18 +164,6 @@ public class PhotoServiceImpl implements PhotoService {
 
     }
 
-    @Override
-    @Transactional
-    public RestResult delete(List<Integer> ids) {
-        photoRepository.saveAll(ids.stream().map(i -> {
-            Photo photo = photoRepository.findById(i).get();
-            photo.setIsDelete(1);
-            photo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-            return photo;
-        }).collect(Collectors.toList()));
-        return new RestResultBuilder<>().success("成功");
-    }
-
     @Transactional
     @Override
     public RestResult batchUploadPicture(List<PhotoDto> photos) {
@@ -262,27 +248,68 @@ public class PhotoServiceImpl implements PhotoService {
         return new RestResultBuilder<>().success(ids);
     }
 
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public RestResult addPhotoTag(Integer photoId, Integer tagId) {
+        //查询photo
+        Photo photo = photoRepository.findById(photoId).get();
+        if (photo.getTagId().isEmpty()) {
+            photo.setTagId(String.valueOf(tagId));
+        } else {
+            //判断是否存在
+            List<String> collect = Arrays.stream(photo.getTagId().split(",")).filter(i ->
+                    i.equals(String.valueOf(tagId))).collect(Collectors.toList());
+            if (collect.size() != 0) {
+                return new RestResultBuilder<>().success("标签已经存在");
+            }
+            String tagIds = photo.getTagId();
+            StringBuilder stringBuilder = new StringBuilder(tagIds);
+            StringBuilder append = stringBuilder.append("," + tagId);
+            photo.setTagId(append.toString());
+        }
+        photoRepository.save(photo);
+        return new RestResultBuilder<>().success("更新成功");
+    }
+
+    @Override
+    public RestResult deletePhotoTag(Integer photoId, Integer tagId) {
+        //查询photo
+        Photo photo = photoRepository.findById(photoId).get();
+        if (photo.getTagId().isEmpty()) {
+            return new RestResultBuilder<>().success("暂无标签");
+        } else if (photo.getTagId().contains(",")) {
+            //判断是否存在
+            List<String> tagIds = new ArrayList<>(Arrays.asList(photo.getTagId().split(",")));
+            List<String> collect = tagIds.stream().filter(i ->
+                    !i.equals(String.valueOf(tagId))
+            ).collect(Collectors.toList());
+            photo.setTagId(StringUtil.join(collect, ","));
+        } else {
+            if (String.valueOf(tagId).equals(photo.getTagId())) {
+                photo.setTagId("");
+            }
+        }
+        photoRepository.save(photo);
+        return new RestResultBuilder<>().success("删除成功");
+    }
+
+    @Override
+    @Transactional
+    public RestResult delete(List<Integer> ids) {
+        photoRepository.saveAll(ids.stream().map(i -> {
+            Photo photo = photoRepository.findById(i).get();
+            photo.setIsDelete(1);
+            photo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            return photo;
+        }).collect(Collectors.toList()));
+        return new RestResultBuilder<>().success("成功");
+    }
 
     @Override
     @Transactional
     public RestResult findInTrashcan(PhotoDto photoDto) {
 
         return null;
-    }
-
-    @Override
-    @Transactional
-    public RestResult addPhotoTag(Integer photoId, String tagName, String description) {
-        Tag save = tagRepository.save(Tag.builder()
-                .name(tagName)
-                .description(description)
-                .createTime(new Timestamp(System.currentTimeMillis()))
-                .updateTime(new Timestamp(System.currentTimeMillis()))
-                .isDelete(0)
-                .build());
-        Photo photo = photoRepository.findById(photoId).get();
-        photo.setTagId(Integer.toString(save.getId()));
-        return new RestResultBuilder<>().success("成功");
     }
 
     @Override
@@ -347,4 +374,5 @@ public class PhotoServiceImpl implements PhotoService {
         }).collect(Collectors.toList());
         return new RestResultBuilder<>().success("成功");
     }
+
 }

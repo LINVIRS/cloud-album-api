@@ -34,6 +34,8 @@ public class VideoUtil {
 //                    , "/Users/yy/Movies/2222.mp4", "/Users/yy/Movies/xinsu.mp3", getVideoTime("/Users/yy/Movies/IMG_1340222.mp4"));
             System.out.println(transFormatAudio("/Users/yy/Music/Music/Media.localized/Apple Music/橘子海/浪潮上岸/01 夏日漱石.m4p",
                     "/Users/yy/Music/Music/Media.localized/Apple Music/橘子海/浪潮上岸/01 夏日漱石.mp3").getCode());
+            convertorWithBgmNoOriginCommon("/Users/yy/Movies/IMG_1340222.mp4", "/Users/yy/Movies/111.mp4"
+                    , "/Users/yy/Movies/2222.mp4", "/Users/yy/Movies/xinsu.mp3", getVideoTime("/Users/yy/Movies/IMG_1340222.mp4"));
         } catch (Exception e) {
             e.printStackTrace();
         }
