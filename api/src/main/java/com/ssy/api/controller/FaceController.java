@@ -26,10 +26,20 @@ public class FaceController {
         return new RestResultBuilder<>().success(v);
     }
 
-    @ApiOperation(value = "人脸相册推送", notes = "人脸相册推送")
+    @ApiOperation(value = "人脸搜索", notes = "人脸搜索")
     @GetMapping("/search")
     public RestResult search(@RequestParam String url, @RequestParam Integer faceSetId, @RequestParam Integer faceNumber) {
         List<SearchFaceDto> searchFaceDtos = faceService.searchFace(url, faceSetId, faceNumber);
         return new RestResultBuilder<>().success(searchFaceDtos);
     }
+
+
+    @ApiOperation(value = "人脸搜索", notes = "人脸搜索")
+    @PostMapping("/faceset")
+    public RestResult createFaceSet(@RequestParam String url, @RequestParam Integer faceSetId, @RequestParam Integer faceNumber) {
+        List<SearchFaceDto> searchFaceDtos = faceService.searchFace(url, faceSetId, faceNumber);
+        return new RestResultBuilder<>().success(searchFaceDtos);
+    }
+
+
 }

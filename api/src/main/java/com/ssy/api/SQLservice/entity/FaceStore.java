@@ -1,5 +1,9 @@
 package com.ssy.api.SQLservice.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,6 +16,9 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "face_store", schema = "cloud-album", catalog = "")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FaceStore {
     private int faceStoreId;
     private Integer albumId;
@@ -19,7 +26,6 @@ public class FaceStore {
     private String description;
     private Timestamp createTime;
     private Timestamp updateTime;
-    private String faceId;
 
     @Id
     @Column(name = "face_store_id")
@@ -108,15 +114,5 @@ public class FaceStore {
         result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
         result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
         return result;
-    }
-
-    @Basic
-    @Column(name = "face_id")
-    public String getFaceId() {
-        return faceId;
-    }
-
-    public void setFaceId(String faceId) {
-        this.faceId = faceId;
     }
 }

@@ -244,9 +244,6 @@ public class FaceHandlerUtil {
             // 读取字节数组
             InputStream is = new ByteArrayInputStream(bytes);
             BufferedImage image = ImageIO.read(is);
-            System.out.println("图片大小");
-            System.out.println(image.getWidth());
-            System.out.println(image.getHeight());
             BufferedImage subImage = image.getSubimage((int) x, (int) y, (int) width, (int) height);
             // 图片主转为字节数组
             outStream = new ByteArrayOutputStream();
