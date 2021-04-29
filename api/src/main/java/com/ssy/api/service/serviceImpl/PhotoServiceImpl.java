@@ -100,7 +100,7 @@ public class PhotoServiceImpl implements PhotoService {
                     faceDetectResults = listFuture.get();
                     if (faceDetectResults != null) {
                         // 添加到人脸
-                        faceRepository.saveAll(faceDetectResults.stream().map(face -> {
+                        List<Face> image = faceRepository.saveAll(faceDetectResults.stream().map(face -> {
                             FaceRectangle faceRectangle = face.getFaceRectangle();
                             String s = faceRectangle.getUpperLeftX() + "," +
                                     faceRectangle.getUpperLeftY() + "," +
@@ -110,8 +110,19 @@ public class PhotoServiceImpl implements PhotoService {
                             AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
                                     ParameterConstant.FastDFSPrefix + face.getSubImage()
                                     , "image");
+                            return Face.builder()
+                                    .faceId(addFaceDto.getFaceId())
+                                    .photoId(photo.getId())
+                                    .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
+                                    .faceRectangle(s)
+                                    .confidence((double) face.getFaceScore())
+                                    .createTime(new Timestamp(System.currentTimeMillis()))
+                                    .updateTime(new Timestamp(System.currentTimeMillis()))
+                                    .build();
+                        }).collect(Collectors.toList()));
+                        image.forEach(face -> {
                             // 搜索是否有相同的人脸
-                            List<SearchFaceDto> searchFaceDtos = faceService.searchFace(ParameterConstant.FastDFSPrefix + face.getSubImage(),
+                            List<SearchFaceDto> searchFaceDtos = faceService.searchFace(face.getUrl(),
                                     FaceHandlerUtil.FACE_STORE_ALL, 10);
                             List<SearchFaceDto> sameFace = new ArrayList<>();
                             searchFaceDtos.forEach(i -> {
@@ -137,18 +148,9 @@ public class PhotoServiceImpl implements PhotoService {
                                         .updateTime(new Timestamp(System.currentTimeMillis()))
                                         .build());
                                 // 保存人脸到新的人脸库
-                                faceService.faceAdd(faceSet.getFaceStoreId(), ParameterConstant.FastDFSPrefix + face.getSubImage(), "image");
+                                faceService.faceAdd(faceSet.getFaceStoreId(), face.getUrl(), "image");
                             }
-                            return Face.builder()
-                                    .faceId(addFaceDto.getFaceId())
-                                    .photoId(photo.getId())
-                                    .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
-                                    .faceRectangle(s)
-                                    .confidence((double) face.getFaceScore())
-                                    .createTime(new Timestamp(System.currentTimeMillis()))
-                                    .updateTime(new Timestamp(System.currentTimeMillis()))
-                                    .build();
-                        }).collect(Collectors.toList()));
+                        });
                     }
                 }
             } catch (Exception e) {
@@ -161,7 +163,6 @@ public class PhotoServiceImpl implements PhotoService {
 
     public RestResult findAll(PhotoDto photoDto) {
         return new RestResultBuilder<>().success(photoRepository.findAllPhoto(photoDto));
-
     }
 
     @Transactional

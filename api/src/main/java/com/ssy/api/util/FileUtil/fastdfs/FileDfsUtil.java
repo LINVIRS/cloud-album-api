@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.ByteArrayInputStream;
 import javax.transaction.Transactional;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -35,8 +35,8 @@ public class FileDfsUtil {
      */
 
     public PhotoExifVo upload(MultipartFile multipartFile) {
-        PhotoExifVo metadata =new PhotoExifVo();
-             metadata = ExifOfImage.getMetadata(multipartFile);
+        PhotoExifVo metadata = new PhotoExifVo();
+        metadata = ExifOfImage.getMetadata(multipartFile);
         String originalFilename =
                 multipartFile
                         .getOriginalFilename()
@@ -72,19 +72,33 @@ public class FileDfsUtil {
         return storePath.getFullPath();
     }
 
+    /**
+     * 上传视频文件
+     *
+     * @param video
+     * @return
+     */
+    public String uploadVideo(byte[] video) {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(video);
+        StorePath storePath;
+        storePath =
+                storageClient.uploadFile(
+                        byteArrayInputStream, video.length, "mp4", null);
+        return storePath.getFullPath();
+    }
+
 
     /**
-     *
      * @param fullPathList
      */
     @Transactional(rollbackOn = Exception.class)
     public void delete(List<String> fullPathList) {
-       //删除文件
-       fullPathList.stream().forEach(
-               (i)->{
-                   storageClient.deleteFile(i);
-               }
-       );
+        //删除文件
+        fullPathList.stream().forEach(
+                (i) -> {
+                    storageClient.deleteFile(i);
+                }
+        );
     }
 
     /**
