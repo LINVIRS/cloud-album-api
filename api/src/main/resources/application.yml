@@ -4,15 +4,15 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 10MB
-      max-request-size: 20MB
+      max-file-size: 1000MB
+      max-request-size: 2000MB
   profiles:
     active: dev
   jpa:
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
+        show_sql: false
+        format_sql: false
   messages:
     basename: static/i18n/messages #相对路径 首部不要添加斜杠
   # 时间默认转时间戳
