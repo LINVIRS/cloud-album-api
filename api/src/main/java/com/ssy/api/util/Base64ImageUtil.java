@@ -22,8 +22,8 @@ import java.util.List;
  * 通用图像识别
  */
 public class Base64ImageUtil {
-    private static String accessKey = ParameterConstant.PHOTOAK;
-    private static String secretKey = ParameterConstant.PHOTOSK;
+    private static final String accessKey = ParameterConstant.PHOTOAK;
+    private static final String secretKey = ParameterConstant.PHOTOSK;
 
     public static void main(String[] args) {
         File file =new File("C:\\Users\\wanglin\\Desktop\\15.jpg");

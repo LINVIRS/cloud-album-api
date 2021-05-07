@@ -31,7 +31,7 @@ public class VcodeUtil {
      */
     public static String createOrderNum(Integer type, Integer goodsType, Integer id) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String orderNum = String.valueOf(type) + String.valueOf(goodsType) + dateFormat.format(new Date()) + String.valueOf(id);
+        String orderNum = String.valueOf(type) + goodsType + dateFormat.format(new Date()) + id;
         return orderNum;
     }
 

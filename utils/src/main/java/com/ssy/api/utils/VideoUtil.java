@@ -198,7 +198,7 @@ public class VideoUtil {
     //格式:"00:00:10.68"
     private static int getTimelen(String timelen) {
         int min = 0;
-        String strs[] = timelen.split(":");
+        String[] strs = timelen.split(":");
         if (strs[0].compareTo("0") > 0) {
             min += Integer.parseInt(strs[0]) * 60 * 60;//秒
         }

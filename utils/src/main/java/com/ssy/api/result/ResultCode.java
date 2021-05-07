@@ -32,8 +32,8 @@ public enum ResultCode {
   INVALID_SMS_CODE(50003, "invalid sms code"),
   INVALID_OPERATING(50004, "invalid operating");
 
-  private int code;
-  private String msg;
+  private final int code;
+  private final String msg;
 
   ResultCode(int code, String msg) {
     this.code = code;

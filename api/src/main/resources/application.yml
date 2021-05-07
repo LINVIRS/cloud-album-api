@@ -19,7 +19,6 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: true
-
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -49,18 +48,6 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-
-  mvc:
-    throw-exception-if-no-handler-found: true
-  resources:
-    add-mappings: false
-  data:
-    mongodb:
-      host: 36.137.109.33
-      port: 27017
-      database: cloud-album
-      username: ssyuser
-      password: ssy123456
 server:
   port: 8081
   servlet:
@@ -89,7 +76,7 @@ fdfs:
     width: 150
     height: 150
   tracker-list: #TrackerList参数,支持多个
-    - 36.137.109.33:22122
+    - 121.5.235.153:22122
   pool:
     #从池中借出的对象的最大数目（配置为-1表示不限制）
     max-total: -1

@@ -2,9 +2,7 @@ package com.ssy.api.SQLservice.dao;
 
 import com.ssy.api.SQLservice.dto.AlbumDto;
 import com.ssy.api.SQLservice.dto.AlbumQueryDto;
-import com.ssy.api.SQLservice.dto.PageDto;
 import com.ssy.api.SQLservice.entity.Albums;
-import com.ssy.api.SQLservice.entity.Photo;
 
 import java.util.List;
 

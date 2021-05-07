@@ -58,11 +58,10 @@ public class ThreakPoolFile {
         int maxPoolSize = Runtime.getRuntime().availableProcessors();
         List<PhotoExifVo> returnValue = new ArrayList<>();
         ThreadPoolExecutor threadPoolExecutor =
-                new ThreadPoolExecutor(6, maxPoolSize, 3, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+                new ThreadPoolExecutor(2, maxPoolSize, 3, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
         for (MultipartFile multipartFile : multipartFiles) {
             fileThreadTask.setMultipartFiles(multipartFile);
             Future<PhotoExifVo> paths = threadPoolExecutor.submit(fileThreadTask);
-
             try {
                 returnValue.add(paths.get());
             } catch (InterruptedException e) {

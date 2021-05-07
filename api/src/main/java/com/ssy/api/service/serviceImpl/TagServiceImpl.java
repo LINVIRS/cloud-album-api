@@ -1,15 +1,14 @@
 package com.ssy.api.service.serviceImpl;
 
 
-import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.entity.Tag;
 import com.ssy.api.SQLservice.repository.TagRepository;
 import com.ssy.api.SQLservice.vo.TagVo;
-import com.ssy.api.enums.CommonConstant;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.TagService;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
@@ -31,12 +30,13 @@ public class TagServiceImpl implements TagService {
             idStr.append(tag.getName());
         });
         return tags;
+
     }
 
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public RestResult addPhotoTag( String tagName, String description,Integer userId) {
+    public RestResult addPhotoTag(String tagName, String description, Integer userId) {
         Tag tag = tagRepository.save(Tag.builder()
                 .name(tagName)
                 .description(description)
