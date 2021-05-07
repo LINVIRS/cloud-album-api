@@ -4,22 +4,21 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 10MB
-      max-request-size: 20MB
+      max-file-size: 1000MB
+      max-request-size: 2000MB
   profiles:
     active: dev
   jpa:
     properties:
       hibernate:
-        show_sql: true
-        format_sql: true
+        show_sql: false
+        format_sql: false
   messages:
     basename: static/i18n/messages #相对路径 首部不要添加斜杠
   # 时间默认转时间戳
   jackson:
     serialization:
       write-dates-as-timestamps: true
-
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -49,18 +48,6 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-
-  mvc:
-    throw-exception-if-no-handler-found: true
-  resources:
-    add-mappings: false
-  data:
-    mongodb:
-      host: 36.137.109.33
-      port: 27017
-      database: cloud-album
-      username: ssyuser
-      password: ssy123456
 server:
   port: 8081
   servlet:
@@ -89,7 +76,7 @@ fdfs:
     width: 150
     height: 150
   tracker-list: #TrackerList参数,支持多个
-    - 36.137.109.33:22122
+    - 121.5.235.153:22122
   pool:
     #从池中借出的对象的最大数目（配置为-1表示不限制）
     max-total: -1

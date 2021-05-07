@@ -46,10 +46,7 @@ public class ParamCheckUtil {
         Pattern p = Pattern.compile("[<|&|>]");
         Matcher m = p.matcher(address);
 
-        if (m.find()){
-            return false;
-        }
-        return true;
+        return !m.find();
     }
 
 }

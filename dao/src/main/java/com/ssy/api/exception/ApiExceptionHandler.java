@@ -29,7 +29,7 @@ import java.nio.file.AccessDeniedException;
 @ResponseBody
 public class ApiExceptionHandler {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Token校验失败

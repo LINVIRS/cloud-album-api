@@ -39,7 +39,7 @@ public class HttpAspect {
     public String showParamter(Map<String, String[]> map) {
         String result = "";
         for (String key : map.keySet()) {
-            result += key + ":" + String.valueOf(map.get(key)[0]) + " ";
+            result += key + ":" + map.get(key)[0] + " ";
         }
         return result;
     }

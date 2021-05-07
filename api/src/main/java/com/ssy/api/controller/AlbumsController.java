@@ -30,13 +30,13 @@ public class AlbumsController {
     @PostMapping("/create")
     public RestResult createAlbumByUserId(@RequestBody AlbumDto albumDto) {
         return albumService.createAlbumByUserId(albumDto);
-    };
+    }
 
     @ApiOperation(value = "根据id删除相册")
     @PostMapping("/remove/{id}")
     public RestResult deleteAlbumById(@PathVariable int id) {
         return albumService.deleteAlbumById(id);
-    };
+    }
 
     @ApiOperation(value = "根据相册id修改相册信息")
     @PostMapping("/update")

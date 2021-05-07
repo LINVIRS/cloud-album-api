@@ -104,7 +104,7 @@ public class MyAiFaceBody extends AiFaceBody {
             }
         }
 
-        return (CommonJsonObjectResponse) super.execute(request);
+        return super.execute(request);
     }
 
     @Override

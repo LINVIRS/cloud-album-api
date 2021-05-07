@@ -1,39 +1,31 @@
 package com.ssy.api.utils;
 
 
+import com.ffmpeg.common.audio.AudioOperation;
 import com.ffmpeg.common.response.Result;
 import com.ffmpeg.common.video.VideoOperation;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VideoUtil {
-    static String ffmpegPath = "/opt/homebrew/Cellar/ffmpeg/4.3.2_4/bin/ffmpeg";
+//    static String ffmpegPath = "/opt/homebrew/Cellar/ffmpeg/4.3.2_4/bin/ffmpeg";
+    static String ffmpegPath = "/usr/bin/ffmpeg";
 
     // 创建VideoOperation对象
     private static final VideoOperation ffmpeg = VideoOperation.builder(ffmpegPath);
+    // 创建AudioOperation对象
+    private static final AudioOperation ffmpegAudio = AudioOperation.builder(ffmpegPath);
 
-    public static void main(String[] args) {
-        long begin = System.currentTimeMillis();
-
-        // 合并视频文件
-        List videoPathList = new ArrayList<>();
-        videoPathList.add("/Users/yy/Movies/IMG_1340.flv");
-        videoPathList.add("/Users/yy/Movies/IMG_1338.flv");
-        videoPathList.add("/Users/yy/Movies/IMG_1339.flv");
-//        mergeVideo(videoPathList);
-
-        try {
-            convertorWithBgmNoOriginCommon("/Users/yy/Movies/IMG_1340222.mp4", "/Users/yy/Movies/111.mp4"
-                    , "/Users/yy/Movies/2222.mp4", "/Users/yy/Movies/xinsu.mp3", getVideoTime("/Users/yy/Movies/IMG_1340222.mp4"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        long end = System.currentTimeMillis();
-        System.out.println(end - begin);
+    public static void main(String[] args) throws IOException {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("/Users/yy/Movies/1.flv");
+        strings.add("/Users/yy/Movies/2.flv");
     }
 
     /**
@@ -66,6 +58,7 @@ public class VideoUtil {
                 command.append(" -c");
                 command.append(" copy ");// -c copy 避免解码，提高处理速度
                 command.append(newMergePath);
+                Runtime.getRuntime().exec(String.valueOf(command));
 
                 // 删除产生的临时用来存放每个视频文件路径的txt文件
                 File txtFile = new File(txtPath);
@@ -81,9 +74,6 @@ public class VideoUtil {
                 File newFile = new File(newMergePath);
                 File oldFile = new File(videoPathList.get(0));
                 newFile.renameTo(oldFile);
-
-                Runtime.getRuntime().exec(String.valueOf(command));
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -103,6 +93,15 @@ public class VideoUtil {
         return ffmpeg.mergeVideoAndBgmWithOrigin(audioInputPath, videoInputPath
                 , videoOutputPath, videoTime);
     }
+
+    //    public static Result mergeMultiOnlineVideos(File videoListFile, String videoOutPath) {
+//        return ffmpeg.mergeMultiOnlineVideos(videoListFile, videoOutPath);
+//    }
+//
+    public static Result mergeMultiVideosByFile(File videoListFile, String videoOutPath) {
+        return ffmpeg.mergeMultiVideosByFile(videoListFile, videoOutPath);
+    }
+
 
     /**
      * 视频合并音频，给视频加上背景音乐，并不保留视频原声
@@ -150,6 +149,10 @@ public class VideoUtil {
         return ffmpeg.wipeAudio(inputVideo, outputVideo);
     }
 
+    public static Result transFormatAudio(String inputAudio, String outAudio) {
+        return ffmpegAudio.transFormatAudio(inputAudio, outAudio);
+    }
+
 
     /**
      * 获取视频总时间
@@ -195,7 +198,7 @@ public class VideoUtil {
     //格式:"00:00:10.68"
     private static int getTimelen(String timelen) {
         int min = 0;
-        String strs[] = timelen.split(":");
+        String[] strs = timelen.split(":");
         if (strs[0].compareTo("0") > 0) {
             min += Integer.parseInt(strs[0]) * 60 * 60;//秒
         }
@@ -208,4 +211,14 @@ public class VideoUtil {
         return min;
     }
 
+
+    public static File multipartToFile(MultipartFile multipart) {
+        File convFile = new File(Objects.requireNonNull(multipart.getOriginalFilename()));
+        try {
+            multipart.transferTo(convFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return convFile;
+    }
 }

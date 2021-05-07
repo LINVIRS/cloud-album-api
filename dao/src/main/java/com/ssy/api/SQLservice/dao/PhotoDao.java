@@ -2,6 +2,7 @@ package com.ssy.api.SQLservice.dao;
 
 import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.SQLservice.entity.Photo;
+import com.ssy.api.utils.Location;
 
 import java.util.List;
 
@@ -35,4 +36,13 @@ public interface PhotoDao {
      * 查找出最近删除的图片
      */
     List<Photo> findRecentDelPhoto(int userId);
+
+    /**
+     * 根据经纬度查询范围内照片
+     * @param userId
+     * @param location
+     * @return
+     */
+    List<Photo> findSimilarPhotoByLocation(int userId, Location location);
+
 }

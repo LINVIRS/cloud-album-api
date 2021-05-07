@@ -3,6 +3,7 @@ package com.ssy.api.utils;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,11 +44,7 @@ public class StringUtil {
     public static boolean isCorrectVersion(String str){
         Pattern pattern = Pattern.compile("[0-9]*" + "." + "[0-9]*" + "." + "[0-9]*");
         Matcher isNum = pattern.matcher(str);
-        if( !isNum.matches() )
-        {
-            return false;
-        }
-        return true;
+        return isNum.matches();
     }
 
     /**
@@ -86,7 +83,7 @@ public class StringUtil {
 
     public static String readFromStream(InputStream stream) throws Exception {
 
-        BufferedReader bf=new BufferedReader(new InputStreamReader(stream,"UTF-8"));
+        BufferedReader bf=new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
         //最好在将字节流转换为字符流的时候 进行转码
         StringBuffer buffer=new StringBuffer();
         String line="";
