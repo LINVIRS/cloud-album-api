@@ -35,8 +35,6 @@ public class FileUploadController {
     @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")
     @PostMapping("/uploadFile")
     public RestResult uploadFile(@RequestParam("files") MultipartFile[] files) {
-        System.out.println("文件是");
-        System.out.println(files[0]);
         List<PhotoExifVo> result = threakPoolFile.getResultUpload(files);
         return new RestResultBuilder<>().success(result);
     }

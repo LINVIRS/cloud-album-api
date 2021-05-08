@@ -19,7 +19,6 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: true
-
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver

@@ -70,12 +70,14 @@ public class PhotoController {
     @PostMapping("/tag")
     public RestResult addPhotoTag(@RequestParam Integer photoId, @RequestParam Integer tagId) {
         return photoService.addPhotoTag(photoId, tagId);
+
     }
 
     @ApiOperation(value = "图片删除标签", httpMethod = "POST", notes = "图片删除标签")
     @PostMapping("/delete/tag")
     public RestResult deletePhotoTag(@RequestParam Integer photoId, @RequestParam Integer tagId) {
         return photoService.deletePhotoTag(photoId, tagId);
+
     }
 
     @ApiOperation(value = "获取最近删除的图片", httpMethod = "GET", notes = "获取最近删除的图片")
@@ -94,5 +96,12 @@ public class PhotoController {
     @PostMapping("/recover")
     public RestResult recoverPhoto(@RequestBody Integer[] ids) {
         return photoService.recoverPhoto(Arrays.asList(ids));
+    }
+
+
+    @ApiOperation(value = "根据坐标查找范围内照片", httpMethod = "POST", notes = "查找范围内照片")
+    @PostMapping("/location/photos")
+    public RestResult findPhotosByLocation(@RequestParam int userId, double longitude, double latitude) {
+        return photoService.findPhotoByLocation(userId, longitude, latitude);
     }
 }

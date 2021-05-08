@@ -6,6 +6,7 @@ import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
 import com.ssy.api.constant.ParameterConstant;
+import com.ssy.api.utils.LocationUtil;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,13 +49,16 @@ public class ExifOfImage {
                      photoExifVo.setGPSLongitudeRef(tag.getDescription());
                  }
                     if (tag.getTagName()== ParameterConstant.GPSLongitude){
-                        photoExifVo.setGPSLongitude(tag.getDescription());
+                        Double longitude = LocationUtil.tranformPos(tag.getDescription());
+
+                        photoExifVo.setGPSLongitude(String.valueOf(longitude));
                     }
                     if (tag.getTagName()== ParameterConstant.GPSLatitudeRef){
                         photoExifVo.setGPSLatitudeRef(tag.getDescription());
                     }
                     if (tag.getTagName()== ParameterConstant.GPSLatitude){
-                        photoExifVo.setGPSLatitude(tag.getDescription());
+                        Double latitude = LocationUtil.tranformPos(tag.getDescription());
+                        photoExifVo.setGPSLatitude(String.valueOf(latitude));
                     }
                         //无法获取
 //                   double fileSize= Double.parseDouble(tag.getDescription().substring(0, tag.getDescription().indexOf(" ")));

@@ -12,7 +12,7 @@ public class MultipartImage implements MultipartFile {
     String contentType;
     boolean isEmpty;
     long size;
-    private byte[] bytes;
+    private final byte[] bytes;
 
     public MultipartImage(byte[] bytes, String name, String originalFilename, String contentType,
                           long size) {

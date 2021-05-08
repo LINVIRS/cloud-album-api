@@ -18,8 +18,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VideoUtil {
-    static String ffmpegPath = "/opt/homebrew/Cellar/ffmpeg/4.3.2_4/bin/ffmpeg";
-//    static String ffmpegPath = "/usr/bin/ffmpeg";
+//    static String ffmpegPath = "/opt/homebrew/Cellar/ffmpeg/4.3.2_4/bin/ffmpeg";
+    static String ffmpegPath = "/usr/bin/ffmpeg";
+
 
     // 创建VideoOperation对象
     private static final VideoOperation ffmpeg = VideoOperation.builder(ffmpegPath);
@@ -91,11 +92,6 @@ public class VideoUtil {
         return ffmpeg.mergeVideoAndBgmWithOrigin(audioInputPath, videoInputPath
                 , videoOutputPath, videoTime);
     }
-
-    //    public static Result mergeMultiOnlineVideos(File videoListFile, String videoOutPath) {
-//        return ffmpeg.mergeMultiOnlineVideos(videoListFile, videoOutPath);
-//    }
-//
 
     /**
      * 合并视频文件
@@ -199,7 +195,7 @@ public class VideoUtil {
     //格式:"00:00:10.68"
     private static int getTimelen(String timelen) {
         int min = 0;
-        String strs[] = timelen.split(":");
+        String[] strs = timelen.split(":");
         if (strs[0].compareTo("0") > 0) {
             min += Integer.parseInt(strs[0]) * 60 * 60;//秒
         }

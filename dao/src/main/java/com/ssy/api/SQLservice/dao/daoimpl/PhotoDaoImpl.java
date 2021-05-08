@@ -7,6 +7,7 @@ import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.entity.QPhoto;
 import com.ssy.api.enums.CommonConstant;
 import com.ssy.api.service.BaseService;
+import com.ssy.api.utils.Location;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
@@ -56,7 +57,23 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
         JPAQuery<Photo> photoJPAQuery = queryFactory.select(qPhoto).from(qPhoto)
                 .where(qPhoto.isDelete.eq(CommonConstant.DELETE_DELFlag).and(qPhoto.userId.eq(userId))
                         .and(qPhoto.updateTime.between(Timestamp.valueOf(LocalDateTime.now().plusDays(-7)), Timestamp.valueOf(LocalDateTime.now()))))
-                        .groupBy(qPhoto.updateTime);
+                .groupBy(qPhoto.updateTime);
         return photoJPAQuery.fetch();
     }
+
+
+    @Override
+    public List<Photo> findSimilarPhotoByLocation(int userId, Location location) {
+        QPhoto qPhoto = QPhoto.photo;
+        return queryFactory.select(qPhoto).from(qPhoto)
+                .where(qPhoto.userId.eq(userId).and(qPhoto.isDelete.eq(CommonConstant.DELFlag))
+                        .and(qPhoto.longitude.goe(location.getMinLongitude()))
+                                .and(qPhoto.longitude.loe(location.getMaxLongitude()))
+                                .and(qPhoto.latitude.loe(location.getMaxLatitude()))
+                                .and(qPhoto.latitude.goe(location.getMinLatitude()))).fetch();
+
+    }
+
+
 }
+

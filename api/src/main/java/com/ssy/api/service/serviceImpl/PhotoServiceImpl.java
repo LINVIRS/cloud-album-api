@@ -1,5 +1,6 @@
 package com.ssy.api.service.serviceImpl;
 
+
 import com.drew.lang.StringUtil;
 import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.SQLservice.dto.face.*;
@@ -12,6 +13,8 @@ import com.ssy.api.service.FaceService;
 import com.ssy.api.service.PhotoService;
 import com.ssy.api.util.FaceHandlerUtil;
 import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
+import com.ssy.api.utils.Location;
+import com.ssy.api.utils.LocationUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -268,6 +271,7 @@ public class PhotoServiceImpl implements PhotoService {
         return new RestResultBuilder<>().success(ids);
     }
 
+
     @Override
     @Transactional(rollbackOn = Exception.class)
     public RestResult addPhotoTag(Integer photoId, Integer tagId) {
@@ -324,6 +328,7 @@ public class PhotoServiceImpl implements PhotoService {
         }).collect(Collectors.toList()));
         return new RestResultBuilder<>().success("成功");
     }
+
 
     @Override
     @Transactional
@@ -395,4 +400,14 @@ public class PhotoServiceImpl implements PhotoService {
         return new RestResultBuilder<>().success("成功");
     }
 
+
+    @Override
+    public RestResult findPhotoByLocation(int userId, double longitude, double latitude) {
+        Location location = LocationUtil.getNearbyLocation(longitude,latitude, 3);
+
+        List<Photo> photoList = photoRepository.findSimilarPhotoByLocation(userId, location);
+        return new  RestResultBuilder<>().success(photoList);
+    }
+
 }
+

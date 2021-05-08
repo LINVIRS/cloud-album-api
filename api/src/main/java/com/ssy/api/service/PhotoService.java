@@ -4,7 +4,6 @@ import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.result.RestResult;
 
 import java.util.List;
-
 public interface PhotoService {
     /**
      * 分页查询所有照片
@@ -56,6 +55,7 @@ public interface PhotoService {
     RestResult batchUploadPicture(List<PhotoDto> photos);
 
 
+
     /**
      * 根据用户id获取最近删除的图片
      *
@@ -71,6 +71,14 @@ public interface PhotoService {
      * @return
      */
     RestResult deleteThorough(List<Integer> ids);
+
+
+    /**
+     * 添加tag
+     * @param photoId
+     * @param tagId
+     * @return
+     */
 
     RestResult addPhotoTag(Integer photoId, Integer tagId);
 
@@ -91,4 +99,18 @@ public interface PhotoService {
      * @return
      */
     RestResult recoverPhoto(List<Integer> ids);
+
+
+    /**
+     * 根据坐标查找范围照片
+     * @param userId
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    RestResult findPhotoByLocation(int userId,double longitude, double latitude);
+
+
+
+
 }

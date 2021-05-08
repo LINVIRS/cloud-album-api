@@ -15,8 +15,8 @@ public class PhotoDto extends BaseDto {
     private Integer userId;
     private String url;
     private String tag_id;
-    private String longitude;
-    private String latitude;
+    private double longitude;
+    private double latitude;
     private Integer isUpload;
     private String longitudeRef;
     private String latitudeRef;

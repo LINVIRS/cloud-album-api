@@ -38,9 +38,7 @@ public class TokenRedisDao {
     public boolean checkToken(String prefix,Integer userId, String token) {
         String originToken = redisTemplate.opsForValue().get(prefix + userId);
 
-        if (originToken != null && originToken.equals(token))
-            return true;
-        return false;
+        return originToken != null && originToken.equals(token);
 
     }
 
