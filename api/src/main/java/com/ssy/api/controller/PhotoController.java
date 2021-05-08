@@ -60,11 +60,13 @@ public class PhotoController {
         return photoService.batchUploadPicture(photoDtos);
     }
 
+
     @ApiOperation(value = "照片添加到相册", httpMethod = "POST", notes = "照片添加到相册")
     @PostMapping("/addtoalbum")
     public RestResult addPhotoTOAlbum(@RequestBody Integer[] ids) {
         return albumService.addPhotoTOAlbum(Arrays.asList(ids), ids[0]);
     }
+
 
     @ApiOperation(value = "给图片添加标签", httpMethod = "POST", notes = "给图片添加标签")
     @PostMapping("/tag")
@@ -104,4 +106,13 @@ public class PhotoController {
     public RestResult findPhotosByLocation(@RequestParam int userId, double longitude, double latitude) {
         return photoService.findPhotoByLocation(userId, longitude, latitude);
     }
+
+
+    @ApiOperation(value = "根据时间分类照片", httpMethod = "GET", notes = "根据时间分类照片")
+    @GetMapping("/photos/year")
+    public RestResult findPhotosByYear(@RequestParam int userId) {
+        return photoService.findPhotoToClassification(userId);
+    }
+
+
 }

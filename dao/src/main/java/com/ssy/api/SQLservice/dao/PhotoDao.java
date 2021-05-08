@@ -39,10 +39,26 @@ public interface PhotoDao {
 
     /**
      * 根据经纬度查询范围内照片
+     *
      * @param userId
      * @param location
      * @return
      */
     List<Photo> findSimilarPhotoByLocation(int userId, Location location);
 
+    /**
+     * 查询用户照片
+     *
+     * @param userId
+     * @return
+     */
+    List<Photo> findPhoto(int userId);
+
+
+    /**
+     * 根据年来分类照片
+     * @param userId
+     * @return
+     */
+    List<String> findPhotoByGroupByTimeYear(int userId);
 }
