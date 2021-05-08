@@ -14,9 +14,20 @@ public interface VideoService {
 
     /**
      * 视频合并音频，给视频加上背景音乐，并不保留视频原声
+     * @param inputVideo
+     * @param inputMusic
+     * @return
+     */
+    RestResult convertorWithBgmNoOriginCommon(MultipartFile inputVideo, MultipartFile inputMusic);
+
+
+    /**
+     * 图片生成视频
      *
      * @param multipartFile
      * @return
      */
-    RestResult convertorWithBgmNoOriginCommon(MultipartFile multipartFile);
+    RestResult pictureToVideo(MultipartFile[] multipartFile);
+
+
 }

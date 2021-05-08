@@ -34,8 +34,8 @@ public class FileUploadController {
 
     @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")
     @PostMapping("/uploadFile")
-    public RestResult uploadFile(@RequestParam("files") MultipartFile[] multipartFiles) {
-        List<PhotoExifVo> result = threakPoolFile.getResultUpload(multipartFiles);
+    public RestResult uploadFile(@RequestParam("files") MultipartFile[] files) {
+        List<PhotoExifVo> result = threakPoolFile.getResultUpload(files);
         return new RestResultBuilder<>().success(result);
     }
 
@@ -47,9 +47,21 @@ public class FileUploadController {
         return new RestResultBuilder<>().success();
     }
 
-    @ApiOperation(value = "合并视频文件", notes = "文件需要flv格式")
+    @ApiOperation(value = "合并视频文件", notes = "")
     @PostMapping("/mergevideo")
-    public RestResult mergeVideo(@RequestParam("files") MultipartFile[] multipartFiles) {
-        return new RestResultBuilder<>().success(videoService.mergeVideo(multipartFiles));
+    public RestResult mergeVideo(@RequestParam("files") MultipartFile[] files) {
+        return new RestResultBuilder<>().success(videoService.mergeVideo(files));
+    }
+
+    @ApiOperation(value = "将图片转成视频", notes = "")
+    @PostMapping("/pictovideo")
+    public RestResult picTureToVideo(@RequestParam("files") MultipartFile[] files) {
+        return new RestResultBuilder<>().success(videoService.pictureToVideo(files));
+    }
+
+    @ApiOperation(value = "给视频加上背景音乐", notes = "")
+    @PostMapping("/addmuisc")
+    public RestResult convertorWithBgmNoOriginCommon(@RequestParam("inputVideo") MultipartFile inputVideo, @RequestParam("inputMusic") MultipartFile inputMusic) {
+        return new RestResultBuilder<>().success(videoService.convertorWithBgmNoOriginCommon(inputVideo, inputMusic));
     }
 }

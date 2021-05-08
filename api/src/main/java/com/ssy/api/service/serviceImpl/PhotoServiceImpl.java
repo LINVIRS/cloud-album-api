@@ -133,12 +133,31 @@ public class PhotoServiceImpl implements PhotoService {
                                     sameFace.add(i);
                                 }
                             });
-                            if (sameFace.size() == 0) {
+                            // 判断如果没有相同的脸
+                            if (sameFace.size() == 1) {
+                                StringBuilder photoId = new StringBuilder();
+                                // 返回photoid
+                                for (int i = 0; i < photos.size(); i++) {
+                                    if (i == 0 && i != photos.size() - 1) {
+                                        photoId = new StringBuilder(photos.get(i).getId() + ",");
+                                    } else if (i == photos.size() - 1) {
+                                        photoId.append(photos.get(i).getId());
+                                    } else {
+                                        photoId.append(photos.get(i).getId()).append(",");
+                                    }
+                                }
+                                String cover = photos.get(0).getUrl();
+                                int userId = photos.get(0).getUserId();
                                 FaceStoreDto faceSet = faceService.createFaceSet("new", "新的人脸库");
                                 // 创建相册
                                 Albums save = albumRepository.save(Albums.builder()
                                         .id(faceSet.getFaceStoreId())
                                         .createType(1)
+                                        .cover(cover)
+                                        .userId(userId)
+                                        .photoId(photoId.toString())
+                                        .type(0)
+                                        .photoNumber(String.valueOf(photos.size()))
                                         .createTime(new Timestamp(System.currentTimeMillis()))
                                         .updateTime(new Timestamp(System.currentTimeMillis()))
                                         .build());
