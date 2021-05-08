@@ -1,8 +1,12 @@
 package com.ssy.api.utils;
 
 
+import com.ffmpeg.common.FFMpegExceptionn;
 import com.ffmpeg.common.audio.AudioOperation;
+import com.ffmpeg.common.common.ProcessCommand;
 import com.ffmpeg.common.response.Result;
+import com.ffmpeg.common.utils.BaseFileUtil;
+import com.ffmpeg.common.utils.StrUtils;
 import com.ffmpeg.common.video.VideoOperation;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,16 +21,11 @@ public class VideoUtil {
 //    static String ffmpegPath = "/opt/homebrew/Cellar/ffmpeg/4.3.2_4/bin/ffmpeg";
     static String ffmpegPath = "/usr/bin/ffmpeg";
 
+
     // 创建VideoOperation对象
     private static final VideoOperation ffmpeg = VideoOperation.builder(ffmpegPath);
     // 创建AudioOperation对象
     private static final AudioOperation ffmpegAudio = AudioOperation.builder(ffmpegPath);
-
-    public static void main(String[] args) throws IOException {
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("/Users/yy/Movies/1.flv");
-        strings.add("/Users/yy/Movies/2.flv");
-    }
 
     /**
      * 合并视频文件
@@ -94,27 +93,26 @@ public class VideoUtil {
                 , videoOutputPath, videoTime);
     }
 
-    //    public static Result mergeMultiOnlineVideos(File videoListFile, String videoOutPath) {
-//        return ffmpeg.mergeMultiOnlineVideos(videoListFile, videoOutPath);
-//    }
-//
+    /**
+     * 合并视频文件
+     *
+     * @param videoListFile
+     * @param videoOutPath
+     * @return
+     */
     public static Result mergeMultiVideosByFile(File videoListFile, String videoOutPath) {
         return ffmpeg.mergeMultiVideosByFile(videoListFile, videoOutPath);
     }
-
 
     /**
      * 视频合并音频，给视频加上背景音乐，并不保留视频原声
      *
      * @param videoInputPath
-     * @param videoOutPath
-     * @param noSoundVideoPath
      * @param bgmInputPath
-     * @param seconds
      * @return
      */
-    public static Result convertorWithBgmNoOriginCommon(String videoInputPath, String videoOutPath, String noSoundVideoPath, String bgmInputPath, double seconds) {
-        return ffmpeg.convertorWithBgmNoOriginCommon(videoInputPath, videoOutPath, noSoundVideoPath, bgmInputPath, seconds);
+    public static Result convertorWithBgmNoOriginCommon(String videoInputPath,String videoInputPathNew, String bgmInputPath) {
+        return ffmpeg.convertorWithBgmNoOriginCommon(videoInputPath, videoInputPathNew, videoInputPath, bgmInputPath, getVideoTime(videoInputPath));
     }
 
     /**
@@ -152,7 +150,6 @@ public class VideoUtil {
     public static Result transFormatAudio(String inputAudio, String outAudio) {
         return ffmpegAudio.transFormatAudio(inputAudio, outAudio);
     }
-
 
     /**
      * 获取视频总时间
@@ -211,7 +208,6 @@ public class VideoUtil {
         return min;
     }
 
-
     public static File multipartToFile(MultipartFile multipart) {
         File convFile = new File(Objects.requireNonNull(multipart.getOriginalFilename()));
         try {
@@ -220,5 +216,36 @@ public class VideoUtil {
             e.printStackTrace();
         }
         return convFile;
+    }
+
+    /**
+     * 图片生成视频
+     *
+     * @param picture
+     * @param videoOutPath
+     * @return
+     */
+    public static Result pictureToVideo(File picture, String videoOutPath) {
+        if (StrUtils.checkBlank(videoOutPath)) {
+            throw new FFMpegExceptionn("videoOutPath must be valid");
+        } else if (picture.exists() && picture.isFile()) {
+            BaseFileUtil.checkAndMkdir(videoOutPath);
+            List<String> commands = new ArrayList();
+            commands.add(ffmpegPath);
+            commands.add("-f");
+            commands.add("concat");
+            commands.add("-safe");
+            commands.add("0");
+            commands.add("-i");
+            commands.add(picture.getAbsolutePath());
+            commands.add("-vsync");
+            commands.add("vfr");
+            commands.add("-pix_fmt");
+            commands.add("yuv420p");
+            commands.add(videoOutPath);
+            return ProcessCommand.start(commands);
+        } else {
+            throw new FFMpegExceptionn("videoListFile not found");
+        }
     }
 }

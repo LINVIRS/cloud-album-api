@@ -24,4 +24,6 @@ public class PhotoDto extends BaseDto {
     private String width;
     private String photoName;
     private String size;
+    private String time;
+
 }

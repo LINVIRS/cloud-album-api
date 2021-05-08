@@ -6,6 +6,7 @@ import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.SQLservice.dto.face.*;
 import com.ssy.api.SQLservice.entity.*;
 import com.ssy.api.SQLservice.repository.*;
+import com.ssy.api.SQLservice.vo.PhotoClassification;
 import com.ssy.api.constant.ParameterConstant;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
@@ -75,6 +76,7 @@ public class PhotoServiceImpl implements PhotoService {
                         .photoName(photo.getPhotoName())
                         .latitude(photo.getLatitude())
                         .longitude(photo.getLongitude())
+                        .time(Timestamp.valueOf(photo.getTime()))
                         .isUpload(1)
                         .isDelete(0)
                         .createTime(new Timestamp(System.currentTimeMillis()))
@@ -133,12 +135,31 @@ public class PhotoServiceImpl implements PhotoService {
                                     sameFace.add(i);
                                 }
                             });
-                            if (sameFace.size() == 0) {
+                            // 判断如果没有相同的脸
+                            if (sameFace.size() == 1) {
+                                StringBuilder photoId = new StringBuilder();
+                                // 返回photoid
+                                for (int i = 0; i < photos.size(); i++) {
+                                    if (i == 0 && i != photos.size() - 1) {
+                                        photoId = new StringBuilder(photos.get(i).getId() + ",");
+                                    } else if (i == photos.size() - 1) {
+                                        photoId.append(photos.get(i).getId());
+                                    } else {
+                                        photoId.append(photos.get(i).getId()).append(",");
+                                    }
+                                }
+                                String cover = photos.get(0).getUrl();
+                                int userId = photos.get(0).getUserId();
                                 FaceStoreDto faceSet = faceService.createFaceSet("new", "新的人脸库");
                                 // 创建相册
                                 Albums save = albumRepository.save(Albums.builder()
                                         .id(faceSet.getFaceStoreId())
                                         .createType(1)
+                                        .cover(cover)
+                                        .userId(userId)
+                                        .photoId(photoId.toString())
+                                        .type(0)
+                                        .photoNumber(String.valueOf(photos.size()))
                                         .createTime(new Timestamp(System.currentTimeMillis()))
                                         .updateTime(new Timestamp(System.currentTimeMillis()))
                                         .build());
@@ -384,11 +405,36 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public RestResult findPhotoByLocation(int userId, double longitude, double latitude) {
-        Location location = LocationUtil.getNearbyLocation(longitude,latitude, 3);
+        Location location = LocationUtil.getNearbyLocation(longitude, latitude, 3);
 
         List<Photo> photoList = photoRepository.findSimilarPhotoByLocation(userId, location);
-        return new  RestResultBuilder<>().success(photoList);
+        return new RestResultBuilder<>().success(photoList);
     }
+
+    @Override
+    public RestResult findPhotoToClassification(int userId) {
+        List<Photo> photo = photoRepository.findPhoto(userId);
+        //如果不存在照片 不分类 直接返回
+        if (photo.size() == 0
+        ) {
+            return new RestResultBuilder<>().success();
+        }
+        Map<String, List<Photo>> collect = photo.stream().collect(
+                Collectors.groupingBy(p ->
+                        p.getTime().toString().substring(0, p.getTime().toString().indexOf("-"))
+                ));
+        List<PhotoClassification> list = new ArrayList<>();
+        collect.entrySet().stream().forEach(i -> {
+            PhotoClassification photoClassification = new PhotoClassification();
+            photoClassification.setPhotoList(i.getValue());
+            photoClassification.setYearName(i.getKey());
+            list.add(photoClassification);
+        });
+
+
+        return new RestResultBuilder<>().success(list);
+    }
+
 
 }
 

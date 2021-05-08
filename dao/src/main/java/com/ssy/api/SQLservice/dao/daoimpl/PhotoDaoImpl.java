@@ -1,5 +1,7 @@
 package com.ssy.api.SQLservice.dao.daoimpl;
 
+import com.querydsl.core.types.ExpressionBase;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.ssy.api.SQLservice.dao.PhotoDao;
 import com.ssy.api.SQLservice.dto.PhotoDto;
@@ -68,12 +70,27 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
         return queryFactory.select(qPhoto).from(qPhoto)
                 .where(qPhoto.userId.eq(userId).and(qPhoto.isDelete.eq(CommonConstant.DELFlag))
                         .and(qPhoto.longitude.goe(location.getMinLongitude()))
-                                .and(qPhoto.longitude.loe(location.getMaxLongitude()))
-                                .and(qPhoto.latitude.loe(location.getMaxLatitude()))
-                                .and(qPhoto.latitude.goe(location.getMinLatitude()))).fetch();
+                        .and(qPhoto.longitude.loe(location.getMaxLongitude()))
+                        .and(qPhoto.latitude.loe(location.getMaxLatitude()))
+                        .and(qPhoto.latitude.goe(location.getMinLatitude()))).fetch();
 
     }
 
+    @Override
+    public List<Photo> findPhoto(int userId) {
+        //qPhoto.time.isNotNull() 数据库时间不能为null
+        QPhoto qPhoto = QPhoto.photo;
+        return queryFactory.select(qPhoto).from(qPhoto).where(qPhoto.userId.eq(userId)
+                .and(qPhoto.isDelete.eq(CommonConstant.DELFlag
+                ).and(qPhoto.time.isNotNull()))).orderBy(qPhoto.time.desc()).fetch();
+    }
+    @Override
+    public List<String> findPhotoByGroupByTimeYear(int userId) {
+        QPhoto qPhoto = QPhoto.photo;
+        return queryFactory.select(Expressions.stringTemplate("DATE_FORMAT({0},'%Y'",qPhoto.time)).from(qPhoto).where(qPhoto.userId.eq(userId)
+                .and(qPhoto.isDelete.eq(CommonConstant.DELFlag
+                ))).orderBy(qPhoto.time.desc()).groupBy(Expressions.stringTemplate("DATE_FORMAT({0},'%Y'",qPhoto.time)).fetch();
+    }
 
 }
 
