@@ -24,8 +24,8 @@ public class FileThreadTask implements Callable<PhotoExifVo> {
   @Override
   public PhotoExifVo call() throws Exception {
     // 上传图片
-    List<String> paths = new ArrayList<>();
-    return  fileDfsUtil.upload(multipartFiles);
+    MultipartFile multipartFiles = this.multipartFiles;
+    return  fileDfsUtil.upload(this.multipartFiles);
 
   }
 }

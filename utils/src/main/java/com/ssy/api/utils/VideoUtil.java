@@ -18,8 +18,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VideoUtil {
-//    static String ffmpegPath = "/opt/homebrew/Cellar/ffmpeg/4.3.2_4/bin/ffmpeg";
-    static String ffmpegPath = "/usr/bin/ffmpeg";
+    static String ffmpegPath = "/opt/homebrew/Cellar/ffmpeg/4.3.2_4/bin/ffmpeg";
+//    static String ffmpegPath = "/usr/bin/ffmpeg";
 
 
     // 创建VideoOperation对象
