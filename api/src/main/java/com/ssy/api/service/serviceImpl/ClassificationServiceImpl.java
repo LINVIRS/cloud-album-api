@@ -164,6 +164,7 @@ public class ClassificationServiceImpl implements ClassificationService {
         ArrayList<String> urls = new ArrayList<>();
         newArr.forEach(list -> {
             List<MultipartFile> files = new ArrayList<>(10);
+            List<String> paths = new ArrayList<>(10);
             // 下载文件
             list.forEach(photo -> {
                 String url = photo.getUrl();
@@ -171,6 +172,7 @@ public class ClassificationServiceImpl implements ClassificationService {
                 String fileName = url.substring(url.lastIndexOf("/") + 1);
                 if (threakPoolFile.downloadFiles(System.getProperty("user.dir"), fullPath, fileName)) {
                     String path = System.getProperty("user.dir") + "/" + fileName;
+                    paths.add(path);
                     File file = new File(path);
                     FileInputStream fileInputStream = null;
                     try {
@@ -189,6 +191,10 @@ public class ClassificationServiceImpl implements ClassificationService {
             RestResult restResult = videoService.pictureToVideo(files.toArray(new MultipartFile[0]));
             if (restResult.getCode() == 0) {
                 urls.add(restResult.getMsg());
+            }
+
+            for (String path : paths) {
+                new File(path).delete();
             }
         });
 
