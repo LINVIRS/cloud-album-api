@@ -49,11 +49,17 @@ spring:
           config:
             multi-statement-allow: true
 
-
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
     add-mappings: false
+#  data:
+#    mongodb:
+#      host: 36.137.109.33
+#      port: 27017
+#      database: cloud-album
+#      username: ssyuser
+#      password: ssy123456
 
 server:
   port: 8081

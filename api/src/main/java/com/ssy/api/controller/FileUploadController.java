@@ -34,10 +34,8 @@ public class FileUploadController {
 
     @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")
     @PostMapping("/uploadFile")
-
-    public RestResult uploadFile(@RequestParam("files") MultipartFile[] multipartFiles) {
-        List<PhotoExifVo> result = threakPoolFile.getResultUpload(multipartFiles);
-
+    public RestResult uploadFile(@RequestParam("files") MultipartFile[] files) {
+        List<PhotoExifVo> result = threakPoolFile.getResultUpload(files);
         return new RestResultBuilder<>().success(result);
     }
 
