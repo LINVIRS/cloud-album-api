@@ -22,6 +22,7 @@ public class VideoUtil {
 //    static String ffmpegPath = "/usr/bin/ffmpeg";
 
 
+
     // 创建VideoOperation对象
     private static final VideoOperation ffmpeg = VideoOperation.builder(ffmpegPath);
     // 创建AudioOperation对象

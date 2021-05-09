@@ -110,7 +110,11 @@ public interface PhotoService {
      */
     RestResult findPhotoByLocation(int userId,double longitude, double latitude);
 
-
-
+    /**
+     *  根据照片分类
+     * @param userId
+     * @return
+     */
+  RestResult findPhotoToClassification(int userId);
 
 }

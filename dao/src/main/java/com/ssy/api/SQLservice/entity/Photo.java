@@ -5,11 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.annotation.Nonnull;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -17,7 +13,7 @@ import java.util.Objects;
  * @ClassName: Photo
  * @Description: TODO
  * @Author: WangLinLIN
- * @Date: 2021/05/07 15:57:17 
+ * @Date: 2021/05/08 13:24:35 
  * @Version: V1.0
  **/
 @Entity
@@ -42,8 +38,10 @@ public class Photo {
     private String longitudeRef;
     private String height;
     private String width;
+    private Timestamp time;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;
@@ -203,16 +201,26 @@ public class Photo {
         this.width = width;
     }
 
+    @Basic
+    @Column(name = "time", nullable = true)
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Photo photo = (Photo) o;
-        return id == photo.id && Objects.equals(url, photo.url) && Objects.equals(isUpload, photo.isUpload) && Objects.equals(tagId, photo.tagId) && Objects.equals(longitude, photo.longitude) && Objects.equals(latitude, photo.latitude) && Objects.equals(userId, photo.userId) && Objects.equals(createTime, photo.createTime) && Objects.equals(updateTime, photo.updateTime) && Objects.equals(isDelete, photo.isDelete) && Objects.equals(photoName, photo.photoName) && Objects.equals(photoSize, photo.photoSize) && Objects.equals(latitudeRef, photo.latitudeRef) && Objects.equals(longitudeRef, photo.longitudeRef) && Objects.equals(height, photo.height) && Objects.equals(width, photo.width);
+        return id == photo.id && Objects.equals(url, photo.url) && Objects.equals(isUpload, photo.isUpload) && Objects.equals(tagId, photo.tagId) && Objects.equals(longitude, photo.longitude) && Objects.equals(latitude, photo.latitude) && Objects.equals(userId, photo.userId) && Objects.equals(createTime, photo.createTime) && Objects.equals(updateTime, photo.updateTime) && Objects.equals(isDelete, photo.isDelete) && Objects.equals(photoName, photo.photoName) && Objects.equals(photoSize, photo.photoSize) && Objects.equals(latitudeRef, photo.latitudeRef) && Objects.equals(longitudeRef, photo.longitudeRef) && Objects.equals(height, photo.height) && Objects.equals(width, photo.width) && Objects.equals(time, photo.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, url, isUpload, tagId, longitude, latitude, userId, createTime, updateTime, isDelete, photoName, photoSize, latitudeRef, longitudeRef, height, width);
+        return Objects.hash(id, url, isUpload, tagId, longitude, latitude, userId, createTime, updateTime, isDelete, photoName, photoSize, latitudeRef, longitudeRef, height, width, time);
     }
 }

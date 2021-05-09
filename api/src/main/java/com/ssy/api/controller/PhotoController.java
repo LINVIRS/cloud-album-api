@@ -104,4 +104,13 @@ public class PhotoController {
     public RestResult findPhotosByLocation(@RequestParam int userId, double longitude, double latitude) {
         return photoService.findPhotoByLocation(userId, longitude, latitude);
     }
+
+
+    @ApiOperation(value = "根据时间分类照片", httpMethod = "GET", notes = "根据时间分类照片")
+    @GetMapping("/photos/year")
+    public RestResult findPhotosByYear(@RequestParam int userId) {
+        return photoService.findPhotoToClassification(userId);
+    }
+
+
 }
