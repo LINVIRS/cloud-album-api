@@ -71,13 +71,11 @@ public class ExifOfImage {
                         photoExifVo.setFileName(multipartFile.getOriginalFilename());
 
                     if (tag.getTagName()== ParameterConstant.ImageWidth){
-
-                        photoExifVo.setImageWidth(tag.getDescription().substring(0,tag.getDescription().indexOf(" ")));
+                        photoExifVo.setImageWidth(tag.getDescription().replaceAll("[^0-9]", ""));
                     }
                     if (tag.getTagName()== ParameterConstant.ImageHeight){
-                        photoExifVo.setImageHeight(tag.getDescription().substring(0,tag.getDescription().indexOf(" ")));
+                        photoExifVo.setImageHeight(tag.getDescription().replaceAll("[^0-9]", ""));
                     }
-
                 }
                 if (directory.hasErrors()) {
                     for (String error : directory.getErrors()) {
