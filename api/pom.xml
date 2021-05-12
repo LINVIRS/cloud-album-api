@@ -61,6 +61,10 @@
             <artifactId>fastdfs-client</artifactId>
             <version>${fastdfs-client.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
 
         <!-- SpringBoot MongoDB -->
 <!--        <dependency>-->

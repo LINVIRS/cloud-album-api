@@ -21,8 +21,10 @@ import java.util.List;
 @Slf4j
 public class VideoServiceImpl implements VideoService {
 
-    //    private String pathName = "/Users/yy/Downloads/";
-    private String pathName = "/root/temp/";
+
+    private String pathName = "/Users/yy/Downloads/";
+//    private String pathName = "/root/temp/";
+
 
     @Override
     public RestResult mergeVideo(MultipartFile[] multipartFiles) {

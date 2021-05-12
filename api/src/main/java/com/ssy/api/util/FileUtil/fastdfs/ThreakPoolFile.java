@@ -79,7 +79,7 @@ public class ThreakPoolFile {
         return returnValue;
     }
 
-    public void downloadFiles(String url, String fullPath, String filename) {
+    public boolean downloadFiles(String url, String fullPath, String filename) {
         InputStream ins = null;
         DownloadByteArray callback = new DownloadByteArray();
         String group = fullPath.substring(0, fullPath.indexOf("/"));
@@ -94,6 +94,8 @@ public class ThreakPoolFile {
             copyInputStreamToFile(ins, file);
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 }
