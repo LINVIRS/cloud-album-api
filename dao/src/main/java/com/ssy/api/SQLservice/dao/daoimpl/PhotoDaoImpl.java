@@ -1,7 +1,8 @@
 package com.ssy.api.SQLservice.dao.daoimpl;
 
 import com.querydsl.core.types.ExpressionBase;
-import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.Template;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.ssy.api.SQLservice.dao.PhotoDao;
 import com.ssy.api.SQLservice.dto.PhotoDto;
@@ -85,11 +86,12 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
                 ).and(qPhoto.time.isNotNull()))).orderBy(qPhoto.time.desc()).fetch();
     }
     @Override
-    public List<String> findPhotoByGroupByTimeYear(int userId) {
+    public  List<Photo>  findPhotoByDay(int userId, Timestamp startTime, Timestamp endTime) {
         QPhoto qPhoto = QPhoto.photo;
-        return queryFactory.select(Expressions.stringTemplate("DATE_FORMAT({0},'%Y'",qPhoto.time)).from(qPhoto).where(qPhoto.userId.eq(userId)
-                .and(qPhoto.isDelete.eq(CommonConstant.DELFlag
-                ))).orderBy(qPhoto.time.desc()).groupBy(Expressions.stringTemplate("DATE_FORMAT({0},'%Y'",qPhoto.time)).fetch();
+        return  queryFactory.select(qPhoto).from(qPhoto).where(qPhoto.userId.eq(userId)
+                .and(qPhoto.isDelete.eq(CommonConstant.DELFlag))
+        .and(qPhoto.time.before(endTime)).and(qPhoto.time.after(startTime))).orderBy(qPhoto.time.desc()).fetch();
+
     }
 
 }

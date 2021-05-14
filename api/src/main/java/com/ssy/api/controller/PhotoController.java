@@ -114,5 +114,9 @@ public class PhotoController {
         return photoService.findPhotoToClassification(userId);
     }
 
-
+    @ApiOperation(value = "查询日期中的照片", httpMethod = "GET", notes = "查询日期中的照片")
+    @GetMapping("/photos/day")
+    public RestResult findPhotosByYear(@RequestParam int userId,@RequestParam String startTime,String endTime) {
+        return photoService.findPhotoByDay(userId,startTime,endTime);
+    }
 }

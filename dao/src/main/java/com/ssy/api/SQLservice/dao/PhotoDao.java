@@ -4,6 +4,7 @@ import com.ssy.api.SQLservice.dto.PhotoDto;
 import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.utils.Location;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -60,5 +61,5 @@ public interface PhotoDao {
      * @param userId
      * @return
      */
-    List<String> findPhotoByGroupByTimeYear(int userId);
+    List<Photo> findPhotoByDay(int userId, Timestamp startTime, Timestamp endTime);
 }

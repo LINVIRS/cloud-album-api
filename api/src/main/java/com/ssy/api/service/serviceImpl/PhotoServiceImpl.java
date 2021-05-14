@@ -186,7 +186,22 @@ public class PhotoServiceImpl implements PhotoService {
 
 
     public RestResult findAll(PhotoDto photoDto) {
-        return new RestResultBuilder<>().success(photoRepository.findAllPhoto(photoDto));
+        List<Photo> allPhoto = photoRepository.findAllPhoto(photoDto);
+        if (allPhoto.size()==0){
+            return new RestResultBuilder<>().success();
+        }
+        Map<String, List<Photo>> collect = allPhoto.stream().collect(
+                Collectors.groupingBy(p ->
+                        p.getCreateTime().toString().substring(0, 10)
+                ));
+        List<PhotoClassification> list = new ArrayList<>();
+        collect.entrySet().stream().forEach(i -> {
+            PhotoClassification photoClassification = new PhotoClassification();
+            photoClassification.setPhotoList(i.getValue());
+            photoClassification.setYearName(i.getKey());
+            list.add(photoClassification);
+        });
+        return new RestResultBuilder<>().success(list);
     }
 
     @Transactional
@@ -430,8 +445,28 @@ public class PhotoServiceImpl implements PhotoService {
             photoClassification.setYearName(i.getKey());
             list.add(photoClassification);
         });
+        return new RestResultBuilder<>().success(list);
+    }
 
-
+    @Override
+    public RestResult findPhotoByDay(int userId, String startTime, String endTime) {
+        Timestamp startTimestamp = Timestamp.valueOf(startTime.substring(0,10)+" 00:00:00");
+        Timestamp endTimestamp =  Timestamp.valueOf(endTime.substring(0,10)+" 23:59:59");
+        List<Photo> photoByDay = photoRepository.findPhotoByDay(userId, startTimestamp, endTimestamp);
+        if(photoByDay.size()==0){
+            return new  RestResultBuilder<>().success();
+        }
+        Map<String, List<Photo>> collect = photoByDay.stream().collect(
+                Collectors.groupingBy(p ->
+                        p.getTime().toString().substring(0, 10)
+                ));
+        List<PhotoClassification> list = new ArrayList<>();
+        collect.entrySet().stream().forEach(i -> {
+            PhotoClassification photoClassification = new PhotoClassification();
+            photoClassification.setPhotoList(i.getValue());
+            photoClassification.setYearName(i.getKey());
+            list.add(photoClassification);
+        });
         return new RestResultBuilder<>().success(list);
     }
 

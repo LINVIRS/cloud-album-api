@@ -117,4 +117,13 @@ public interface PhotoService {
      */
   RestResult findPhotoToClassification(int userId);
 
+
+
+
+    /**
+     *  根据照片分类
+     * @param userId
+     * @return
+     */
+    RestResult findPhotoByDay(int userId,String startTime,String endTime);
 }
