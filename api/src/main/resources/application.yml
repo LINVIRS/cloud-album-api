@@ -1,0 +1,100 @@
+spring:
+  application:
+    name: api
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1000MB
+      max-request-size: 2000MB
+  profiles:
+    active: dev
+  jpa:
+    properties:
+      hibernate:
+#        关闭sql输出
+        show_sql: false
+        format_sql: true
+  messages:
+    basename: static/i18n/messages #相对路径 首部不要添加斜杠
+  # 时间默认转时间戳
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: admin
+        login-password: admin
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
+
+server:
+  port: 8081
+  servlet:
+    context-path: /album-api
+
+#logging:
+#  config: classpath:log/logback-spring.xml
+# 订时任务
+
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: springfox swagger 3.0整合Demo
+  try-host: http://localhost:${server.port}
+
+
+
+fdfs:
+  # 链接超时
+  connect-timeout: 600
+  # 读取时间
+  so-timeout: 1500
+  # 生成缩略图参数
+  thumb-image:
+    width: 150
+    height: 150
+  tracker-list: #TrackerList参数,支持多个
+    - 121.5.235.153:22122
+  pool:
+    #从池中借出的对象的最大数目（配置为-1表示不限制）
+    max-total: -1
+    #获取连接时的最大等待毫秒数(默认配置为5秒)
+    max-wait-millis: 5000
+    #每个key最大连接数
+    max-total-per-key: 50
+    #每个key对应的连接池最大空闲连接数
+    max-idle-per-key: 10
+    #每个key对应的连接池最小空闲连接数
+    min-idle-per-key: 5
+
