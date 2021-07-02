@@ -198,8 +198,10 @@ public class RedisServiceImpl implements RedisService {
     }
 
 
+
     @Override
     public List<Object> getByGroup(String groupKey) {
         return   redisTemplate.opsForHash().values(groupKey);
     }
+
 }

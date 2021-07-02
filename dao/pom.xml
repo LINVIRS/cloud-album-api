@@ -125,6 +125,11 @@
             <version>3.0.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.chinamobile.cmss</groupId>
+            <artifactId>ecloud-engine-sdk</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

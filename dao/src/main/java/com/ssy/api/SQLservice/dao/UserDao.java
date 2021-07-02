@@ -7,6 +7,7 @@ import com.ssy.api.SQLservice.vo.UserVo;
 
 import java.util.List;
 
+
 /**
  * @ClassName: UserDao
  * @Description: TODO
@@ -52,9 +53,11 @@ public interface UserDao {
     int  updateUserData(UserDataDto userDataDto);
 
 
+
     /**
      * 查找所有用户id
      * @return
      */
     List<Integer> findAllId();
+
 }

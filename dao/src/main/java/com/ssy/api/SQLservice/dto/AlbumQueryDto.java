@@ -35,3 +35,4 @@ public class AlbumQueryDto {
      */
     private Integer pageSize;
 }
+

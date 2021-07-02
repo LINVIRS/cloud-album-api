@@ -16,6 +16,7 @@ import com.ssy.api.util.FaceHandlerUtil;
 import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
 import com.ssy.api.util.allPictureUtils.document.PictureDocument;
 import com.ssy.api.util.allPictureUtils.repository.PictureRepository;
+
 import com.ssy.api.utils.Location;
 import com.ssy.api.utils.LocationUtil;
 import org.springframework.stereotype.Service;
@@ -55,8 +56,10 @@ public class PhotoServiceImpl implements PhotoService {
     private FaceStoreRepository faceStoreRepository;
 
 
+
     @Resource
     private PictureRepository pictureRepository;
+
     @Override
     @Transactional
     public RestResult findById(Integer id) {
@@ -186,7 +189,8 @@ public class PhotoServiceImpl implements PhotoService {
                 e.printStackTrace();
             }
         });
-        return new RestResultBuilder<>().success("成功");
+
+        return new RestResultBuilder<>().success(photos);
     }
 
 
@@ -405,12 +409,14 @@ public class PhotoServiceImpl implements PhotoService {
             urlList.add(photo.getUrl());
             photo.setIsDelete(2);
             photo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+
             photo.setUrl(null);
             Photo photo1 = photoRepository.saveAndFlush(photo);
             //删除图片索引
             PictureDocument pictureDocument =PictureDocument.builder()
                     .id(i).build();
             pictureRepository.delete(pictureDocument);
+
             return null;
         }).collect(Collectors.toList());
         fileDfsUtil.delete(urlList);

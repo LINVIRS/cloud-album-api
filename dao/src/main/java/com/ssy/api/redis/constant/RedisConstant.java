@@ -8,7 +8,9 @@ package com.ssy.api.redis.constant;
  * @Description: 常量池
  */
 public class RedisConstant {
+
     public static final long SMS_CODE_EXPIRE_TIME = 300L;
     public  static  final  String PICTURE_IDENTIFY="picture:identify";
+
     public static final long APP_TOKEN_EXPIRE_TIME = 3 * 24 * 3600L;
 }

@@ -7,6 +7,8 @@ import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.VideoService;
 import com.ssy.api.util.FileUtil.fastdfs.FileThreadTask;
 import com.ssy.api.util.FileUtil.fastdfs.ThreakPoolFile;
+
+import com.ssy.api.utils.FileUploaderUtil;
 import com.ssy.api.utils.photoExifUtil.PhotoExifVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,13 +40,37 @@ public class FileUploadController {
     @Resource
     private VideoService videoService;
 
-    @ApiOperation(value = "上传文件", notes = "测试FastDFS文件上传")
-    @PostMapping("/uploadFile")
 
+
+
+    @ApiOperation(value = "上传图片", notes = "图片上传")
+    @PostMapping("/uploadFile")
     public RestResult uploadFile(@RequestParam("files") MultipartFile[] multipartFiles) {
         List<PhotoExifVo> result = threakPoolFile.getResultUpload(multipartFiles);
 
         return new RestResultBuilder<>().success(result);
+    }
+
+
+    @ApiOperation(value = "上传视频", notes = "视频上传")
+    @PostMapping("/uploadvideo")
+    public RestResult uploadVideo(@RequestParam("files") MultipartFile[] multipartFiles) throws Exception {
+        Boolean aBoolean = false;
+        List<String> videos = new ArrayList<>();
+        for (MultipartFile file : multipartFiles) {
+            // 这里写了本地路径，之后改成项目服务器路径
+            Path filepath = Paths.get("/Users/yy/Downloads", file.getOriginalFilename());
+
+            try (OutputStream os = Files.newOutputStream(filepath)) {
+                os.write(file.getBytes());
+            }
+            aBoolean = FileUploaderUtil.uploadVideo(filepath.toString());
+            if (aBoolean) {
+                String video = FileUploaderUtil.getVideo(filepath.toString());
+                videos.add(video);
+            }
+        }
+        return new RestResultBuilder<>().success(videos);
     }
 
     @ApiOperation(value = "下载文件", notes = "测试FastDFS文件上传")

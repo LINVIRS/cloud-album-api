@@ -10,7 +10,9 @@ import com.ssy.api.SQLservice.vo.UserVo;
 import com.ssy.api.enums.CommonConstant;
 import com.ssy.api.service.BaseService;
 
+
 import java.util.List;
+
 
 /**
  * @ClassName: UserDaoImpl @Description: TODO @Author: WangLinLIN @Date:
@@ -88,6 +90,7 @@ public class UserDaoImpl extends BaseService implements UserDao {
             .execute());
   }
 
+
   @Override
   public List<Integer> findAllId() {
     QUser qUser = QUser.user;
@@ -95,5 +98,6 @@ public class UserDaoImpl extends BaseService implements UserDao {
             .where(qUser.isDelete.eq(CommonConstant.DELFlag))
             .fetch();
   }
+
 
 }

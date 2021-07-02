@@ -82,6 +82,7 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
                 .and(qPhoto.isDelete.eq(CommonConstant.DELFlag
                 ).and(qPhoto.time.isNotNull()))).orderBy(qPhoto.time.desc()).fetch();
     }
+
     @Override
     public List<Photo> findPhotoNotIdentify(int userId,List<Integer> ids) {
         //qPhoto.time.isNotNull() 数据库时间不能为null
@@ -90,6 +91,9 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
                 .and(qPhoto.isDelete.eq(CommonConstant.DELFlag
                 ).and(qPhoto.id.notIn(ids)))).fetch();
     }
+
+
+
     @Override
     public List<Photo> findPhotoByDay(int userId, Timestamp startTime, Timestamp endTime) {
         QPhoto qPhoto = QPhoto.photo;
@@ -106,7 +110,6 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
                 .and(qPhoto.isDelete.eq(CommonConstant.DELFlag))
                 .and(qPhoto.photoName.like(searchKey))).orderBy(qPhoto.time.desc()).fetch();
     }
-
 
 
 }

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+
 import javax.persistence.EntityManager;
 
 
@@ -15,7 +16,9 @@ import javax.persistence.EntityManager;
 @SpringBootApplication
 //开启异步调用
 //@EnableAsync
+
 @EnableScheduling // 在启动类中开启定时任务的使用，默认不开启
+
 public class ApiApplication {
 
     public static void main(String[] args) {

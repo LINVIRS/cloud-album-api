@@ -7,6 +7,7 @@ import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.AlbumService;
 import com.ssy.api.service.PhotoService;
+
 import com.ssy.api.util.allPictureUtils.document.PictureDocument;
 import com.ssy.api.util.allPictureUtils.service.PictureService;
 import io.swagger.annotations.Api;
@@ -128,7 +129,5 @@ public class PhotoController {
     public RestResult SearchPhotos(@RequestParam int userId,@RequestParam String seachKey) {
         return photoService.SearchPhoto(userId,seachKey);
     }
-
-
 
 }

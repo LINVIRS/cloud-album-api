@@ -54,6 +54,7 @@ public interface PhotoDao {
      * @return
      */
     List<Photo> findPhoto(int userId);
+
     /**
      * 查询用户未分类照片
      *
@@ -61,6 +62,7 @@ public interface PhotoDao {
      * @return
      */
     List<Photo> findPhotoNotIdentify(int userId,List<Integer> ids);
+
 
     /**
      * 根据年来分类照片
@@ -77,7 +79,5 @@ public interface PhotoDao {
      */
 
     List<Photo> SearchPhoto(int userId,String searchKey);
-
-
 
 }

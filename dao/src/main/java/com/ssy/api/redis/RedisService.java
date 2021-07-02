@@ -71,6 +71,8 @@ public interface RedisService {
 
     boolean setContain(String key, String value);
 
+
     List<Object> getByGroup(String groupKey);
+
 
 }

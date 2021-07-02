@@ -1,6 +1,10 @@
 package com.ssy.api.service.serviceImpl;
 
 import com.ffmpeg.common.response.Result;
+
+import com.ssy.api.SQLservice.dto.PageDto;
+import com.ssy.api.SQLservice.entity.Video;
+import com.ssy.api.SQLservice.repository.VideoRepository;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.VideoService;
@@ -10,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,10 +27,19 @@ import java.util.List;
 @Slf4j
 public class VideoServiceImpl implements VideoService {
 
+    @Resource
+    private VideoRepository videoRepository;
+
 
     private String pathName = "/Users/yy/Downloads/";
 //    private String pathName = "/root/temp/";
 
+
+    @Override
+    public RestResult findAll(PageDto pageDto) {
+        List<Video> allVideo = videoRepository.findAllVideo(pageDto);
+        return new RestResultBuilder<>().success(allVideo);
+    }
 
     @Override
     public RestResult mergeVideo(MultipartFile[] multipartFiles) {
@@ -184,4 +199,5 @@ public class VideoServiceImpl implements VideoService {
         }
         return new RestResultBuilder<>().success("失败");
     }
+
 }

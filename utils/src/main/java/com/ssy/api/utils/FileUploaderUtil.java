@@ -2,7 +2,13 @@ package com.ssy.api.utils;
 
 import io.minio.MinioClient;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class FileUploaderUtil {
     public static Boolean uploadVideo(String path) {
@@ -35,4 +41,12 @@ public class FileUploaderUtil {
         }
         return null;
     }
+
+
+    public static void multipartFileToFile(MultipartFile multipart, Path dir
+    ) throws IOException {
+        Path filepath = Paths.get(dir.toString(), multipart.getOriginalFilename());
+        multipart.transferTo(filepath);
+    }
+
 }
