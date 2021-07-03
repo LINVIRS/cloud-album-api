@@ -7,6 +7,8 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.ssy.api.utils.photoExifUtil.ExifOfImage;
 import com.ssy.api.utils.photoExifUtil.PhotoExifVo;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,13 +40,13 @@ public class FileDfsUtil {
 
     public PhotoExifVo upload(MultipartFile multipartFile) {
         PhotoExifVo metadata = new PhotoExifVo();
-        metadata = ExifOfImage.getMetadata(multipartFile);
+        StorePath storePath = null;
         String originalFilename =
                 multipartFile
                         .getOriginalFilename()
                         .substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        StorePath storePath = null;
         try {
+            metadata = ExifOfImage.getMetadata(multipartFile);
             InputStream inputStream = multipartFile.getInputStream();
             long size = multipartFile.getSize();
             String originalFilename1 = multipartFile.getOriginalFilename();
@@ -51,7 +55,9 @@ public class FileDfsUtil {
                             multipartFile.getInputStream(), multipartFile.getSize(), originalFilename, null);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(String.valueOf(e));
+        } catch (Exception e) {
+            log.error(String.valueOf(e));
         }
         metadata.setFullPath(storePath.getFullPath());
         return metadata;

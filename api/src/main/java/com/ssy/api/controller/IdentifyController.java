@@ -51,4 +51,12 @@ public class IdentifyController {
     ) {
         return identifyService.findPictureType(userId);
     }
+
+
+    @ApiOperation(value = "查询分类", httpMethod = "POST", notes = "查询分类")
+    @PostMapping("/photos/test")
+    public RestResult test(@RequestParam int userId
+    ) {
+        return identifyService.identifyPicture(userId);
+    }
 }

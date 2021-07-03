@@ -11,6 +11,6 @@ public class RedisConstant {
 
     public static final long SMS_CODE_EXPIRE_TIME = 300L;
     public  static  final  String PICTURE_IDENTIFY="picture:identify";
-
+    public  static  final  String ALBUMS_ID_LIST="albums:ids";
     public static final long APP_TOKEN_EXPIRE_TIME = 3 * 24 * 3600L;
 }

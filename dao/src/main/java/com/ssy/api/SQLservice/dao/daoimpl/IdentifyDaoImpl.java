@@ -25,10 +25,9 @@ public class IdentifyDaoImpl extends BaseService implements IdentifyDao {
         QPhoto qPhoto =QPhoto.photo;
         QIdentify qIdentify =QIdentify.identify;
         return queryFactory.select(qPhoto).from(qIdentify).leftJoin(qPhoto)
-                .on(qIdentify.photoId.eq(qPhoto.id)
-                .and(qPhoto.isDelete.eq(CommonConstant.DELFlag)
+                .on(qIdentify.photoId.eq(qPhoto.id)).where(qPhoto.isDelete.eq(CommonConstant.DELFlag)
                 .and(qIdentify.type.like(type)
-                ).and(qIdentify.userId.eq(userId)))).orderBy(qPhoto.createTime.desc()).limit(pageSize).offset(pageIndex*pageSize).fetch();
+                ).and(qIdentify.userId.eq(userId))).orderBy(qPhoto.createTime.desc()).limit(pageSize).offset(pageIndex*pageSize).fetch();
     }
 
     @Override
@@ -50,5 +49,13 @@ public class IdentifyDaoImpl extends BaseService implements IdentifyDao {
                .and(qIdentify.userId.eq(userId)
                .and(qIdentify.type.eq(type)))).orderBy(qPhoto.createTime.desc()).fetchFirst();
 
+    }
+
+    @Override
+    public List<Integer> findPictureId(Integer userId, String type) {
+        QIdentify qIdentify =QIdentify.identify;
+        return queryFactory.select(qIdentify.photoId).from(qIdentify)
+                .where(qIdentify.userId.eq(userId).and(qIdentify.type.eq(type)))
+                .fetch();
     }
 }

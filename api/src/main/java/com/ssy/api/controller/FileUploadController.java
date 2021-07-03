@@ -40,9 +40,6 @@ public class FileUploadController {
     @Resource
     private VideoService videoService;
 
-
-
-
     @ApiOperation(value = "上传图片", notes = "图片上传")
     @PostMapping("/uploadFile")
     public RestResult uploadFile(@RequestParam("files") MultipartFile[] multipartFiles) {

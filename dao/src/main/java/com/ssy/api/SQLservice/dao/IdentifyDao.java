@@ -39,4 +39,12 @@ public interface IdentifyDao {
      */
     Tuple findPictureCover (Integer userId, String type);
 
+    /**
+     * 查询指定分类id
+     * @param userId
+     * @param type
+     * @return
+     */
+    List<Integer> findPictureId(Integer userId ,String type);
+
 }

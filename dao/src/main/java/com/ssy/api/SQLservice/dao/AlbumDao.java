@@ -26,6 +26,12 @@ public interface AlbumDao {
     List<Albums> getAllAlbumsByUserId(AlbumQueryDto dto);
 
     /**
+     * 获取分类的相册
+     * @param
+     * @return
+     */
+    List<Albums> getAllAlbumsByIdentify(Integer userId);
+    /**
      * 根据相册id查询相册详情
      *
      * @param albumId 相册id
@@ -41,4 +47,15 @@ public interface AlbumDao {
      * @return Albums
      */
     int updateAlbumById(AlbumDto albumDto, int albumId);
+
+    /**
+     * 更新相册
+     * @param albumId
+     * @param cover
+     * @param photoId
+     * @param num
+     * @return
+     */
+
+    int updateAlbum( int albumId,String cover,String photoId,String num);
 }

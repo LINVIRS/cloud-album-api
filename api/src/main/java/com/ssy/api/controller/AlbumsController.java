@@ -56,6 +56,11 @@ public class AlbumsController {
         return albumService.getAllAlbumsByUserId(dto);
     }
 
+    @ApiOperation(value = "获取分类所有的相册")
+    @GetMapping("/all/identify")
+    public RestResult getAllAlbumsByIdentify(@RequestParam Integer userId) {
+        return albumService.getAllAlbumsByIdentify(userId);
+    }
     @PostMapping(value = "/test")
     public String test(@RequestParam String page, String index) {
         return "page:" + page + "index:" + index;
