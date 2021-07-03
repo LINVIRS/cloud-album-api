@@ -12,7 +12,7 @@ spring:
     properties:
       hibernate:
 #        关闭sql输出
-        show_sql: false
+        show_sql: true
         format_sql: true
   messages:
     basename: static/i18n/messages #相对路径 首部不要添加斜杠

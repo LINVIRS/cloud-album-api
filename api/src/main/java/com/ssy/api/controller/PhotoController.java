@@ -33,6 +33,12 @@ public class PhotoController {
         return photoService.findAll(photoDto);
     }
 
+    @ApiOperation(value = "手机端查询默认相册照片", httpMethod = "POST", notes = "查询所有图片")
+    @PostMapping("/phone/all")
+    public RestResult findAllForPhone(@RequestParam Integer userId) {
+        return photoService.findAllForPhone(userId);
+    }
+
     @ApiOperation(value = "根据id查询图片", httpMethod = "POST", notes = "根据id查询图片")
     @PostMapping("/single")
     public RestResult findById(@RequestParam("id") Integer id) {
@@ -130,4 +136,10 @@ public class PhotoController {
         return photoService.SearchPhoto(userId,seachKey);
     }
 
+
+    @ApiOperation(value = "根据用户查询图片信息", httpMethod = "POST", notes = "根据用户查询图片信息")
+    @PostMapping("/photos/userId/{userId}")
+    public RestResult findPhotoByUserId(@PathVariable int userId) {
+        return photoService.findPhotoByUserId(userId);
+    }
 }

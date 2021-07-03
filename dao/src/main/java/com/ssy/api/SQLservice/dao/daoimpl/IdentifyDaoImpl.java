@@ -1,7 +1,7 @@
 package com.ssy.api.SQLservice.dao.daoimpl;
 
+import com.querydsl.core.Tuple;
 import com.ssy.api.SQLservice.dao.IdentifyDao;
-import com.ssy.api.SQLservice.entity.Identify;
 import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.entity.QIdentify;
 import com.ssy.api.SQLservice.entity.QPhoto;
@@ -38,5 +38,17 @@ public class IdentifyDaoImpl extends BaseService implements IdentifyDao {
                 .where(qIdentify.userId.eq(userId))
                 .groupBy(qIdentify.type)
                 .fetch();
+    }
+
+    @Override
+    public Tuple findPictureCover(Integer userId, String type) {
+       QIdentify qIdentify =QIdentify.identify;
+       QPhoto qPhoto =QPhoto.photo;
+       return  queryFactory.select(qPhoto.url,qPhoto.createTime).from(qIdentify).leftJoin(qPhoto)
+               .on(qIdentify.photoId.eq(qPhoto.id))
+               .where(qIdentify.isDelete.eq(CommonConstant.DELFlag)
+               .and(qIdentify.userId.eq(userId)
+               .and(qIdentify.type.eq(type)))).orderBy(qPhoto.createTime.desc()).fetchFirst();
+
     }
 }

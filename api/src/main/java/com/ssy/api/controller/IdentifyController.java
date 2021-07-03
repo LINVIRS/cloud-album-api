@@ -29,24 +29,24 @@ public class IdentifyController {
     @Resource
     private PictureService pictureService;
 
-    @ApiOperation(value = "搜索照片", httpMethod = "GET", notes = "查询日期中的照片")
-    @GetMapping("/photos/identify")
+    @ApiOperation(value = "搜索照片", httpMethod = "POST", notes = "查询日期中的照片")
+    @PostMapping("/photos/identify")
     public RestResult identifyPhotos(@RequestParam int userId,@RequestParam String content,@RequestParam Integer pageSize,@RequestParam Integer pageIndex
     ) {
         List<PictureDocument> search = pictureService.search(content, userId, pageSize, pageIndex);
         return new RestResultBuilder<>().success(search);
     }
 
-    @ApiOperation(value = "分类查询照片", httpMethod = "GET", notes = "分类查询照片")
-    @GetMapping("/photos/classification")
+    @ApiOperation(value = "分类查询照片", httpMethod = "POST", notes = "分类查询照片")
+    @PostMapping("/photos/classification")
     public RestResult classificationPhotos(@RequestParam int userId,@RequestParam String type,@RequestParam Integer pageSize,@RequestParam Integer pageIndex
     ) {
         return identifyService.findPictureByType(type,userId,pageSize,pageIndex);
     }
 
 
-    @ApiOperation(value = "查询分类", httpMethod = "GET", notes = "查询分类")
-    @GetMapping("/photos/type")
+    @ApiOperation(value = "查询分类", httpMethod = "POST", notes = "查询分类")
+    @PostMapping("/photos/type")
     public RestResult findPhotosType(@RequestParam int userId
     ) {
         return identifyService.findPictureType(userId);

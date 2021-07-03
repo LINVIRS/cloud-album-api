@@ -54,7 +54,8 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Resource
     private FaceStoreRepository faceStoreRepository;
-
+@Resource
+private IdentifyRepository identifyRepository;
 
 
     @Resource
@@ -193,7 +194,11 @@ public class PhotoServiceImpl implements PhotoService {
         return new RestResultBuilder<>().success(photos);
     }
 
-
+    @Override
+    public RestResult findPhotoByUserId(int userId) {
+        List<Photo> photoList = photoRepository.findPhotoByUserId(userId);
+        return new RestResultBuilder<>().success(photoList);
+    }
     public RestResult findAll(PhotoDto photoDto) {
         if (photoDto.getPageSize() == 0 && photoDto.getPageSize() == null) {
             photoDto.setPageSize(10);
@@ -214,6 +219,12 @@ public class PhotoServiceImpl implements PhotoService {
             list.add(photoClassification);
         });
         return new RestResultBuilder<>().success(list);
+    }
+
+    @Override
+    public RestResult findAllForPhone(Integer userId) {
+        List<Photo> photoForPhone = photoRepository.findPhotoForPhone(userId);
+        return new RestResultBuilder<>().success(photoForPhone);
     }
 
     @Transactional
@@ -409,14 +420,17 @@ public class PhotoServiceImpl implements PhotoService {
             urlList.add(photo.getUrl());
             photo.setIsDelete(2);
             photo.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-
             photo.setUrl(null);
             Photo photo1 = photoRepository.saveAndFlush(photo);
             //删除图片索引
             PictureDocument pictureDocument =PictureDocument.builder()
                     .id(i).build();
             pictureRepository.delete(pictureDocument);
-
+          //删除分类
+            Identify identify =new Identify();
+            identify.setPhotoId(i);
+            photo.setIsDelete(2);
+            identifyRepository.saveAndFlush(identify);
             return null;
         }).collect(Collectors.toList());
         fileDfsUtil.delete(urlList);

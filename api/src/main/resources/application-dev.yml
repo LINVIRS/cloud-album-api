@@ -1,48 +1,17 @@
 spring:
-  # 时间默认转时间戳
-  jackson:
-    serialization:
-      write-dates-as-timestamps: true
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: com.mysql.cj.jdbc.Driver
     druid:
       url: jdbc:mysql://121.5.235.153:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false
       username: ssy
       password: ssy123456
-      initial-size: 10
-      max-active: 100
-      min-idle: 10
-      max-wait: 60000
-      pool-prepared-statements: true
-      max-pool-prepared-statement-per-connection-size: 20
-      time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 1 FROM DUAL
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      stat-view-servlet:
-        enabled: true
-        url-pattern: /druid/*
-        login-username: admin
-        login-password: admin
-      filter:
-        stat:
-          log-slow-sql: true
-          slow-sql-millis: 1000
-          merge-sql: true
-        wall:
-          config:
-            multi-statement-allow: true
   redis:
     host: 121.5.235.153
     password: ssy123456
     jedis:
       pool:
-        min-idle: 0
-        max-idle: 20
-        #            max-wait: 5000
+        min-idle: 8
+        max-idle: 30
+        max-wait: 5000
         max-active: 100
     port: 6379
   mvc:

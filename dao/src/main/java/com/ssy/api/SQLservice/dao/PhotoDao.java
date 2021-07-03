@@ -17,7 +17,7 @@ public interface PhotoDao {
      * @return
      */
     List<Photo> findAllPhoto(PhotoDto photoDto);
-
+    List<Photo> findPhotoByUserId(int userId);
     /**
      * 在回收站查找照片
      *
@@ -55,6 +55,13 @@ public interface PhotoDao {
      */
     List<Photo> findPhoto(int userId);
 
+    /**
+     * 查询所有照片
+     *
+     * @param userId
+     * @return
+     */
+    List<Photo> findPhotoForPhone(int userId);
     /**
      * 查询用户未分类照片
      *

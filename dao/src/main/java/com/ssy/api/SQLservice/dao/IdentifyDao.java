@@ -1,6 +1,6 @@
 package com.ssy.api.SQLservice.dao;
 
-import com.ssy.api.SQLservice.entity.Identify;
+import com.querydsl.core.Tuple;
 import com.ssy.api.SQLservice.entity.Photo;
 
 import java.util.List;
@@ -31,4 +31,12 @@ public interface IdentifyDao {
      * @return
      */
    List<String> findPictureType (Integer userId);
+
+    /**
+     * 查询分类封面
+     * @param userId
+     * @return
+     */
+    Tuple findPictureCover (Integer userId, String type);
+
 }
