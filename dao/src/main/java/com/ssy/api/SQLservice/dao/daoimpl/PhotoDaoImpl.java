@@ -28,7 +28,13 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
                 .orderBy(qPhoto.createTime.desc());
         return photoJPAQuery.fetch();
     }
-
+    @Override
+    public List<Photo> findPhotoByUserId(int userId) {
+        QPhoto qPhoto = QPhoto.photo;
+        return queryFactory.select(qPhoto).from(qPhoto).where(qPhoto.userId.eq(userId)
+                .and(qPhoto.isDelete.eq(CommonConstant.DELFlag))
+                .and(qPhoto.latitude.between(1, 360)), qPhoto.longitude.between(1,360)).fetch();
+    }
     @Override
     @Transactional
     public List<Photo> findInTrashcan(PhotoDto photoDto) {
@@ -81,6 +87,14 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
         return queryFactory.select(qPhoto).from(qPhoto).where(qPhoto.userId.eq(userId)
                 .and(qPhoto.isDelete.eq(CommonConstant.DELFlag
                 ).and(qPhoto.time.isNotNull()))).orderBy(qPhoto.time.desc()).fetch();
+    }
+
+    @Override
+    public List<Photo> findPhotoForPhone(int userId) {
+        QPhoto qPhoto = QPhoto.photo;
+        return queryFactory.select(qPhoto).from(qPhoto).where(qPhoto.userId.eq(userId)
+                .and(qPhoto.isDelete.eq(CommonConstant.DELFlag
+                ))).orderBy(qPhoto.createTime.desc()).fetch();
     }
 
     @Override

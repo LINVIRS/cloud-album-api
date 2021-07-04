@@ -13,6 +13,16 @@ public interface PhotoService {
      */
     RestResult findAll(PhotoDto photoDto);
 
+    /**
+     * 手机端查询默认相册
+     * @param userId
+     * @return
+     */
+    RestResult findAllForPhone(Integer userId);
+
+
+
+    RestResult findPhotoByUserId(int userId);
 
     /**
      * 根据id查询照片

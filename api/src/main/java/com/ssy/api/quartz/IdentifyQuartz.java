@@ -33,8 +33,10 @@
 //    @Resource
 //    private IdentifyService identifyService;
 //    // 每30分钟执行一次 定时器  执行分类操作
-////    @PostConstruct
-//    @Scheduled(cron = "0 0/10 * * * ? ")
+
+//    @PostConstruct
+//    @Scheduled(cron = "0 0/3 * * * ? ")
+
 //    public void execute() {
 //        System.out.println(
 //                "*******************************************定时器启动***********************************");

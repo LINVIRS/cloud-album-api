@@ -1,5 +1,6 @@
 package com.ssy.api.service.serviceImpl;
 
+import com.querydsl.core.Tuple;
 import com.ssy.api.SQLservice.entity.Identify;
 import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.repository.IdentifyRepository;
@@ -90,6 +91,8 @@ public class IdentifyServiceImpl implements IdentifyService {
                 }
                 else if(s.contains("建筑")){
                     identify.setType("建筑");
+                }  else if(s.contains("文本")){
+                    identify.setType("文本");
                 } else if(s.contains("风景")){
                     identify.setType("风景");
                 }
@@ -131,8 +134,16 @@ public class IdentifyServiceImpl implements IdentifyService {
     @Override
     public RestResult findPictureType(Integer userId) {
         List<String> pictureType = identifyRepository.findPictureType(userId);
-        Map<String, List> map =new HashMap<>();
-        map.put("type",pictureType);
-        return new RestResultBuilder<>().success(map);
+        List<Object> list =new ArrayList<>();
+       pictureType.stream().forEach(i->{
+           Map<String, Object> map =new HashMap<>();
+           Tuple tuple = identifyRepository.findPictureCover(userId, "食物");
+           map.put("type",i);
+           map.put("pictureCover",tuple.get(0,String.class));
+           map.put("time",tuple.get(1,String.class));
+           list.add(map);
+       });
+
+        return new RestResultBuilder<>().success(list);
     }
 }

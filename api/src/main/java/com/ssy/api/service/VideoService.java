@@ -16,10 +16,7 @@ public interface VideoService {
 
     /**
      * 视频合并音频，给视频加上背景音乐，并不保留视频原声
-<<<<<<< HEAD
-=======
      *
->>>>>>> d6f4878fad3e115c4975102b2a23b04e56c02974
      * @param inputVideo
      * @param inputMusic
      * @return
