@@ -12,7 +12,7 @@ spring:
     properties:
       hibernate:
 #        关闭sql输出
-        show_sql: true
+        show_sql: false
         format_sql: true
   messages:
     basename: static/i18n/messages #相对路径 首部不要添加斜杠
@@ -43,7 +43,7 @@ spring:
         login-password: admin
       filter:
         stat:
-          log-slow-sql: true
+          log-slow-sql: false
           slow-sql-millis: 1000
           merge-sql: true
         wall:

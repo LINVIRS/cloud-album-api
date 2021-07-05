@@ -1,5 +1,6 @@
 package com.ssy.api.util.allPictureUtils.service;
 
+import com.ssy.api.SQLservice.vo.IdentifyVo;
 import com.ssy.api.util.allPictureUtils.document.PictureDocument;
 import org.elasticsearch.index.query.DisMaxQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -27,7 +28,7 @@ public interface PictureService {
      * @param pageIndex
      * @return
      */
-    List<PictureDocument> search(String content,Integer userId,Integer pageSize, Integer pageIndex) ;
+    List<PictureDocument> search(IdentifyVo identifyVo) ;
 
     /**
      * 中文、拼音混合搜索

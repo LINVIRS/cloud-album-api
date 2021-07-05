@@ -35,8 +35,8 @@ public class PhotoController {
 
     @ApiOperation(value = "手机端查询默认相册照片", httpMethod = "POST", notes = "查询所有图片")
     @PostMapping("/phone/all")
-    public RestResult findAllForPhone(@RequestParam Integer userId) {
-        return photoService.findAllForPhone(userId);
+    public RestResult findAllForPhone() {
+        return photoService.findAllForPhone(1);
     }
 
     @ApiOperation(value = "根据id查询图片", httpMethod = "POST", notes = "根据id查询图片")
@@ -75,7 +75,6 @@ public class PhotoController {
     public RestResult addPhotoTOAlbum(@RequestBody Integer[] ids) {
         return albumService.addPhotoTOAlbum(Arrays.asList(ids), ids[0]);
     }
-
 
     @ApiOperation(value = "给图片添加标签", httpMethod = "POST", notes = "给图片添加标签")
     @PostMapping("/tag")

@@ -8,6 +8,7 @@ import com.ffmpeg.common.response.Result;
 import com.ffmpeg.common.utils.BaseFileUtil;
 import com.ffmpeg.common.utils.StrUtils;
 import com.ffmpeg.common.video.VideoOperation;
+import com.ssy.api.constant.ParameterConstant;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -18,15 +19,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VideoUtil {
-    static String ffmpegPath = "/opt/homebrew/Cellar/ffmpeg/4.3.2_4/bin/ffmpeg";
-//    static String ffmpegPath = "/usr/bin/ffmpeg";
-
-
 
     // 创建VideoOperation对象
-    private static final VideoOperation ffmpeg = VideoOperation.builder(ffmpegPath);
+    private static final VideoOperation ffmpeg = VideoOperation.builder(ParameterConstant.ffmpegPath);
     // 创建AudioOperation对象
-    private static final AudioOperation ffmpegAudio = AudioOperation.builder(ffmpegPath);
+    private static final AudioOperation ffmpegAudio = AudioOperation.builder(ParameterConstant.ffmpegPath);
 
     /**
      * 合并视频文件
@@ -48,7 +45,7 @@ public class VideoUtil {
                 fos.close();
 
                 StringBuffer command = new StringBuffer();
-                command.append(ffmpegPath);
+                command.append(ParameterConstant.ffmpegPath);
                 command.append(" -f");
                 command.append(" concat");
                 command.append(" -safe");
@@ -112,7 +109,7 @@ public class VideoUtil {
      * @param bgmInputPath
      * @return
      */
-    public static Result convertorWithBgmNoOriginCommon(String videoInputPath,String videoInputPathNew, String bgmInputPath) {
+    public static Result convertorWithBgmNoOriginCommon(String videoInputPath, String videoInputPathNew, String bgmInputPath) {
         return ffmpeg.convertorWithBgmNoOriginCommon(videoInputPath, videoInputPathNew, videoInputPath, bgmInputPath, getVideoTime(videoInputPath));
     }
 
@@ -160,7 +157,7 @@ public class VideoUtil {
      */
     public static int getVideoTime(String video_path) {
         List<String> commands = new java.util.ArrayList<>();
-        commands.add(ffmpegPath);
+        commands.add(ParameterConstant.ffmpegPath);
         commands.add("-i");
         commands.add(video_path);
         try {
@@ -232,7 +229,7 @@ public class VideoUtil {
         } else if (picture.exists() && picture.isFile()) {
             BaseFileUtil.checkAndMkdir(videoOutPath);
             List<String> commands = new ArrayList();
-            commands.add(ffmpegPath);
+            commands.add(ParameterConstant.ffmpegPath);
             commands.add("-f");
             commands.add("concat");
             commands.add("-safe");

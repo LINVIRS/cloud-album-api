@@ -1,5 +1,6 @@
 package com.ssy.api.util.allPictureUtils.service.impl;
 
+import com.ssy.api.SQLservice.vo.IdentifyVo;
 import com.ssy.api.util.allPictureUtils.document.PictureDocument;
 import com.ssy.api.util.allPictureUtils.service.PictureService;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -36,17 +37,17 @@ public class PictureServiceImpl implements PictureService {
     @Autowired
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
     @Override
-    public List<PictureDocument> search(String content,Integer userId,Integer pageSize, Integer pageIndex) {
+    public List<PictureDocument> search(IdentifyVo identifyVo) {
         //使用中文拼音混合搜索，取分数最高的，具体评分规则可参照：
         //  https://blog.csdn.net/paditang/article/details/79098830
-        QueryBuilder shouldQuery= QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("photoName",content).boost(1.0f))
-                .should(QueryBuilders.matchQuery("identifyResult",content).boost(2.0f))
+        QueryBuilder shouldQuery= QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("photoName",identifyVo.getContent()).boost(1.0f))
+                .should(QueryBuilders.matchQuery("identifyResult",identifyVo.getContent()).boost(2.0f))
                 //matchPhraseQuery 连续查询
-                .should(QueryBuilders.matchPhraseQuery("identifyResult.pinyin",content).boost(1.5f));
+                .should(QueryBuilders.matchPhraseQuery("identifyResult.pinyin",identifyVo.getContent()).boost(1.5f));
         QueryBuilder queryBuilder= QueryBuilders.boolQuery().must(
                 shouldQuery
-           ).must(QueryBuilders.termQuery("userId",userId));
-        Pageable page = PageRequest.of(pageIndex,pageSize);
+           ).must(QueryBuilders.termQuery("userId",identifyVo.getUserId()));
+        Pageable page = PageRequest.of(identifyVo.getPageIndex(),identifyVo.getPageSize());
         NativeSearchQuery searchQuery=new NativeSearchQueryBuilder()
                 .withQuery(queryBuilder).withPageable(page)
                 .build();
