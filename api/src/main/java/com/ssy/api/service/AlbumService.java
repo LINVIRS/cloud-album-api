@@ -39,6 +39,13 @@ public interface AlbumService {
     RestResult getAllAlbumsByUserId(AlbumQueryDto dto);
 
     /**
+     * 获取用户分类所有相册
+     * @param userId
+     * @return
+     */
+
+    RestResult getAllAlbumsByIdentify(Integer userId);
+    /**
      * 通过相册id获取相册详情
      *
      * @param albumId

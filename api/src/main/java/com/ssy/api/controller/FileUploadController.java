@@ -2,6 +2,7 @@ package com.ssy.api.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.ssy.api.SQLservice.dto.DownLoadFileDto;
+import com.ssy.api.SQLservice.vo.VideoVO;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.VideoService;
@@ -39,9 +40,6 @@ public class FileUploadController {
     private FileThreadTask fileThreadTask;
     @Resource
     private VideoService videoService;
-
-
-
 
     @ApiOperation(value = "上传图片", notes = "图片上传")
     @PostMapping("/uploadFile")
@@ -93,9 +91,22 @@ public class FileUploadController {
         return new RestResultBuilder<>().success(videoService.pictureToVideo(files));
     }
 
+    @ApiOperation(value = "图片转视频文件通过网络图片地址", notes = "")
+    @PostMapping("/pictovideostring")
+    public RestResult mergeVideo(@RequestBody VideoVO videoVO) {
+        return new RestResultBuilder<>().success(videoService.pictureToVideo(videoVO));
+    }
+
+
     @ApiOperation(value = "给视频加上背景音乐", notes = "")
     @PostMapping("/addmuisc")
     public RestResult convertorWithBgmNoOriginCommon(@RequestParam("inputVideo") MultipartFile inputVideo, @RequestParam("inputMusic") MultipartFile inputMusic) {
+        return new RestResultBuilder<>().success(videoService.convertorWithBgmNoOriginCommon(inputVideo, inputMusic));
+    }
+
+    @ApiOperation(value = "给视频加上背景音乐", notes = "")
+    @PostMapping("/addmuiscstring")
+    public RestResult convertorWithBgmNoOriginCommon(@RequestParam("inputVideo") String inputVideo, @RequestParam("inputMusic") MultipartFile inputMusic) {
         return new RestResultBuilder<>().success(videoService.convertorWithBgmNoOriginCommon(inputVideo, inputMusic));
     }
 }

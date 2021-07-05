@@ -26,7 +26,7 @@ public class AlbumsController {
     @Resource
     private AlbumService albumService;
 
-    @ApiOperation(value = "新建相册接口", httpMethod = "POST", notes="新建相册接口")
+    @ApiOperation(value = "新建相册接口", httpMethod = "POST", notes = "新建相册接口")
     @PostMapping("/create")
     public RestResult createAlbumByUserId(@RequestBody AlbumDto albumDto) {
         return albumService.createAlbumByUserId(albumDto);
@@ -54,6 +54,12 @@ public class AlbumsController {
     @PostMapping("/all")
     public RestResult getAllAlbumsByUserId(@RequestBody AlbumQueryDto dto) {
         return albumService.getAllAlbumsByUserId(dto);
+    }
+
+    @ApiOperation(value = "获取分类所有的相册")
+    @PostMapping("/all/identify")
+    public RestResult getAllAlbumsByIdentify() {
+        return albumService.getAllAlbumsByIdentify(1);
     }
 
     @PostMapping(value = "/test")

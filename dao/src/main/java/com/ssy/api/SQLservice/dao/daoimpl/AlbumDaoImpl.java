@@ -7,7 +7,10 @@ import com.ssy.api.SQLservice.entity.Albums;
 import com.ssy.api.SQLservice.entity.QAlbums;
 import com.ssy.api.enums.CommonConstant;
 import com.ssy.api.service.BaseService;
+import org.checkerframework.checker.units.qual.C;
+
 import java.util.List;
+import java.util.Queue;
 
 /**
  * AlbumDaoImpl
@@ -27,7 +30,7 @@ public class AlbumDaoImpl extends BaseService implements AlbumDao {
             case "name":
                 //根据名称排序
                 return queryFactory.select(qAlbums).from(qAlbums)
-                        .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
+                        .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.createType.eq(0)).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
                         .limit(queryDto.getPageSize()).offset((long) queryDto.getPageSize() * queryDto.getPageIndex())
                         .orderBy(qAlbums.name.desc())
 
@@ -35,13 +38,13 @@ public class AlbumDaoImpl extends BaseService implements AlbumDao {
             case "createTime":
                 //根据创建时间排序
                 return queryFactory.select(qAlbums).from(qAlbums)
-                        .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
+                        .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.createType.eq(0)).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
                         .limit(queryDto.getPageSize()).offset((long) queryDto.getPageSize() * queryDto.getPageIndex())
                         .orderBy(qAlbums.createTime.desc())
                         .fetch();
             case "updateTime":
                 return queryFactory.select(qAlbums).from(qAlbums)
-                        .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
+                        .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.createType.eq(0)).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
                         .limit(queryDto.getPageSize()).offset((long) queryDto.getPageSize() * queryDto.getPageIndex())
                         .orderBy(qAlbums.updateTime.desc())
                         .fetch();
@@ -50,8 +53,18 @@ public class AlbumDaoImpl extends BaseService implements AlbumDao {
         }
         //默认创建时间排序
         return queryFactory.select(qAlbums).from(qAlbums)
-                .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
+                .where(qAlbums.userId.eq(queryDto.getUserId()).and(qAlbums.createType.eq(0)).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
                 .limit(queryDto.getPageSize()).offset((long) queryDto.getPageSize() * queryDto.getPageIndex())
+                .orderBy(qAlbums.createTime.desc())
+                .fetch();
+
+    }
+
+    @Override
+    public List<Albums> getAllAlbumsByIdentify(Integer userId) {
+        QAlbums qAlbums = QAlbums.albums;
+        return queryFactory.select(qAlbums).from(qAlbums)
+                .where(qAlbums.userId.eq(userId).and(qAlbums.createType.eq(1)).and(qAlbums.isDelete.eq(CommonConstant.DELFlag)))
                 .orderBy(qAlbums.createTime.desc())
                 .fetch();
 
@@ -74,6 +87,17 @@ public class AlbumDaoImpl extends BaseService implements AlbumDao {
                 .set(qAlbums.photoId, albumDto.getPhotoId())
                 .set(qAlbums.type, albumDto.getType())
                 .set(qAlbums.photoNumber, albumDto.getPhotoNumber())
+                .where(qAlbums.id.eq(albumId))
+                .execute());
+    }
+
+    @Override
+    public int updateAlbum(int albumId, String cover, String photoId, String num) {
+        QAlbums qAlbums = QAlbums.albums;
+        return Math.toIntExact(queryFactory.update(qAlbums)
+                .set(qAlbums.photoId, photoId)
+                .set(qAlbums.cover, cover)
+                .set(qAlbums.photoNumber, num)
                 .where(qAlbums.id.eq(albumId))
                 .execute());
     }

@@ -94,6 +94,12 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    public RestResult getAllAlbumsByIdentify(Integer userId) {
+        List<Albums> albums = albumRepository.getAllAlbumsByIdentify(userId);
+        return new RestResultBuilder<>().success(albums);
+    }
+
+    @Override
     public RestResult getAlbumDetailById(int albumId) {
         Albums albums = albumRepository.getAlbumDetailById(albumId);
         //存放返回数据的list

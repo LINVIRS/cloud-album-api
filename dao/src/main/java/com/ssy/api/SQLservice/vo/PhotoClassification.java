@@ -22,4 +22,6 @@ import java.util.List;
 public class PhotoClassification {
 private String yearName;
 private List<Photo> photoList;
+    private String date;
+    private List<Photo> list;
 }
