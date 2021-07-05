@@ -98,9 +98,9 @@ public class IdentifyServiceImpl implements IdentifyService {
                         identify.setIdentifyResult(s);
                         if (s.contains("交通")) {
                             identify.setType("交通");
-                        } else if (s.contains("人")) {
-                            identify.setType("人");
-                        } else if (s.contains("建筑")) {
+                        }else if (s.contains("动物")) {
+                            identify.setType("动物");
+                        }  else if (s.contains("建筑")) {
                             identify.setType("建筑");
                         } else if (s.contains("文本")) {
                             identify.setType("文本");
@@ -110,11 +110,14 @@ public class IdentifyServiceImpl implements IdentifyService {
                             identify.setType("食物");
                         } else if (s.contains("天气")) {
                             identify.setType("天气状况");
-                        } else if (s.contains("动物")) {
-                            identify.setType("动物");
-                        } else if (s.contains("植物")) {
+                        }  else if (s.contains("植物")) {
                             identify.setType("植物");
-                        } else {
+                        }else if (s.contains("人类,")) {
+                            identify.setType("人");
+                        }else if (s.contains("电子,")) {
+                            identify.setType("电子设备");
+                        }
+                        else {
                             identify.setType("其他");
                         }
                         identify.setUserId(userId);
@@ -147,7 +150,8 @@ public class IdentifyServiceImpl implements IdentifyService {
             List<Integer> pictureId = identifyRepository.findPictureId(userId, i);
             String idsList="";
             if (pictureId.size()!=0){
-                idsList=  pictureId.toString().substring(1, pictureId.toString().lastIndexOf("]"));
+                idsList=  pictureId.toString().substring(1, pictureId.toString().lastIndexOf("]"))
+                .replace(" ","");
             }
             //相册为空
             if (id==null){
