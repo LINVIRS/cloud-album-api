@@ -25,5 +25,7 @@ public class PageDto {
      * 页数
      */
     private int pageSize;
+
+    private Integer userId;
 }
 

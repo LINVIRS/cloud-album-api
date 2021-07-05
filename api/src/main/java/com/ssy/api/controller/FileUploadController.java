@@ -37,8 +37,6 @@ public class FileUploadController {
     @Resource
     private ThreakPoolFile threakPoolFile;
     @Resource
-    private FileThreadTask fileThreadTask;
-    @Resource
     private VideoService videoService;
 
     @ApiOperation(value = "上传图片", notes = "图片上传")

@@ -3,13 +3,11 @@ package com.ssy.api.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ssy.api.SQLservice.dto.PhotoDto;
+import com.ssy.api.SQLservice.vo.UseridVO;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.AlbumService;
 import com.ssy.api.service.PhotoService;
-
-import com.ssy.api.util.allPictureUtils.document.PictureDocument;
-import com.ssy.api.util.allPictureUtils.service.PictureService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +33,8 @@ public class PhotoController {
 
     @ApiOperation(value = "手机端查询默认相册照片", httpMethod = "POST", notes = "查询所有图片")
     @PostMapping("/phone/all")
-    public RestResult findAllForPhone() {
-        return photoService.findAllForPhone(1);
+    public RestResult findAllForPhone(@RequestBody UseridVO useridVO) {
+        return photoService.findAllForPhone(useridVO.getUserId());
     }
 
     @ApiOperation(value = "根据id查询图片", httpMethod = "POST", notes = "根据id查询图片")
@@ -124,15 +122,15 @@ public class PhotoController {
 
     @ApiOperation(value = "查询日期中的照片", httpMethod = "GET", notes = "查询日期中的照片")
     @GetMapping("/photos/day")
-    public RestResult findPhotosByYear(@RequestParam int userId,@RequestParam String startTime,String endTime) {
-        return photoService.findPhotoByDay(userId,startTime,endTime);
+    public RestResult findPhotosByYear(@RequestParam int userId, @RequestParam String startTime, String endTime) {
+        return photoService.findPhotoByDay(userId, startTime, endTime);
     }
 
 
     @ApiOperation(value = "关键词搜索照片", httpMethod = "GET", notes = "查询日期中的照片")
     @GetMapping("/photos/seachKey")
-    public RestResult SearchPhotos(@RequestParam int userId,@RequestParam String seachKey) {
-        return photoService.SearchPhoto(userId,seachKey);
+    public RestResult SearchPhotos(@RequestParam int userId, @RequestParam String seachKey) {
+        return photoService.SearchPhoto(userId, seachKey);
     }
 
 

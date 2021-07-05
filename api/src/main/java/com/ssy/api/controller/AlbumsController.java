@@ -2,6 +2,7 @@ package com.ssy.api.controller;
 
 import com.ssy.api.SQLservice.dto.AlbumDto;
 import com.ssy.api.SQLservice.dto.AlbumQueryDto;
+import com.ssy.api.SQLservice.vo.UseridVO;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.service.AlbumService;
 import io.swagger.annotations.Api;
@@ -58,8 +59,8 @@ public class AlbumsController {
 
     @ApiOperation(value = "获取分类所有的相册")
     @PostMapping("/all/identify")
-    public RestResult getAllAlbumsByIdentify() {
-        return albumService.getAllAlbumsByIdentify(1);
+    public RestResult getAllAlbumsByIdentify(@RequestBody UseridVO useridVO) {
+        return albumService.getAllAlbumsByIdentify(useridVO.getUserId());
     }
 
     @PostMapping(value = "/test")

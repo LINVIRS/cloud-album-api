@@ -1,5 +1,9 @@
 package com.ssy.api.SQLservice.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,8 +12,12 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Video {
     private int id;
+    private Integer userId;
     private String name;
     private String cover;
     private String url;
@@ -25,6 +33,16 @@ public class Video {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "user_id")
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Basic
@@ -92,11 +110,11 @@ public class Video {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Video video = (Video) o;
-        return id == video.id && duration == video.duration && Objects.equals(name, video.name) && Objects.equals(cover, video.cover) && Objects.equals(url, video.url) && Objects.equals(createTime, video.createTime) && Objects.equals(updateTime, video.updateTime);
+        return id == video.id && duration == video.duration && Objects.equals(userId, video.userId) && Objects.equals(name, video.name) && Objects.equals(cover, video.cover) && Objects.equals(url, video.url) && Objects.equals(createTime, video.createTime) && Objects.equals(updateTime, video.updateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, cover, url, duration, createTime, updateTime);
+        return Objects.hash(id, userId, name, cover, url, duration, createTime, updateTime);
     }
 }

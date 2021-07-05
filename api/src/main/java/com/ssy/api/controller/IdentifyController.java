@@ -60,4 +60,10 @@ public class IdentifyController {
     ) {
         return identifyService.identifyPicture(userId);
     }
+
+    @ApiOperation(value = "自动生成视频", httpMethod = "POST", notes = "查询分类")
+    @PostMapping("/video/create")
+    public RestResult videoCreate(@RequestParam int userId) {
+        return identifyService.findTypePicture(userId);
+    }
 }

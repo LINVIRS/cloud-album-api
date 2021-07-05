@@ -16,6 +16,7 @@ public class VideoDaoImpl extends BaseService implements VideoDao {
         JPAQuery<Video> videoJPAQuery = queryFactory.select(qVideo).from(qVideo)
                 .offset((long) pageDto.getPageIndex() * pageDto.getPageSize())
                 .limit(pageDto.getPageSize())
+                .where(qVideo.userId.eq(pageDto.getUserId()))
                 .orderBy(qVideo.createTime.desc());
         return videoJPAQuery.fetch();
     }
