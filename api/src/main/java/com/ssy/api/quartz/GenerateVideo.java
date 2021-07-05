@@ -21,8 +21,8 @@ public class GenerateVideo {
     private IdentifyService identifyService;
 
     // 每填23执行一次 定时器  执行分类操作
-    @PostConstruct //启动就执行
-    @Scheduled(cron = "0 0 23 * * ? *")
+//    @PostConstruct //启动就执行
+    @Scheduled(cron = "0 0 23 * * ? ")
     public void execute() {
       //逻辑调用
 

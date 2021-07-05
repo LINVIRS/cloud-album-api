@@ -109,7 +109,7 @@ public class IdentifyServiceImpl implements IdentifyService {
                             identify.setType("天气状况");
                         }  else if (s.contains("植物")) {
                             identify.setType("植物");
-                        }else if (s.contains("人类,")) {
+                        }else if (s.contains("人,")) {
                             identify.setType("人");
                         }else if (s.contains("电子,")) {
                             identify.setType("电子设备");

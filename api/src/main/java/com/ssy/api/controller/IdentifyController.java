@@ -21,7 +21,7 @@ import java.util.List;
  * @Version: V1.0
  **/
 @RestController
-@RequestMapping("/indetify")
+@RequestMapping("/identify")
 @Api(tags = "分类模块")
 public class IdentifyController {
 
