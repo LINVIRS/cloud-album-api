@@ -1,5 +1,6 @@
 package com.ssy.api.controller;
 
+import com.ssy.api.SQLservice.vo.IdentifyVo;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.IdentifyService;
@@ -20,7 +21,7 @@ import java.util.List;
  * @Version: V1.0
  **/
 @RestController
-@RequestMapping("/indetify")
+@RequestMapping("/identify")
 @Api(tags = "分类模块")
 public class IdentifyController {
 
@@ -31,17 +32,17 @@ public class IdentifyController {
 
     @ApiOperation(value = "搜索照片", httpMethod = "POST", notes = "查询日期中的照片")
     @PostMapping("/photos/identify")
-    public RestResult identifyPhotos(@RequestParam int userId,@RequestParam String content,@RequestParam Integer pageSize,@RequestParam Integer pageIndex
+    public RestResult identifyPhotos(@RequestBody IdentifyVo identifyVo
     ) {
-        List<PictureDocument> search = pictureService.search(content, userId, pageSize, pageIndex);
+        List<PictureDocument> search = pictureService.search(identifyVo);
         return new RestResultBuilder<>().success(search);
     }
 
     @ApiOperation(value = "分类查询照片", httpMethod = "POST", notes = "分类查询照片")
     @PostMapping("/photos/classification")
-    public RestResult classificationPhotos(@RequestParam int userId,@RequestParam String type,@RequestParam Integer pageSize,@RequestParam Integer pageIndex
+    public RestResult classificationPhotos(@RequestBody IdentifyVo identifyVo
     ) {
-        return identifyService.findPictureByType(type,userId,pageSize,pageIndex);
+        return identifyService.findPictureByType(identifyVo);
     }
 
 

@@ -1,5 +1,6 @@
 package com.ssy.api.service;
 
+import com.ssy.api.SQLservice.vo.IdentifyVo;
 import com.ssy.api.result.RestResult;
 
 /**
@@ -22,7 +23,7 @@ public interface IdentifyService {
      * @param type
      * @return
      */
-    RestResult findPictureByType(String type,Integer userId,Integer pageSize,Integer pageIndex);
+    RestResult findPictureByType( IdentifyVo identifyVo );
 
 
     /**
@@ -31,4 +32,12 @@ public interface IdentifyService {
      * @return
      */
     RestResult findPictureType(Integer userId);
+
+
+    /**
+     * 查询某个分类所有照片Url
+     * @param userId
+     * @return
+     */
+    RestResult findTypePicture(Integer userId);
 }

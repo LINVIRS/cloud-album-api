@@ -148,6 +148,7 @@ public class AlbumServiceImpl implements AlbumService {
             map.put("list", list1);
             resultList.add(map);
         }
+        albumInfo.put("userId", albums.getUserId());
         albumInfo.put("photoList", resultList);
         albumInfo.put("photoNumber", photoNumber);
         albumInfo.put("createTime", albums.getCreateTime());

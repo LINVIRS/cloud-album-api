@@ -49,7 +49,14 @@ spring:
         wall:
           config:
             multi-statement-allow: true
-
+  elasticsearch:
+    connTimeout: 3000
+    connectionRequestTimeout: 500
+    host: 106.14.246.27
+    port: 9200
+    socketTimeout: 5000
+    rest:
+      uris: 106.14.246.27:9200
 
   mvc:
     throw-exception-if-no-handler-found: true
@@ -102,10 +109,8 @@ fdfs:
 
 
 #自定义Elasticsearch配置
-elasticsearch:
-  connTimeout: 3000
-  connectionRequestTimeout: 500
-  host: localhost
-  port: 9200
-  socketTimeout: 5000
+
+
+
+
 

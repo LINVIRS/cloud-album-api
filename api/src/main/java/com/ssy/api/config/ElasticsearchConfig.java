@@ -34,6 +34,7 @@ public class ElasticsearchConfig {
 
     @Value("${elasticsearch.connectionRequestTimeout}")
     private int connectionRequestTimeout;
+
     @Bean(destroyMethod = "close", name = "client")
     public RestHighLevelClient initRestClient() {
         RestClientBuilder builder = RestClient.builder(new HttpHost(host, port))

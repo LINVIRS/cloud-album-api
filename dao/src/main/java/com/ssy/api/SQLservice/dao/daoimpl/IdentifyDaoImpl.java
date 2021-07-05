@@ -56,6 +56,17 @@ public class IdentifyDaoImpl extends BaseService implements IdentifyDao {
         QIdentify qIdentify =QIdentify.identify;
         return queryFactory.select(qIdentify.photoId).from(qIdentify)
                 .where(qIdentify.userId.eq(userId).and(qIdentify.type.eq(type)))
+                .orderBy(qIdentify.createTime.desc())
                 .fetch();
+    }
+
+    @Override
+    public List<String> findPictureUrl(Integer userId,String type) {
+        QPhoto qPhoto =QPhoto.photo;
+        QIdentify qIdentify =QIdentify.identify;
+        return queryFactory.select(qPhoto.url).from(qIdentify).leftJoin(qPhoto)
+                .on(qIdentify.photoId.eq(qPhoto.id)).where(qPhoto.isDelete.eq(CommonConstant.DELFlag)
+                        .and(qIdentify.type.eq(type)
+                        ).and(qIdentify.userId.eq(userId))).orderBy(qPhoto.createTime.desc()).fetch();
     }
 }

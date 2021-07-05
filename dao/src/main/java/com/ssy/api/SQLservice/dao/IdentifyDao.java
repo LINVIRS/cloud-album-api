@@ -47,4 +47,11 @@ public interface IdentifyDao {
      */
     List<Integer> findPictureId(Integer userId ,String type);
 
+    /**
+     * 查询照片url
+     * @param userId
+     * @param type
+     * @return
+     */
+    List<String> findPictureUrl(Integer userId,String type);
 }
