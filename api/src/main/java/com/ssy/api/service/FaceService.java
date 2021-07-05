@@ -13,7 +13,7 @@ public interface FaceService {
      * @param photoUrl
      * @return
      */
-    Future<List<FaceDetectResult>> faceDetect(String photoUrl);
+   List<FaceDetectResult> faceDetect(String photoUrl);
 
     /**
      * 人脸比对

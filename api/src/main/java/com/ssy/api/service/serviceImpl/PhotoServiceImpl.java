@@ -16,7 +16,6 @@ import com.ssy.api.util.FaceHandlerUtil;
 import com.ssy.api.util.FileUtil.fastdfs.FileDfsUtil;
 import com.ssy.api.util.allPictureUtils.document.PictureDocument;
 import com.ssy.api.util.allPictureUtils.repository.PictureRepository;
-
 import com.ssy.api.utils.Location;
 import com.ssy.api.utils.LocationUtil;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 
@@ -54,8 +52,8 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Resource
     private FaceStoreRepository faceStoreRepository;
-@Resource
-private IdentifyRepository identifyRepository;
+    @Resource
+    private IdentifyRepository identifyRepository;
 
 
     @Resource
@@ -109,88 +107,85 @@ private IdentifyRepository identifyRepository;
         photos.forEach(photo -> {
             List<FaceDetectResult> faceDetectResults;
             try {
-                Future<List<FaceDetectResult>> listFuture = faceService.faceDetect(photo.getUrl());
+                List<FaceDetectResult> listFuture = faceService.faceDetect(photo.getUrl());
                 if (listFuture != null) {
-                    faceDetectResults = listFuture.get();
-                    if (faceDetectResults != null) {
-                        // 添加到人脸
-                        List<Face> image = faceRepository.saveAll(faceDetectResults.stream().map(face -> {
-                            FaceRectangle faceRectangle = face.getFaceRectangle();
-                            String s = faceRectangle.getUpperLeftX() + "," +
-                                    faceRectangle.getUpperLeftY() + "," +
-                                    faceRectangle.getLowerRightX() + "," +
-                                    faceRectangle.getLowerRightY();
-                            // 添加到人脸大库
-                            AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
-                                    ParameterConstant.FastDFSPrefix + face.getSubImage()
-                                    , "image");
-                            return Face.builder()
-                                    .faceId(addFaceDto.getFaceId())
-                                    .photoId(photo.getId())
-                                    .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
-                                    .faceRectangle(s)
-                                    .confidence((double) face.getFaceScore())
-                                    .createTime(new Timestamp(System.currentTimeMillis()))
-                                    .updateTime(new Timestamp(System.currentTimeMillis()))
-                                    .build();
-                        }).collect(Collectors.toList()));
-                        image.forEach(face -> {
-                            // 搜索是否有相同的人脸
-                            List<SearchFaceDto> searchFaceDtos = faceService.searchFace(face.getUrl(),
-                                    FaceHandlerUtil.FACE_STORE_ALL, 10);
-                            List<SearchFaceDto> sameFace = new ArrayList<>();
-                            searchFaceDtos.forEach(i -> {
-                                if (i.getConfidence() > 0.75) {
-                                    sameFace.add(i);
-                                }
-                            });
-                            // 判断如果没有相同的脸
-                            if (sameFace.size() == 1) {
-                                StringBuilder photoId = new StringBuilder();
-                                // 返回photoid
-                                for (int i = 0; i < photos.size(); i++) {
-                                    if (i == 0 && i != photos.size() - 1) {
-                                        photoId = new StringBuilder(photos.get(i).getId() + ",");
-                                    } else if (i == photos.size() - 1) {
-                                        photoId.append(photos.get(i).getId());
-                                    } else {
-                                        photoId.append(photos.get(i).getId()).append(",");
-                                    }
-                                }
-                                String cover = photos.get(0).getUrl();
-                                int userId = photos.get(0).getUserId();
-                                FaceStoreDto faceSet = faceService.createFaceSet("new", "新的人脸库");
-                                // 创建相册
-                                Albums save = albumRepository.save(Albums.builder()
-                                        .id(faceSet.getFaceStoreId())
-                                        .createType(1)
-                                        .cover(cover)
-                                        .userId(userId)
-                                        .photoId(photoId.toString())
-                                        .type(0)
-                                        .photoNumber(String.valueOf(photos.size()))
-                                        .createTime(new Timestamp(System.currentTimeMillis()))
-                                        .updateTime(new Timestamp(System.currentTimeMillis()))
-                                        .build());
-                                // 创建人脸库
-                                faceStoreRepository.save(FaceStore.builder()
-                                        .albumId(save.getId())
-                                        .faceStoreId(faceSet.getFaceStoreId())
-                                        .description(faceSet.getDescription())
-                                        .createTime(new Timestamp(System.currentTimeMillis()))
-                                        .updateTime(new Timestamp(System.currentTimeMillis()))
-                                        .build());
-                                // 保存人脸到新的人脸库
-                                faceService.faceAdd(faceSet.getFaceStoreId(), face.getUrl(), "image");
+                    faceDetectResults = listFuture;
+                    // 添加到人脸
+                    List<Face> image = faceRepository.saveAll(faceDetectResults.stream().map(face -> {
+                        FaceRectangle faceRectangle = face.getFaceRectangle();
+                        String s = faceRectangle.getUpperLeftX() + "," +
+                                faceRectangle.getUpperLeftY() + "," +
+                                faceRectangle.getLowerRightX() + "," +
+                                faceRectangle.getLowerRightY();
+                        // 添加到人脸大库
+                        AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
+                                face.getSubImage()
+                                , "image");
+                        return Face.builder()
+                                .faceId(addFaceDto.getFaceId())
+                                .photoId(photo.getId())
+                                .url(face.getSubImage())
+                                .faceRectangle(s)
+                                .confidence((double) face.getFaceScore())
+                                .createTime(new Timestamp(System.currentTimeMillis()))
+                                .updateTime(new Timestamp(System.currentTimeMillis()))
+                                .build();
+                    }).collect(Collectors.toList()));
+                    image.forEach(face -> {
+                        // 搜索是否有相同的人脸
+                        List<SearchFaceDto> searchFaceDtos = faceService.searchFace(face.getUrl(),
+                                FaceHandlerUtil.FACE_STORE_ALL, 10);
+                        List<SearchFaceDto> sameFace = new ArrayList<>();
+                        searchFaceDtos.forEach(i -> {
+                            if (i.getConfidence() > 0.75) {
+                                sameFace.add(i);
                             }
                         });
-                    }
+                        // 判断如果没有相同的脸
+                        if (sameFace.size() == 1) {
+                            StringBuilder photoId = new StringBuilder();
+                            // 返回photoid
+                            for (int i = 0; i < photos.size(); i++) {
+                                if (i == 0 && i != photos.size() - 1) {
+                                    photoId = new StringBuilder(photos.get(i).getId() + ",");
+                                } else if (i == photos.size() - 1) {
+                                    photoId.append(photos.get(i).getId());
+                                } else {
+                                    photoId.append(photos.get(i).getId()).append(",");
+                                }
+                            }
+                            String cover = photos.get(0).getUrl();
+                            int userId = photos.get(0).getUserId();
+                            FaceStoreDto faceSet = faceService.createFaceSet("new", "新的人脸库");
+                            // 创建相册
+                            Albums save = albumRepository.save(Albums.builder()
+                                    .id(faceSet.getFaceStoreId())
+                                    .createType(1)
+                                    .cover(cover)
+                                    .userId(userId)
+                                    .photoId(photoId.toString())
+                                    .type(0)
+                                    .photoNumber(String.valueOf(photos.size()))
+                                    .createTime(new Timestamp(System.currentTimeMillis()))
+                                    .updateTime(new Timestamp(System.currentTimeMillis()))
+                                    .build());
+                            // 创建人脸库
+                            faceStoreRepository.save(FaceStore.builder()
+                                    .albumId(save.getId())
+                                    .faceStoreId(faceSet.getFaceStoreId())
+                                    .description(faceSet.getDescription())
+                                    .createTime(new Timestamp(System.currentTimeMillis()))
+                                    .updateTime(new Timestamp(System.currentTimeMillis()))
+                                    .build());
+                            // 保存人脸到新的人脸库
+                            faceService.faceAdd(faceSet.getFaceStoreId(), face.getUrl(), "image");
+                        }
+                    });
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
-
         return new RestResultBuilder<>().success(photos);
     }
 
@@ -199,6 +194,7 @@ private IdentifyRepository identifyRepository;
         List<Photo> photoList = photoRepository.findPhotoByUserId(userId);
         return new RestResultBuilder<>().success(photoList);
     }
+
     public RestResult findAll(PhotoDto photoDto) {
         if (photoDto.getPageSize() == 0 && photoDto.getPageSize() == null) {
             photoDto.setPageSize(10);
@@ -256,31 +252,29 @@ private IdentifyRepository identifyRepository;
         photoList.forEach(photo -> {
             List<FaceDetectResult> faceDetectResults;
             try {
-                Future<List<FaceDetectResult>> listFuture = faceService.faceDetect(photo.getUrl());
+                List<FaceDetectResult> listFuture = faceService.faceDetect(photo.getUrl());
                 if (listFuture != null) {
-                    faceDetectResults = listFuture.get();
-                    if (faceDetectResults != null) {
-                        faceRepository.saveAll(faceDetectResults.stream().map(face -> {
-                            FaceRectangle faceRectangle = face.getFaceRectangle();
-                            String s = faceRectangle.getUpperLeftX() + "," +
-                                    faceRectangle.getUpperLeftY() + "," +
-                                    faceRectangle.getLowerRightX() + "," +
-                                    faceRectangle.getLowerRightY();
-                            // faceId设置有问题，需要探测到人脸之后，先添加到人脸大库，在拿返回id设置成faceId 目前名称是默认
-                            AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
-                                    ParameterConstant.FastDFSPrefix + face.getSubImage()
-                                    , "image");
-                            return Face.builder()
-                                    .faceId(addFaceDto.getFaceId())
-                                    .photoId(photo.getId())
-                                    .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
-                                    .faceRectangle(s)
-                                    .confidence((double) face.getFaceScore())
-                                    .createTime(new Timestamp(System.currentTimeMillis()))
-                                    .updateTime(new Timestamp(System.currentTimeMillis()))
-                                    .build();
-                        }).collect(Collectors.toList()));
-                    }
+                    faceDetectResults = listFuture;
+                    faceRepository.saveAll(faceDetectResults.stream().map(face -> {
+                        FaceRectangle faceRectangle = face.getFaceRectangle();
+                        String s = faceRectangle.getUpperLeftX() + "," +
+                                faceRectangle.getUpperLeftY() + "," +
+                                faceRectangle.getLowerRightX() + "," +
+                                faceRectangle.getLowerRightY();
+                        // faceId设置有问题，需要探测到人脸之后，先添加到人脸大库，在拿返回id设置成faceId 目前名称是默认
+                        AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
+                                ParameterConstant.FastDFSPrefix + face.getSubImage()
+                                , "image");
+                        return Face.builder()
+                                .faceId(addFaceDto.getFaceId())
+                                .photoId(photo.getId())
+                                .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
+                                .faceRectangle(s)
+                                .confidence((double) face.getFaceScore())
+                                .createTime(new Timestamp(System.currentTimeMillis()))
+                                .updateTime(new Timestamp(System.currentTimeMillis()))
+                                .build();
+                    }).collect(Collectors.toList()));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -423,11 +417,11 @@ private IdentifyRepository identifyRepository;
             photo.setUrl(null);
             Photo photo1 = photoRepository.saveAndFlush(photo);
             //删除图片索引
-            PictureDocument pictureDocument =PictureDocument.builder()
+            PictureDocument pictureDocument = PictureDocument.builder()
                     .id(i).build();
             pictureRepository.delete(pictureDocument);
-          //删除分类
-            Identify identify =new Identify();
+            //删除分类
+            Identify identify = new Identify();
             identify.setPhotoId(i);
             photo.setIsDelete(2);
             identifyRepository.saveAndFlush(identify);

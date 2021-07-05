@@ -27,7 +27,7 @@ public class ClassificationController {
     }
 
 
-    @ApiOperation(value = "根据地点分类", notes = "")
+    @ApiOperation(value = "根据人脸分类", notes = "")
     @PostMapping("/face")
     public RestResult face() {
         return new RestResultBuilder<>().success(classificationService.faceClassification());

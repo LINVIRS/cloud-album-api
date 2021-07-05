@@ -18,6 +18,7 @@ public class FaceController {
     @Resource
     private FaceService faceService;
 
+
     @ApiOperation(value = "人脸相册推送", notes = "人脸相册推送")
     @PostMapping("/recommend")
     public RestResult recommend(@RequestParam("photo") String photo) {

@@ -56,7 +56,7 @@ public class ParameterConstant {
     public static final String ACCESS_KEY = "";
     public static final String SECRET_KEY = "";
     // FASTDFS
-    public static final String FastDFSPrefix = "http://36.137.109.33:8888/";
+    public static final String FastDFSPrefix = "http://121.5.235.153:7777/";
     public static final String PHOTOAK = "f164d9d562d54d52a23ec8f9a62aa071";
 
     // 移动云

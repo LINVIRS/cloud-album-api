@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Future;
 
 @Service
@@ -32,8 +33,8 @@ public class FaceServiceImpl implements FaceService {
     private PhotoRepository photoRepository;
 
     @Override
-    @Async
-    public Future<List<FaceDetectResult>> faceDetect(String photoUrl) {
+//    @Async
+    public List<FaceDetectResult> faceDetect(String photoUrl) {
         List<FaceDetectResult> faceDetectResults = new ArrayList<>(10);
         // 获取目标图片字节数组
         byte[] imageFromNetByUrl = faceHandlerUtil.getImageFromNetByUrl(photoUrl);
@@ -63,16 +64,17 @@ public class FaceServiceImpl implements FaceService {
                 );
                 // 将人像上传fastdfs
                 String subImage = fileDfsUtil.upload(bytes);
+
                 // 将未分类的图片添加至人脸大库
-                faceAdd(FaceHandlerUtil.FACE_STORE_ALL, ParameterConstant.FastDFSPrefix + subImage, "");
+                faceAdd(FaceHandlerUtil.FACE_STORE_ALL, photoUrl, "image");
                 faceDetectResults.add(FaceDetectResult.builder()
                         .faceId(facejosnId)
                         .faceRectangle(faceDectectRectangleArea)
                         .faceScore(faceScore)
-                        .subImage(subImage)
+                        .subImage(photoUrl)
                         .build());
             }
-            return new AsyncResult<>(faceDetectResults);
+            return faceDetectResults;
         }
         return null;
     }
@@ -129,24 +131,27 @@ public class FaceServiceImpl implements FaceService {
             JSONArray results = search.getJSONArray("results");
             for (Object result : results) {
                 JSONObject jsonObject = ((JSONObject) result);
-                System.out.println("faceId是: " + jsonObject.getInteger("faceId"));
                 int id = jsonObject.getInteger("faceId");
-                Face face = faceRepository.findById(id).get();
-                Photo photo = photoRepository.findDetailById(face.getPhotoId());
-                if (photo != null) {
-                    searchFaceDtos.add(
-                            SearchFaceDto.builder()
-                                    .faceId(jsonObject.getInteger("faceId"))
-                                    .url(photo.getUrl())
-                                    .faceName(jsonObject.getString("faceName"))
-                                    .confidence(jsonObject.getFloat("confidence"))
-                                    .photoName(photo.getPhotoName())
-                                    .width(photo.getWidth())
-                                    .height(photo.getHeight())
-                                    .createTime(photo.getCreateTime())
-                                    .build()
-                    );
+                Optional<Face> byId = faceRepository.findById(id);
+                if(byId.isPresent()){
+                    Face face = byId.get();
+                    Photo photo = photoRepository.findDetailById(face.getPhotoId());
+                    if (photo != null) {
+                        searchFaceDtos.add(
+                                SearchFaceDto.builder()
+                                        .faceId(jsonObject.getInteger("faceId"))
+                                        .url(photo.getUrl())
+                                        .faceName(jsonObject.getString("faceName"))
+                                        .confidence(jsonObject.getFloat("confidence"))
+                                        .photoName(photo.getPhotoName())
+                                        .width(photo.getWidth())
+                                        .height(photo.getHeight())
+                                        .createTime(photo.getCreateTime())
+                                        .build()
+                        );
+                    }
                 }
+
             }
             return searchFaceDtos;
         }
