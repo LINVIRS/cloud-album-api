@@ -81,6 +81,14 @@
             <version>0.4.8</version>
         </dependency>
 
+
+        <!-- https://mvnrepository.com/artifact/com.github.shalousun/smart-doc -->
+        <dependency>
+            <groupId>com.github.shalousun</groupId>
+            <artifactId>smart-doc</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

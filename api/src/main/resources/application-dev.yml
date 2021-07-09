@@ -7,7 +7,7 @@ spring:
   redis:
     host: 121.5.235.153
     password: ssy123456
-    jedis:
+    lettuce:
       pool:
         min-idle: 8
         max-idle: 30

@@ -29,6 +29,14 @@
     </properties>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/cn.smallbun.screw/screw-core -->
+        <dependency>
+            <groupId>cn.smallbun.screw</groupId>
+            <artifactId>screw-core</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
         <dependency>
             <groupId>com.ssy.api</groupId>
             <artifactId>utils</artifactId>

@@ -70,12 +70,12 @@ public class ClassificationServiceImpl implements ClassificationService {
                                 faceRectangle.getLowerRightY();
                         // 添加到人脸大库
                         AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
-                                ParameterConstant.FastDFSPrefix + face.getSubImage()
+                                 face.getSubImage()
                                 , "image");
                         return Face.builder()
                                 .faceId(addFaceDto.getFaceId())
                                 .photoId(photo.getId())
-                                .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
+                                .url(face.getSubImage())
                                 .faceRectangle(s)
                                 .confidence((double) face.getFaceScore())
                                 .createTime(new Timestamp(System.currentTimeMillis()))

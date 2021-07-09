@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         // 判断验证码
         // 从redis中获取code 与用户输入的对比 (暂时未接入短信服务 所以以假数据代替)
         codeRedisDao.saveUserCode(
-                ParameterConstant.SMS_CODE_REGISTER_TYPE, userDto.getPhoneNumber(), "1234");
+                ParameterConstant.SMS_CODE_REGISTER_TYPE, userDto.getPhoneNumber(), "659018");
         String userCode =
                 codeRedisDao.getUserCode(
                         ParameterConstant.SMS_CODE_REGISTER_TYPE, userDto.getPhoneNumber());
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
             }
             // 从redis中获取code 与用户输入的对比 (暂时未接入短信服务 所以以假数据代替)
             codeRedisDao.saveUserCode(
-                    ParameterConstant.SMS_CODE_USER_LOGIN_TYPE, userDto.getPhoneNumber(), "1234");
+                    ParameterConstant.SMS_CODE_USER_LOGIN_TYPE, userDto.getPhoneNumber(), "659018");
             String userCode =
                     codeRedisDao.getUserCode(
                             ParameterConstant.SMS_CODE_USER_LOGIN_TYPE, userDto.getPhoneNumber());

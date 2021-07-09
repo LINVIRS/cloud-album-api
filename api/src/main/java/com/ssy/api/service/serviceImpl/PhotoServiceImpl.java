@@ -263,12 +263,12 @@ public class PhotoServiceImpl implements PhotoService {
                                 faceRectangle.getLowerRightY();
                         // faceId设置有问题，需要探测到人脸之后，先添加到人脸大库，在拿返回id设置成faceId 目前名称是默认
                         AddFaceDto addFaceDto = faceService.faceAdd(FaceHandlerUtil.FACE_STORE_ALL,
-                                ParameterConstant.FastDFSPrefix + face.getSubImage()
+                                 face.getSubImage()
                                 , "image");
                         return Face.builder()
                                 .faceId(addFaceDto.getFaceId())
                                 .photoId(photo.getId())
-                                .url(ParameterConstant.FastDFSPrefix + face.getSubImage())
+                                .url( face.getSubImage())
                                 .faceRectangle(s)
                                 .confidence((double) face.getFaceScore())
                                 .createTime(new Timestamp(System.currentTimeMillis()))

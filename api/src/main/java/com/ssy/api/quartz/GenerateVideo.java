@@ -15,18 +15,18 @@ import java.util.List;
  * @Date: 2021/07/05 13:10:17 
  * @Version: V1.0
  **/
-@Component
-public class GenerateVideo {
-    @Resource
-    private IdentifyService identifyService;
-
-    // 每填23执行一次 定时器  执行分类操作
+//@Component
+//public class GenerateVideo {
+//    @Resource
+//    private IdentifyService identifyService;
+//
+//    // 每填23执行一次 定时器  执行分类操作
 //    @PostConstruct //启动就执行
-    @Scheduled(cron = "0 0 23 * * ? ")
-    public void execute() {
-      //逻辑调用
+//    @Scheduled(cron = "0 0 23 * * ? ")
+//    public void execute() {
+//      //逻辑调用
+//
+//    }
 
-    }
 
-
-}
+//}

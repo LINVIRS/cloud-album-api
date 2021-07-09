@@ -37,10 +37,16 @@ import java.util.stream.Stream;
  **/
 public class ECloudSignatureTest {
     public static void main(String[] args) throws IOException {
-        System.out.println(imgBase64("http://121.5.235.153:7777/group1/M00/00/04/rBEABGDd1i2AJKHfAKsJSzdQC4E383.JPG"));
-//        System.out.println(countChineseWords("'[{\"classes\":\"服装,人,时尚,春暖花开的季节,植物,照片,美丽,夏天,鞋类,蓝色的,树,裙子,时尚配饰,街头时尚,女人,女孩,\"}]'"));
+//        System.out.println(IdentifyImages("http://121.5.235.153:7777/group1/M00/00/08/rBEABGDlWIOAXl5VAANXmH_fJZM945.JPG"));
+        System.out.println(countChineseWords("'[{\"classes\":\"服装,人,时尚,春暖花开的季节,植物,照片,美丽,夏天,鞋类,蓝色的,树,裙子,时尚配饰,街头时尚,女人,女孩,\"}]'"));
 //        [{"classes":"建筑学,白天,建筑物,商业建筑,地标,都市区,人类住区,塔楼,界线,摩天大广告,公司总部,总公司,城市,都会,天空,市区,正面,混合使用,设计,光,房地产,基础设施,材料特性,灯光,财产,蓝色的,共管公寓,采光,对称,市中心,快照,塔,"}]
     }
+
+    /**
+     * 识别图片
+     * @param url
+     * @return
+     */
     public static String IdentifyImages(String url) {
         //企业云账户：请申请
         Credential credential = new Credential(ParameterConstant.PHOTOAK, ParameterConstant.PHOTOSK);
@@ -113,7 +119,12 @@ public class ECloudSignatureTest {
         return encoder.encode(outPut.toByteArray());
     }
 
-public static  Map<String, Integer> countChineseWords(String wordsInput) {
+    /**
+     * 统计占比权重
+     * @param wordsInput
+     * @return
+     */
+    public static  Map<String, Integer> countChineseWords(String wordsInput) {
     String substring = wordsInput.substring(wordsInput.indexOf(":")+2, wordsInput.lastIndexOf("}")-1);
     String[] words = substring.split(",");
 //快速排序

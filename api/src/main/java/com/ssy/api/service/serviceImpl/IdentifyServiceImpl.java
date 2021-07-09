@@ -67,7 +67,7 @@ public class IdentifyServiceImpl implements IdentifyService {
     private VideoRepository videoRepository;
 
     @Override
-    @Transactional(rollbackOn = RuntimeException.class)
+    @Transactional(rollbackOn = Exception.class)
     public RestResult identifyPicture(Integer userId) {
         Object o = redisService.get(RedisConstant.PICTURE_IDENTIFY, String.valueOf(userId));
         List<Integer> idList = new ArrayList<>();
@@ -78,6 +78,7 @@ public class IdentifyServiceImpl implements IdentifyService {
             });
         }
         List<Photo> photo = photoRepository.findPhotoNotIdentify(userId, idList);
+        List<Integer> ids = new ArrayList<>();
         if (photo.size() != 0) {
             photo.stream().forEach(i -> {
                 if (i.getUrl() != null || !i.getUrl().isEmpty()) {
@@ -89,8 +90,6 @@ public class IdentifyServiceImpl implements IdentifyService {
                             i.getUrl().substring(i.getUrl().lastIndexOf(".") + 1).equals("BMP")) {
                         s = ECloudSignatureTest.IdentifyImages(i.getUrl());
                     }
-
-                    System.out.println(s);
                     if (s != null && !s.isEmpty() && !s.equals("")) {
 //                    identify.setType(null);
 //                    identify.setIdentifyResult(null);
@@ -135,18 +134,18 @@ public class IdentifyServiceImpl implements IdentifyService {
                         } else {
                             identify.setType("其他");
                         }
-                        identify.setUserId(userId);
+
                         identify.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
                         identify.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
                         identify.setUserId(userId);
                         identify.setPhotoId(i.getId());
                         identify.setIsDelete(CommonConstant.DELFlag);
-                        identifyRepository.save(identify);
+                        Identify save = identifyRepository.save(identify);
+                        ids.add(save.getPhotoId());
                     }
                 }
 
             });
-            List<Integer> ids = photo.stream().map(p -> p.getId()).collect(Collectors.toList());
             idList.addAll(ids);
             if (idList.size() != 0) {
                 String idsString = idList.toString().substring(1, idList.toString().lastIndexOf("]"));
@@ -158,6 +157,9 @@ public class IdentifyServiceImpl implements IdentifyService {
         //进行相册创建
         //查询所有type
         List<String> pictureType = identifyRepository.findPictureType(userId);
+        if (pictureType.size()==0){
+            return new RestResultBuilder<>().success();
+        }
         pictureType.forEach(i -> {
             Tuple tuple = identifyRepository.findPictureCover(userId, i);
             //相册id
