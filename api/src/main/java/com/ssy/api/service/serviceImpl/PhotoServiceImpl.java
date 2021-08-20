@@ -24,8 +24,11 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -203,7 +206,8 @@ public class PhotoServiceImpl implements PhotoService {
         if (allPhoto.size() == 0) {
             return new RestResultBuilder<>().success();
         }
-        Map<String, List<Photo>> collect = allPhoto.stream().collect(
+        Map<String, List<Photo>> collect = allPhoto.stream()
+                .collect(
                 Collectors.groupingBy(p ->
                         p.getCreateTime().toString().substring(0, 10)
                 ));
@@ -214,7 +218,16 @@ public class PhotoServiceImpl implements PhotoService {
             photoClassification.setYearName(i.getKey());
             list.add(photoClassification);
         });
-        return new RestResultBuilder<>().success(list);
+        List<PhotoClassification> collect1 = list.stream().sorted(Comparator.comparing(PhotoClassification::getYearName).reversed()).collect(Collectors.toList());
+        return new RestResultBuilder<>().success(collect1);
+    }
+    /**
+     * 将字符串转日期成Long类型的时间戳，格式为：yyyy-MM-dd HH:mm:ss
+     */
+    public static Long convertTimeToLong(String time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime parse = LocalDateTime.parse(time, formatter);
+        return LocalDateTime.from(parse).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
     @Override

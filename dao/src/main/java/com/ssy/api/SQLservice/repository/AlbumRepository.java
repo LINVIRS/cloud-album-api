@@ -12,4 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @description
  */
 public interface AlbumRepository extends JpaRepository<Albums, Integer>, AlbumDao {
+
+
 }

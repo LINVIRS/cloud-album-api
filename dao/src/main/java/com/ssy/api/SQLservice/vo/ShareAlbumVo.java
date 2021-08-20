@@ -1,5 +1,7 @@
 package com.ssy.api.SQLservice.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ssy.api.SQLservice.entity.Photo;
 import com.ssy.api.SQLservice.entity.User;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.List;
 public class ShareAlbumVo {
     private Integer id;
     private String keyWord;
+    @JSONField(serialzeFeatures = {SerializerFeature.DisableCircularReferenceDetect})
     private User creator;
     private Timestamp createTime;
     private Timestamp updateTime;

@@ -1,5 +1,6 @@
 package com.ssy.api.service.serviceImpl;
 
+import cn.hutool.core.text.StrBuilder;
 import com.querydsl.core.Tuple;
 import com.ssy.api.SQLservice.entity.Albums;
 import com.ssy.api.SQLservice.entity.Identify;
@@ -81,13 +82,13 @@ public class IdentifyServiceImpl implements IdentifyService {
         List<Integer> ids = new ArrayList<>();
         if (photo.size() != 0) {
             photo.stream().forEach(i -> {
-                if (i.getUrl() != null || !i.getUrl().isEmpty()) {
+                if (i.getUrl().trim() != null ) {
                     Identify identify = new Identify();
                     String s = "";
                     //获取识别结果
-                    if (i.getUrl().substring(i.getUrl().lastIndexOf(".") + 1).equals("JPG") ||
-                            i.getUrl().substring(i.getUrl().lastIndexOf(".") + 1).equals("PNG") ||
-                            i.getUrl().substring(i.getUrl().lastIndexOf(".") + 1).equals("BMP")) {
+                    if (i.getUrl().substring(i.getUrl().lastIndexOf(".") + 1).equals("jpg") ||
+                            i.getUrl().substring(i.getUrl().lastIndexOf(".") + 1).equals("png") ||
+                            i.getUrl().substring(i.getUrl().lastIndexOf(".") + 1).equals("bmp")) {
                         s = ECloudSignatureTest.IdentifyImages(i.getUrl());
                     }
                     if (s != null && !s.isEmpty() && !s.equals("")) {
@@ -111,30 +112,43 @@ public class IdentifyServiceImpl implements IdentifyService {
                                 .build();
                         pictureRepository.save(pictureDocument);
                         identify.setIdentifyResult(s);
+
                         if (s.contains("交通")) {
                             identify.setType("交通");
-                        } else if (s.contains("动物")) {
+
+                        }else
+                        if (s.contains("动物")) {
                             identify.setType("动物");
-                        } else if (s.contains("建筑")) {
+                        }else
+                        if (s.contains("建筑")) {
                             identify.setType("建筑");
-                        } else if (s.contains("文本")) {
+                        }else
+                        if (s.contains("文本")) {
                             identify.setType("文本");
-                        } else if (s.contains("风景")) {
+                        }else
+                        if (s.contains("风景")) {
                             identify.setType("风景");
-                        } else if (s.contains("食物")) {
+                        }else
+                        if (s.contains("食物")) {
                             identify.setType("食物");
-                        } else if (s.contains("天气")) {
-                            identify.setType("天气状况");
-                        } else if (s.contains("植物")) {
+                        }else
+                        if (s.contains("天气,天空,云,树,现象,地球大气,早晨,气氛,晚上,积云,地平线,彩虹,天空,现象,树,地球大气,灯光,白天,云,大气现象,早晨,自然,光,")) {
+                            identify.setType("天气");
+                        }else
+                        if (s.contains("天空,云,树,自然环境")) {
+                            identify.setType("自然环境");
+                        }else
+                        if (s.contains("植物")) {
                             identify.setType("植物");
-                        } else if (s.contains("人,")) {
+                        }else
+                        if (s.contains("人,")) {
                             identify.setType("人");
-                        } else if (s.contains("电子,")) {
-                            identify.setType("电子设备");
-                        } else {
+                        }else
+                        if (s.contains("电子,")) {
+                            identify.setType("电子");
+                        }else {
                             identify.setType("其他");
                         }
-
                         identify.setCreateTime(Timestamp.valueOf(LocalDateTime.now()));
                         identify.setUpdateTime(Timestamp.valueOf(LocalDateTime.now()));
                         identify.setUserId(userId);

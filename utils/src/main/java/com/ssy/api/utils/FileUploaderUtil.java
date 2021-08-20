@@ -2,6 +2,9 @@ package com.ssy.api.utils;
 
 import io.minio.MinioClient;
 
+import io.minio.errors.InvalidEndpointException;
+import io.minio.errors.InvalidPortException;
+import lombok.SneakyThrows;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -11,10 +14,13 @@ import java.nio.file.Paths;
 
 
 public class FileUploaderUtil {
+    @SneakyThrows
     public static Boolean uploadVideo(String path) {
         MinioClient minioClient = null;
         try {
-            minioClient = new MinioClient("http://121.5.235.153:9050", "ssyoss", "ssy123456");
+
+                minioClient = new MinioClient("http://36.137.19.93:9050", "ssy", "ssy123456");
+
             // 检查存储桶是否已经存在
             boolean isExist = minioClient.bucketExists("ssy-oss");
             if (!isExist) {
@@ -31,6 +37,7 @@ public class FileUploaderUtil {
         return false;
     }
 
+    @SneakyThrows
     public static String getVideo(String path) {
         MinioClient minioClient = null;
         try {

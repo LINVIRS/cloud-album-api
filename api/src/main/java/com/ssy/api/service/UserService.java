@@ -65,4 +65,7 @@ public interface UserService {
      */
     RestResult UserLogout(int userId);
 
+
+
+    RestResult sendMessage(String phoneNumber);
 }

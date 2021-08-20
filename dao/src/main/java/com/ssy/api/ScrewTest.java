@@ -31,9 +31,9 @@ public class ScrewTest {
         //数据源
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        hikariConfig.setJdbcUrl("jdbc:mysql://121.5.235.153:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false");
-        hikariConfig.setUsername("ssy");
-        hikariConfig.setPassword("ssy123456");
+        hikariConfig.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/njy?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false");
+        hikariConfig.setUsername("root");
+        hikariConfig.setPassword("root");
         //设置可以获取tables remarks信息
         hikariConfig.addDataSourceProperty("useInformationSchema", "true");
         hikariConfig.setMinimumIdle(2);
@@ -47,7 +47,7 @@ public class ScrewTest {
                 //打开目录
                 .openOutputDir(true)
                 //生成文件类型：HTML
-                .fileType(EngineFileType.WORD)
+                .fileType(EngineFileType.MD)
 
                 //生成模板实现
                 .produceType(EngineTemplateType.freemarker)

@@ -1,11 +1,11 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://121.5.235.153:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false
-      username: ssy
+      url: jdbc:mysql://36.137.19.93:3306/cloud-album?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false
+      username: root
       password: ssy123456
   redis:
-    host: 121.5.235.153
+    host: 36.137.19.93
     password: ssy123456
     lettuce:
       pool:
@@ -13,7 +13,7 @@ spring:
         max-idle: 30
         max-wait: 5000
         max-active: 100
-    port: 6379
+    port: 6389
   mvc:
     throw-exception-if-no-handler-found: true
   resources:

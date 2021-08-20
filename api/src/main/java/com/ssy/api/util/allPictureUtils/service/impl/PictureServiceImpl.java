@@ -41,9 +41,9 @@ public class PictureServiceImpl implements PictureService {
         //使用中文拼音混合搜索，取分数最高的，具体评分规则可参照：
         //  https://blog.csdn.net/paditang/article/details/79098830
         QueryBuilder shouldQuery= QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("photoName",identifyVo.getContent()).boost(1.0f))
-                .should(QueryBuilders.matchQuery("identifyResult",identifyVo.getContent()).boost(2.0f))
+                .should(QueryBuilders.matchQuery("identifyResult",identifyVo.getContent()).boost(5f))
                 //matchPhraseQuery 连续查询
-                .should(QueryBuilders.matchPhraseQuery("identifyResult.pinyin",identifyVo.getContent()).boost(1.5f));
+                .should(QueryBuilders.matchPhraseQuery("identifyResult.pinyin",identifyVo.getContent()).boost(0.2f));
         QueryBuilder queryBuilder= QueryBuilders.boolQuery().must(
                 shouldQuery
            ).must(QueryBuilders.termQuery("userId",identifyVo.getUserId()));

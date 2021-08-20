@@ -102,6 +102,20 @@ public class UserContoller {
     @ApiOperation(value = "退出用户登录",httpMethod = "GET",notes = "退出用户登录")
     @GetMapping("/logout")
     public RestResult UserLogout(@RequestParam int userId){
+
         return userService.UserLogout(userId);
     }
+
+
+    /**
+     * 获取验证码
+     * @param phoneNumber
+     * @return
+     */
+    @ApiOperation(value = "获取验证码",httpMethod = "GET",notes = "获取验证码")
+    @GetMapping("/code")
+    public RestResult getCode(@RequestParam String phoneNumber){
+        return userService.sendMessage(phoneNumber);
+    }
 }
+

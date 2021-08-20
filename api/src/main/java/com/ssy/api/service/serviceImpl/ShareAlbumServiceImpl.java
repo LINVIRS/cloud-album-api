@@ -1,19 +1,28 @@
 package com.ssy.api.service.serviceImpl;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.mysql.cj.protocol.ResultBuilder;
 import com.ssy.api.SQLservice.entity.Albums;
 import com.ssy.api.SQLservice.entity.ShareAlbum;
+import com.ssy.api.SQLservice.entity.User;
 import com.ssy.api.SQLservice.repository.AlbumRepository;
 import com.ssy.api.SQLservice.repository.ShareAlbumRepository;
 import com.ssy.api.SQLservice.repository.UserRepository;
 import com.ssy.api.SQLservice.vo.ShareAlbumVo;
+import com.ssy.api.enums.CommonConstant;
 import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.service.ShareAlbumService;
 import com.ssy.api.util.RandomString;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,19 +46,32 @@ public class ShareAlbumServiceImpl implements ShareAlbumService {
     private UserRepository userRepository;
 
     @Override
+    /**
+     * 修改id 修改时间2021.7.13
+     */
     public List<ShareAlbumVo> selectAllShareAlbum(int userId) {
         List<ShareAlbum> albums = shareAlbumRepository.selectAll(userId);
         List<ShareAlbumVo> shareAlbumVos = new ArrayList<>();
+        if(albums.size()==0){
+            return shareAlbumVos;
+        }
+
         albums.stream().forEach(shareAlbum -> {
+            User  user =new User();
+             user = userRepository.findById(shareAlbum.getCreatorId()).get();
             Albums albums1 = albumRepository.findById(shareAlbum.getAlbumId()).get();
-            shareAlbumVos.add(ShareAlbumVo.builder().name(albums1.getName())
-                .id(shareAlbum.getId()).keyWord(shareAlbum.getKeyWord())
-                .creator(userRepository.findById(shareAlbum.getCreatorId()).get())
-                .updateTime(shareAlbum.getUpdateTime())
-                .createTime(shareAlbum.getCreateTime())
-                .cover(albums1.getCover())
-                .photoNumber(Integer.parseInt(albums1.getPhotoNumber())).build());
+           if (albums1.getIsDelete()== CommonConstant.DELFlag&&albums1.getPhotoNumber()!=(null)){
+               int photoNumber = Integer.parseInt(albums1.getPhotoNumber());
+               shareAlbumVos.add(ShareAlbumVo.builder().name(albums1.getName())
+                       .id(shareAlbum.getAlbumId()).keyWord(shareAlbum.getKeyWord())
+                       .creator(user)
+                       .updateTime(shareAlbum.getUpdateTime())
+                       .createTime(shareAlbum.getCreateTime())
+                       .cover(albums1.getCover())
+                       .photoNumber(photoNumber).build());
+           }
         });
+
         return shareAlbumVos;
     }
 

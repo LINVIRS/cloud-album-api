@@ -62,8 +62,10 @@ public class PhotoDaoImpl extends BaseService implements PhotoDao {
         QPhoto qPhoto = QPhoto.photo;
         JPAQuery<Photo> photoJPAQuery = queryFactory.select(qPhoto).from(qPhoto)
                 .where(qPhoto.isDelete.eq(CommonConstant.DELETE_DELFlag).and(qPhoto.userId.eq(userId))
-                        .and(qPhoto.updateTime.between(Timestamp.valueOf(LocalDateTime.now().plusDays(-7)), Timestamp.valueOf(LocalDateTime.now()))))
-                .groupBy(qPhoto.updateTime);
+                )
+
+                /*.and(qPhoto.updateTime.between(Timestamp.valueOf(LocalDateTime.now().plusDays(-7)), Timestamp.valueOf(LocalDateTime.now()))))*/
+                ;
         return photoJPAQuery.fetch();
     }
 

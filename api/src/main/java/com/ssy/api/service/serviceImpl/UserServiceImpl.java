@@ -14,10 +14,7 @@ import com.ssy.api.result.RestResult;
 import com.ssy.api.result.RestResultBuilder;
 import com.ssy.api.result.ResultCode;
 import com.ssy.api.service.UserService;
-import com.ssy.api.utils.JWTUtils;
-import com.ssy.api.utils.MD5Util;
-import com.ssy.api.utils.SHA256Util;
-import com.ssy.api.utils.SnowflakeIdWorker;
+import com.ssy.api.utils.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,9 +44,7 @@ public class UserServiceImpl implements UserService {
             return new RestResultBuilder<>().error("用户手机号已经存在 请登录");
         }
         // 判断验证码
-        // 从redis中获取code 与用户输入的对比 (暂时未接入短信服务 所以以假数据代替)
-        codeRedisDao.saveUserCode(
-                ParameterConstant.SMS_CODE_REGISTER_TYPE, userDto.getPhoneNumber(), "659018");
+
         String userCode =
                 codeRedisDao.getUserCode(
                         ParameterConstant.SMS_CODE_REGISTER_TYPE, userDto.getPhoneNumber());
@@ -109,12 +104,10 @@ public class UserServiceImpl implements UserService {
             if (user == null) {
                 return new RestResultBuilder<>().error("用户不存在,请注册");
             }
-            // 从redis中获取code 与用户输入的对比 (暂时未接入短信服务 所以以假数据代替)
-            codeRedisDao.saveUserCode(
-                    ParameterConstant.SMS_CODE_USER_LOGIN_TYPE, userDto.getPhoneNumber(), "659018");
+
             String userCode =
                     codeRedisDao.getUserCode(
-                            ParameterConstant.SMS_CODE_USER_LOGIN_TYPE, userDto.getPhoneNumber());
+                            ParameterConstant.SMS_CODE_REGISTER_TYPE, userDto.getPhoneNumber());
             if (userCode == null) {
                 return new RestResultBuilder<>().error("验证码失效,请重新申请");
             }
@@ -212,5 +205,16 @@ public class UserServiceImpl implements UserService {
         // 暂时执行清空 用户token操操
         tokenRedisDao.removeToken(ParameterConstant.WX_TOKEN_PREFIX, userId);
         return new RestResultBuilder<>().success();
+    }
+
+    @Override
+    public RestResult sendMessage(String phoneNumber) {
+        //随机生成验证码
+        String code = VcodeUtil.createCode();
+        MessageUtils.sendMessage(phoneNumber, code);
+        // 从redis中获取code 与用户输入的对比 (暂时未接入短信服务 所以以假数据代替)
+        codeRedisDao.saveUserCode(
+                ParameterConstant.SMS_CODE_REGISTER_TYPE, phoneNumber, code);
+        return new RestResultBuilder<>().success(code);
     }
 }

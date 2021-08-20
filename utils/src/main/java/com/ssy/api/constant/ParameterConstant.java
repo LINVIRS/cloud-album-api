@@ -58,7 +58,9 @@ public class ParameterConstant {
     // FASTDFS
     public static final String FastDFSPrefix = "http://121.5.235.153:7777/";
     public static final String PHOTOAK = "f164d9d562d54d52a23ec8f9a62aa071";
-
+  //message
+    public static final String MESSAGE_AK = "LTAI4FpzLFy8uA2PWAXH8cwQ";
+    public static final String MESSAGE_SK = "XLTomRADcglUJ5IgRrHxWKJMjPqg8b";
     // 移动云
     public static final String PHOTOSK = "cf148e26f402499b9a9e195271ce6847";
     public static final String FACEAK = "CIDC-AK-ed527649-69c4-4297-93ff-bc8fb34201ee";
