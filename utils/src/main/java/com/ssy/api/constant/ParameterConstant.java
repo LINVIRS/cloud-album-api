@@ -56,15 +56,16 @@ public class ParameterConstant {
     public static final String ACCESS_KEY = "";
     public static final String SECRET_KEY = "";
     // FASTDFS
-    public static final String FastDFSPrefix = "http://121.5.235.153:7777/";
+    public static final String FastDFSPrefix = "http://36.137.19.93:7777/";
     public static final String PHOTOAK = "f164d9d562d54d52a23ec8f9a62aa071";
   //message
     public static final String MESSAGE_AK = "LTAI4FpzLFy8uA2PWAXH8cwQ";
     public static final String MESSAGE_SK = "XLTomRADcglUJ5IgRrHxWKJMjPqg8b";
     // 移动云
     public static final String PHOTOSK = "cf148e26f402499b9a9e195271ce6847";
-    public static final String FACEAK = "CIDC-AK-ed527649-69c4-4297-93ff-bc8fb34201ee";
-    public static final String FACESK = "CIDC-SK-c4b503bb-5cce-45a8-9019-cd3c7694e960";
+
+    public static final String FACEAK = "0d56b67d06d84a109f24b7882514cc5d";
+    public static final String FACESK = "07574bf1e5ab4597b942f5ad80c2e978";
     //照片信息
     //南北纬
     public static final String GPSLatitudeRef = "GPS Latitude Ref";

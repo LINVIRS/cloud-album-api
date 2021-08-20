@@ -34,7 +34,7 @@ public class FaceHandlerUtil {
 //        byte[] imageFromNetByUrl3 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0C/rBEAA2B_7peARXwEAAAWhMiH-e096.jpeg");
 //        byte[] imageFromNetByUrl10 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0F/rBEAA2CGfRyAU71rAABpAUdghn8075.jpg");
 //        byte[] imageFromNetByUrl6 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.109.33:8888/group1/M00/00/0D/rBEAA2CD03OAXUu9AADi6rB8uto752.jpg");
-        byte[] imageFromNetByUrl6 = new FaceHandlerUtil().getImageFromNetByUrl("http://121.5.235.153:7777/group1/M00/00/06/rBEABGDik12AZ4UEAADI11WLReU951.JPG");
+//        byte[] imageFromNetByUrl6 = new FaceHandlerUtil().getImageFromNetByUrl("http://36.137.19.93:7777/group1/M00/00/00/rBEAA2Ed0heAWlaXAAEXBortGgM211.PNG");
 
         try {
 //            String url = "https://image.ijq.tv/201911/28/11-35-47-21-46.jpg";
@@ -47,10 +47,10 @@ public class FaceHandlerUtil {
 //            System.out.println(aiFaceBody.faceSearch(imageFromNetByUrl, FACE_STORE_ALL.toString(), 10, accessKey, null).getCommonResult());
 //            System.out.println(faceSet);
 //            System.out.println(aiFaceBody.faceDetect(imageFromNetByUrl6, null));
-//            System.out.println(faceHandlerUtil.faceDetect("http://121.5.235.153:7777/group1/M00/00/06/rBEABGDik12AZ4UEAADI11WLReU951.JPG"));
+            System.out.println(faceHandlerUtil.faceDetect("http://36.137.19.93:7777/group1/M00/00/00/rBEAA2Ed0heAWlaXAAEXBortGgM211.PNG"));
 //            System.out.println(faceHandlerUtil.faceAdd(FACE_STORE_ALL,"http://121.5.235.153:7777/group1/M00/00/06/rBEABGDipY-AZdFCAAAYxWS4Mqo829.jpg","image"));
-            System.out.println(faceHandlerUtil.search("http://121.5.235.153:7777/group1/M00/00/07/rBEABGDir0eAULJtAAsX_FN18MA205.JPG",
-                    119200,10 ));
+//            System.out.println(faceHandlerUtil.search("http://121.5.235.153:7777/group1/M00/00/07/rBEABGDir0eAULJtAAsX_FN18MA205.JPG",
+//                    119200,10 ));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -109,7 +109,12 @@ fdfs:
 
 
 #自定义Elasticsearch配置
-
+elasticsearch:
+  connTimeout: 3000
+  connectionRequestTimeout: 500
+  host: 36.137.19.93
+  port: 9200
+  socketTimeout: 5000
 
 
 
