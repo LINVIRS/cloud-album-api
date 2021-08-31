@@ -43,7 +43,7 @@ public class VideoServiceImpl implements VideoService {
             FileOutputStream fos = null;
             for (MultipartFile multipartFile : multipartFiles) {
                 byte[] bytes = multipartFile.getBytes();
-                File file = new File(ParameterConstant.pathName + multipartFile.getOriginalFilename());
+                File file = new File(ParameterConstant.pathName_linux + multipartFile.getOriginalFilename());
                 if (!file.exists()) {
                     try {
                         file.createNewFile();
@@ -99,7 +99,7 @@ public class VideoServiceImpl implements VideoService {
             FileOutputStream fos = null;
             for (MultipartFile multipartFile : multipartFiles) {
                 byte[] bytes = multipartFile.getBytes();
-                File file = new File(ParameterConstant.pathName + multipartFile.getOriginalFilename());
+                File file = new File(ParameterConstant.pathName_linux + multipartFile.getOriginalFilename());
                 if (!file.exists()) {
                     try {
                         file.createNewFile();
@@ -164,7 +164,7 @@ public class VideoServiceImpl implements VideoService {
                 inputStream = profile.openStream();
 
                 String name = url.substring(url.lastIndexOf("/") + 1);
-                File file = new File(ParameterConstant.pathName + name);
+                File file = new File(ParameterConstant.pathName_linux + name);
                 if (!file.exists()) {
                     try {
                         file.createNewFile();
@@ -225,8 +225,8 @@ public class VideoServiceImpl implements VideoService {
             FileOutputStream fos = null;
             byte[] bytesV = inputVideo.getBytes();
             byte[] bytesA = inputMusic.getBytes();
-            File video = new File(ParameterConstant.pathName + inputVideo.getOriginalFilename());
-            File audio = new File(ParameterConstant.pathName + inputMusic.getOriginalFilename());
+            File video = new File(ParameterConstant.pathName_linux + inputVideo.getOriginalFilename());
+            File audio = new File(ParameterConstant.pathName_linux + inputMusic.getOriginalFilename());
             if (!video.exists() || !audio.exists()) {
                 try {
                     video.createNewFile();
@@ -277,9 +277,9 @@ public class VideoServiceImpl implements VideoService {
             inputStream = profile.openStream();
 
             String name = inputVideo.substring(inputVideo.lastIndexOf("/") + 1);
-            File video = new File(ParameterConstant.pathName + name);
+            File video = new File(ParameterConstant.pathName_linux + name);
 
-            File audio = new File(ParameterConstant.pathName + inputMusic.getOriginalFilename());
+            File audio = new File(ParameterConstant.pathName_linux + inputMusic.getOriginalFilename());
             if (!video.exists() || !audio.exists()) {
                 try {
                     video.createNewFile();

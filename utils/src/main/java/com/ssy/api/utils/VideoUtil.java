@@ -21,9 +21,9 @@ import java.util.regex.Pattern;
 public class VideoUtil {
 
     // 创建VideoOperation对象
-    private static final VideoOperation ffmpeg = VideoOperation.builder(ParameterConstant.ffmpegPath);
+    private static final VideoOperation ffmpeg = VideoOperation.builder(ParameterConstant.ffmpegPath_linux);
     // 创建AudioOperation对象
-    private static final AudioOperation ffmpegAudio = AudioOperation.builder(ParameterConstant.ffmpegPath);
+    private static final AudioOperation ffmpegAudio = AudioOperation.builder(ParameterConstant.ffmpegPath_linux);
 
     /**
      * 合并视频文件
@@ -45,7 +45,7 @@ public class VideoUtil {
                 fos.close();
 
                 StringBuffer command = new StringBuffer();
-                command.append(ParameterConstant.ffmpegPath);
+                command.append(ParameterConstant.ffmpegPath_linux);
                 command.append(" -f");
                 command.append(" concat");
                 command.append(" -safe");
@@ -157,7 +157,7 @@ public class VideoUtil {
      */
     public static int getVideoTime(String video_path) {
         List<String> commands = new java.util.ArrayList<>();
-        commands.add(ParameterConstant.ffmpegPath);
+        commands.add(ParameterConstant.ffmpegPath_linux);
         commands.add("-i");
         commands.add(video_path);
         try {
@@ -229,7 +229,7 @@ public class VideoUtil {
         } else if (picture.exists() && picture.isFile()) {
             BaseFileUtil.checkAndMkdir(videoOutPath);
             List<String> commands = new ArrayList();
-            commands.add(ParameterConstant.ffmpegPath);
+            commands.add(ParameterConstant.ffmpegPath_linux);
             commands.add("-f");
             commands.add("concat");
             commands.add("-safe");

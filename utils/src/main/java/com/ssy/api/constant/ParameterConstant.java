@@ -86,6 +86,10 @@ public class ParameterConstant {
     //文件名
     public static final String FileName = "File Name";
     // 视屏剪辑
-    public static String pathName = "/Users/yy/Downloads/";
-    public static String ffmpegPath = "/Users/yy/Tool/ffmpeg";
+//    public static String pathName = "/Users/yy/Downloads/";
+    public static String pathName_linux = "/root/temp/";
+
+//    public static String ffmpegPath = "/Users/yy/Tool/ffmpeg";
+    public static String ffmpegPath_linux = "/root/ffmpeg/ffmpeg";
+
 }
