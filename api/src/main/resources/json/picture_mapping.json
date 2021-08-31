@@ -1,0 +1,41 @@
+{
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "url": {
+        "type": "text"
+      },
+      "userId": {
+        "type": "integer"
+      },
+      "photoName": {
+        "type": "text",
+        "analyzer": "ikSearchAnalyzer",
+        "search_analyzer": "ikSearchAnalyzer",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "analyzer": "pinyinSimpleIndexAnalyzer",
+            "search_analyzer": "pinyinSimpleIndexAnalyzer"
+          }
+        }
+      },
+      "identifyResult": {
+        "type": "text",
+        "analyzer": "ikSearchAnalyzer",
+        "search_analyzer": "ikSearchAnalyzer",
+        "fields": {
+          "pinyin": {
+            "type": "text",
+            "analyzer": "pinyinSimpleIndexAnalyzer",
+            "search_analyzer": "pinyinSimpleIndexAnalyzer"
+          }
+        }
+      },
+      "createTime": {
+        "type": "text"
+      }
+    }
+  }
+
